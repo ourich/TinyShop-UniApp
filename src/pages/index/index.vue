@@ -36,7 +36,7 @@
 		<!--</swiper-item>-->
 		<!--</swiper>-->
 		<!-- 分类列表 -->
-		<view class="category-list rf-skeleton">
+		<view class="category-list rf-skeleton" v-if="showCate">
 			<view
 					class="category"
 					v-for="(item, index) in productCateList"
@@ -87,6 +87,40 @@
 				@toList="navTo(`/pages/product/list?params=${JSON.stringify({guessYouLike: 1})}`)"
 				@detail="navToDetailPage"
 				:bannerShow="false"/>
+		<view class="coupon-center">
+		<view class="coupon-list">
+		  <!-- 优惠券列表 -->
+		  <view class="sub-list valid">
+		    <view class="row" v-for="(item,index) in couponList" :key="index" @tap.stop="getCoupon(item)">
+		      <view class="carrier">
+		        <view class="title">
+		            <view>
+		              <text class="cell-icon">{{ parseInt(item.range_type, 10) === 2 ? '限' : '荐' }}</text>
+		              <text class="cell-title">{{item.title}}</text>
+		            </view>
+		            <view>
+									<text class="price" v-if="item.money">{{item.money }}</text>
+									<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
+		            </view>
+		        </view>
+		        <view class="term">
+		          <text>{{ item.start_time | time }} ~ {{ item.end_time | time }}</text>
+								<text class="at_least">满{{ item.at_least }}可用</text>
+		        </view>
+		        <view class="usage">
+					<text>
+						请确认加油后再支付
+					</text>
+		        </view>
+		      </view>
+		    </view>
+		  </view>
+		  <rf-load-more :status="loadingType" v-if="couponList.length > 0"></rf-load-more>
+		</view>
+			<rf-empty :info="errorInfo || '暂无优惠券'" v-if="couponList.length === 0 && !loading"></rf-empty>
+			<!--页面加载动画-->
+			<rf-loading v-if="loading"></rf-loading>
+		</view>
 		<!--网站备案号-->
 		<!--#ifdef H5-->
 		<view class="copyright" v-if="config.web_site_icp">
@@ -112,9 +146,12 @@
     import rfSwiperSlide from '@/components/rf-swiper-slide';
     import {notifyAnnounceIndex} from '@/api/basic';
     import rfCountDown from '@/components/rf-count-down';
+	import {couponList, couponReceive} from "@/api/userInfo";
+	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
+	import moment from '@/common/moment';
 
     export default {
-        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown},
+        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown, rfLoadMore},
         data() {
             return {
                 current: 0, // 轮播图index
@@ -124,9 +161,15 @@
                 guessYouLikeProductList: [], // 猜你喜欢商品列表
                 newProductList: [], // 新品上市商品列表
                 productCateList: [],  // 商品栏目
+				oilList: [],  // 油站列表
                 config: {}, // 商户配置
                 announceList: [], // 公告列表
+				couponList: [],
+				loadingType: 'more',
+				page: 1,
+				errorInfo: '',
                 loading: true,
+                showCate: false,
                 hotSearchDefault: '请输入关键字',
                 newsBg: this.$mAssetsPath.newsBg,
                 errorImage: this.$mAssetsPath.errorImage
@@ -134,6 +177,7 @@
         },
         onShow() {
             this.initData();
+			// console.log(this.productCateList);
         },
         computed: {
             // 计算倒计时时间
@@ -162,12 +206,20 @@
                     default:
                         return (Math.floor(price * 100) / 100).toFixed(2);
                 }
-            }
+            },
+			time(val) {
+			  return moment(val * 1000).format('YYYY-MM-DD HH:mm')
+			}
         },
         //下拉刷新
         onPullDownRefresh() {
             this.getIndexList('refresh');
         },
+		//加载更多
+		onReachBottom() {
+		    this.page++;
+		    this.getCouponList();
+		},
         methods: {
             // 监听轮播图切换
             handleDotChange(e) {
@@ -178,6 +230,7 @@
               // 设置购物车数量角标
               this.getIndexList();
               this.initCartItemCount();
+			  this.getCouponList();
             },
             // 设置购物车数量角标
             async initCartItemCount() {
@@ -248,6 +301,7 @@
                     }
                     // 获取公告列表
                     await this.getNotifyAnnounceIndex();
+					await this.getOil();
                     // 首页参数赋值
                     this.initIndexData(r.data);
                 }).catch(() => {
@@ -260,6 +314,7 @@
             // 首页参数赋值
             initIndexData(data) {
                 this.productCateList = data.cate;
+				this.oilList = data.oil;
                 this.carouselList = data.adv;
                 this.search = data.search;
                 uni.setStorageSync('search', this.search);
@@ -273,6 +328,7 @@
                 this.guessYouLikeProductList = data.guess_you_like;
                 this.newProductList = data.product_new;
                 this.config = data.config;
+				// console.log(this.oilList);
             },
             // 获取通知列表
             async getNotifyAnnounceIndex() {
@@ -280,6 +336,37 @@
                     this.announceList = r.data
                 })
             },
+			//获取收货地址列表
+			async getCouponList(type) {
+			    await this.$http.get(`${couponList}`, {
+			        page: this.page
+			    }).then(r => {
+					// console.log(r.data);
+			        this.loading = false;
+			        if (type === 'refresh') {
+			            uni.stopPullDownRefresh();
+			        }
+			        this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
+			        this.couponList = [...this.couponList, ...r.data];
+			    }).catch(err => {
+			        this.couponList.length = 0;
+			        this.errorInfo = err;
+			        this.loading = false;
+			        if (type === 'refresh') {
+			            uni.stopPullDownRefresh();
+			        }
+			    })
+			},
+			// 读取油站列表
+			async getOil() {
+				uni.getLocation({
+				    type: 'wgs84',
+				    success: function (res) {
+				        // console.log('当前位置的经度：' + res.longitude);
+				        // console.log('当前位置的纬度：' + res.latitude);
+				    }
+				});
+			},
             // 跳转至商品详情页
             navToDetailPage(data) {
                 const {id} = data;
