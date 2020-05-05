@@ -91,12 +91,11 @@
 		<view class="coupon-list">
 		  <!-- 优惠券列表 -->
 		  <view class="sub-list valid">
-		    <view class="row" v-for="(item,index) in couponList" :key="index" @tap.stop="getCoupon(item)">
+		    <view class="row" v-for="(item,index) in oilList" :key="index" @tap.stop="getCoupon(item)">
 		      <view class="carrier">
 		        <view class="title">
 		            <view>
-		              <text class="cell-icon">{{ parseInt(item.range_type, 10) === 2 ? '限' : '荐' }}</text>
-		              <text class="cell-title">{{item.title}}</text>
+		              <text class="cell-title">{{item.gasName}}</text>
 		            </view>
 		            <view>
 									<text class="price" v-if="item.money">{{item.money }}</text>
@@ -104,8 +103,8 @@
 		            </view>
 		        </view>
 		        <view class="term">
-		          <text>{{ item.start_time | time }} ~ {{ item.end_time | time }}</text>
-								<text class="at_least">满{{ item.at_least }}可用</text>
+					<text>{{ item.gasAddress }}</text>
+					<text class="at_least">满{{ item.at_least }}可用</text>
 		        </view>
 		        <view class="usage">
 					<text>
@@ -115,9 +114,9 @@
 		      </view>
 		    </view>
 		  </view>
-		  <rf-load-more :status="loadingType" v-if="couponList.length > 0"></rf-load-more>
+		  <rf-load-more :status="loadingType" v-if="oilList.length > 0"></rf-load-more>
 		</view>
-			<rf-empty :info="errorInfo || '暂无优惠券'" v-if="couponList.length === 0 && !loading"></rf-empty>
+			<rf-empty :info="errorInfo || '暂无优惠券'" v-if="oilList.length === 0 && !loading"></rf-empty>
 			<!--页面加载动画-->
 			<rf-loading v-if="loading"></rf-loading>
 		</view>
@@ -146,7 +145,7 @@
     import rfSwiperSlide from '@/components/rf-swiper-slide';
     import {notifyAnnounceIndex} from '@/api/basic';
     import rfCountDown from '@/components/rf-count-down';
-	import {couponList, couponReceive} from "@/api/userInfo";
+	import {oilList, couponReceive} from "@/api/userInfo";
 	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
 	import moment from '@/common/moment';
 
@@ -164,9 +163,10 @@
 				oilList: [],  // 油站列表
                 config: {}, // 商户配置
                 announceList: [], // 公告列表
-				couponList: [],
 				loadingType: 'more',
 				page: 1,
+				latitude: '',
+				longitude: '',
 				errorInfo: '',
                 loading: true,
                 showCate: false,
@@ -177,7 +177,6 @@
         },
         onShow() {
             this.initData();
-			// console.log(this.productCateList);
         },
         computed: {
             // 计算倒计时时间
@@ -213,12 +212,13 @@
         },
         //下拉刷新
         onPullDownRefresh() {
-            this.getIndexList('refresh');
+            // this.getIndexList('refresh');
+			this.getOilList('refresh');
         },
 		//加载更多
 		onReachBottom() {
 		    this.page++;
-		    this.getCouponList();
+		    this.getOilList();
 		},
         methods: {
             // 监听轮播图切换
@@ -230,7 +230,7 @@
               // 设置购物车数量角标
               this.getIndexList();
               this.initCartItemCount();
-			  this.getCouponList();
+			  this.getLocation();
             },
             // 设置购物车数量角标
             async initCartItemCount() {
@@ -301,7 +301,6 @@
                     }
                     // 获取公告列表
                     await this.getNotifyAnnounceIndex();
-					await this.getOil();
                     // 首页参数赋值
                     this.initIndexData(r.data);
                 }).catch(() => {
@@ -314,7 +313,6 @@
             // 首页参数赋值
             initIndexData(data) {
                 this.productCateList = data.cate;
-				this.oilList = data.oil;
                 this.carouselList = data.adv;
                 this.search = data.search;
                 uni.setStorageSync('search', this.search);
@@ -328,7 +326,6 @@
                 this.guessYouLikeProductList = data.guess_you_like;
                 this.newProductList = data.product_new;
                 this.config = data.config;
-				// console.log(this.oilList);
             },
             // 获取通知列表
             async getNotifyAnnounceIndex() {
@@ -336,35 +333,47 @@
                     this.announceList = r.data
                 })
             },
-			//获取收货地址列表
-			async getCouponList(type) {
-			    await this.$http.get(`${couponList}`, {
-			        page: this.page
-			    }).then(r => {
-					// console.log(r.data);
-			        this.loading = false;
-			        if (type === 'refresh') {
-			            uni.stopPullDownRefresh();
-			        }
-			        this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
-			        this.couponList = [...this.couponList, ...r.data];
-			    }).catch(err => {
-			        this.couponList.length = 0;
-			        this.errorInfo = err;
-			        this.loading = false;
-			        if (type === 'refresh') {
-			            uni.stopPullDownRefresh();
-			        }
-			    })
+			async getOilList(type) {
+				if (this.longitude == '' || this.latitude == '') {
+					this.getLocation();	//重新定位
+				} else{
+					await this.$http.get(`${oilList}`, {
+					    page: this.page,
+					    longitude: this.longitude,
+					    latitude: this.latitude
+					}).then(r => {
+					    this.loading = false;
+					    if (type === 'refresh') {
+					        uni.stopPullDownRefresh();
+					    }
+					    this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
+					    this.oilList = [...this.oilList, ...r.data];
+					}).catch(err => {
+					    this.oilList.length = 0;
+					    this.errorInfo = err;
+					    this.loading = false;
+					    if (type === 'refresh') {
+					        uni.stopPullDownRefresh();
+					    }
+					})
+				}
 			},
 			// 读取油站列表
-			async getOil() {
-				uni.getLocation({
+			async getLocation() {
+				const that = this;
+				await uni.getLocation({
 				    type: 'wgs84',
 				    success: function (res) {
-				        // console.log('当前位置的经度：' + res.longitude);
-				        // console.log('当前位置的纬度：' + res.latitude);
-				    }
+						that.latitude = res.latitude;
+						that.longitude = res.longitude;
+						// console.log('当前位置的经度：' + res.longitude);
+						// console.log('当前位置的纬度：' + res.latitude);
+						that.getOilList();
+				    },
+					fail: (err) => {
+					    console.log(err)
+					    // this.$api.msg('获取定位失败');
+					  }
 				});
 			},
             // 跳转至商品详情页

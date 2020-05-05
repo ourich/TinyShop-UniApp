@@ -24,6 +24,7 @@ const addressDelete = '/tiny-shop/v1/member/address/delete';
 
 // 获取优惠券列表
 const couponList = '/tiny-shop/v1/marketing/coupon-type/index';
+const oilList = '/tiny-shop/v1/marketing/oil/index';
 // 获取我的优惠券列表
 const myCouponList = '/tiny-shop/v1/member/coupon/index';
 // 优惠券详情
@@ -116,6 +117,7 @@ export {
     addressUpdate,
     addressDelete,
     couponList,
+    oilList,
     myCouponList,
     couponClear,
     couponDetail,
