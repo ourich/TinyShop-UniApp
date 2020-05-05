@@ -98,18 +98,22 @@
 		              <text class="cell-title">{{item.gasName}}</text>
 		            </view>
 		            <view>
-									<text class="price" v-if="item.money">{{item.money }}</text>
-									<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
+						<text class="price" v-if="item.money">{{item.money }}</text>
+						<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
 		            </view>
 		        </view>
 		        <view class="term">
-					<text>{{ item.gasAddress }}</text>
-					<text class="at_least">满{{ item.at_least }}可用</text>
+					 <text class="uni-badge badge uni-badge-small">服</text>
+					<text>请确认加油后再支付</text>
+					<text class="at_least">已降{{ item.distance }}</text>
 		        </view>
 		        <view class="usage">
 					<text>
-						请确认加油后再支付
+						<i class="iconfont icondizhi"></i>{{ item.gasAddress }}
 					</text>
+					<view>
+					  <i class="iconfont icondizhi"></i>{{ item.distance }}Km
+					</view>
 		        </view>
 		      </view>
 		    </view>
