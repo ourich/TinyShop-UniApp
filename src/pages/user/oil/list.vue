@@ -33,7 +33,7 @@
 	  </view>
 	  <rf-load-more :status="loadingType" v-if="oilList.length > 0"></rf-load-more>
 	</view>
-		<rf-empty :info="errorInfo || '暂无优惠券'" v-if="oilList.length === 0 && !loading"></rf-empty>
+		<rf-empty :info="errorInfo || '暂无数据'" v-if="oilList.length === 0 && !loading"></rf-empty>
 		<!--页面加载动画-->
 		<rf-loading v-if="loading"></rf-loading>
 	</view>
