@@ -113,12 +113,9 @@
     import rfSwiperSlide from '@/components/rf-swiper-slide';
     import {notifyAnnounceIndex} from '@/api/basic';
     import rfCountDown from '@/components/rf-count-down';
-	import {oilList, couponReceive} from "@/api/userInfo";
-	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
-	import moment from '@/common/moment';
 
     export default {
-        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown, rfLoadMore},
+        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown},
         data() {
             return {
                 current: 0, // 轮播图index
@@ -128,16 +125,9 @@
                 guessYouLikeProductList: [], // 猜你喜欢商品列表
                 newProductList: [], // 新品上市商品列表
                 productCateList: [],  // 商品栏目
-				oilList: [],  // 油站列表
                 config: {}, // 商户配置
                 announceList: [], // 公告列表
-				loadingType: 'more',
-				page: 1,
-				latitude: '',
-				longitude: '',
-				errorInfo: '',
                 loading: true,
-                showCate: false,
                 hotSearchDefault: '请输入关键字',
                 newsBg: this.$mAssetsPath.newsBg,
                 errorImage: this.$mAssetsPath.errorImage
@@ -173,21 +163,12 @@
                     default:
                         return (Math.floor(price * 100) / 100).toFixed(2);
                 }
-            },
-			time(val) {
-			  return moment(val * 1000).format('YYYY-MM-DD HH:mm')
-			}
+            }
         },
         //下拉刷新
         onPullDownRefresh() {
-            // this.getIndexList('refresh');
-			this.getOilList('refresh');
+            this.getIndexList('refresh');
         },
-		//加载更多
-		onReachBottom() {
-		    this.page++;
-		    this.getOilList();
-		},
         methods: {
             // 监听轮播图切换
             handleDotChange(e) {
@@ -198,7 +179,6 @@
               // 设置购物车数量角标
               this.getIndexList();
               this.initCartItemCount();
-			  this.getLocation();
             },
             // 设置购物车数量角标
             async initCartItemCount() {
@@ -301,49 +281,6 @@
                     this.announceList = r.data
                 })
             },
-			async getOilList(type) {
-				if (this.longitude == '' || this.latitude == '') {
-					this.getLocation();	//重新定位
-				} else{
-					await this.$http.get(`${oilList}`, {
-					    page: this.page,
-					    longitude: this.longitude,
-					    latitude: this.latitude
-					}).then(r => {
-					    this.loading = false;
-					    if (type === 'refresh') {
-					        uni.stopPullDownRefresh();
-					    }
-					    this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
-					    this.oilList = [...this.oilList, ...r.data];
-					}).catch(err => {
-					    this.oilList.length = 0;
-					    this.errorInfo = err;
-					    this.loading = false;
-					    if (type === 'refresh') {
-					        uni.stopPullDownRefresh();
-					    }
-					})
-				}
-			},
-			// 读取油站列表
-			async getLocation() {
-				const that = this;
-				await uni.getLocation({
-				    type: 'wgs84',
-				    success: function (res) {
-						that.latitude = res.latitude;
-						that.longitude = res.longitude;
-						// console.log('当前位置的经度：' + res.longitude);
-						// console.log('当前位置的纬度：' + res.latitude);
-						that.getOilList();
-				    },
-					fail: (err) => {
-					    console.log(err)
-					    // this.$api.msg('获取定位失败');
-					  }
-				});
-			},
             // 跳转至商品详情页
             navToDetailPage(data) {
                 const {id} = data;
