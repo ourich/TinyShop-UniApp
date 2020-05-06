@@ -36,7 +36,7 @@
 		<!--</swiper-item>-->
 		<!--</swiper>-->
 		<!-- 分类列表 -->
-		<view class="category-list rf-skeleton" v-if="showCate">
+		<view class="category-list rf-skeleton">
 			<view
 					class="category"
 					v-for="(item, index) in productCateList"
