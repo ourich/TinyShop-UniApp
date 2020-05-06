@@ -99,9 +99,9 @@
 				  		<text class="tit">{{item.gasName}}</text>
 				  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
 						<view class="price">
-							123 
-							<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降低123</span>
-							<span class="guobiao">国标价：123</span>
+							{{ item.priceYfq }} 
+							<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降低{{ item.priceDiscount }}</span>
+							<span class="guobiao">国标价：{{ item.priceOfficial }}</span>
 						</view>
 						<view class="tit2 text-xs">
 							<span class="fuwu">服</span>

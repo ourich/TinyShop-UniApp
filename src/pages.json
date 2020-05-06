@@ -160,19 +160,19 @@
         }
       }
     },
-    // 优惠券详情
+    // 加油站详情
     {
-      "path": "pages/user/coupon/detail",
+      "path": "pages/user/oil/detail",
       "style": {
-        "navigationBarTitleText": "优惠券详情"
+        "navigationBarTitleText": "加油站详情"
       }
     },
-    // 领券中心
+    // 加油中心
     {
-      "path": "pages/user/coupon/list",
+      "path": "pages/user/oil/list",
       "style": {
         "enablePullDownRefresh": true,
-        "navigationBarTitleText": "领券中心",
+        "navigationBarTitleText": "加油中心",
         "app-plus": {
           "pullToRefresh": {
             "support": true,
@@ -182,6 +182,28 @@
         }
       }
     },
+	// 优惠券详情
+	{
+	  "path": "pages/user/coupon/detail",
+	  "style": {
+	    "navigationBarTitleText": "优惠券详情"
+	  }
+	},
+	// 领券中心
+	{
+	  "path": "pages/user/coupon/list",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "领券中心",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
     // 收货地址
     {
       "path": "pages/user/address/address",
