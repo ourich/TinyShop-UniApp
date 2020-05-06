@@ -93,28 +93,29 @@
 		  <view class="sub-list valid">
 		    <view class="row" v-for="(item,index) in oilList" :key="index" @tap.stop="getCoupon(item)">
 		      <view class="carrier">
-		        <view class="title">
-		            <view>
-		              <text class="cell-title">{{item.gasName}}</text>
-		            </view>
-		            <view>
-						<text class="price" v-if="item.money">{{item.money }}</text>
-						<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
-		            </view>
-		        </view>
-		        <view class="term">
-					 <text class="uni-badge badge uni-badge-small">服</text>
-					<text>请确认加油后再支付</text>
-					<text class="at_least">已降{{ item.distance }}</text>
-		        </view>
-		        <view class="usage">
-					<text>
-						<i class="iconfont icondizhi"></i>{{ item.gasAddress }}
-					</text>
-					<view>
-					  <i class="iconfont icondizhi"></i>{{ item.distance }}Km
+				  <view class="f-header">
+				  	<!-- <i class="iconfont icontuijian"/> -->
+				  	<view class="tit-box">
+				  		<text class="tit">{{item.gasName}}</text>
+				  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
+						<view class="price">
+							123 
+							<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降低123</span>
+							<span class="guobiao">国标价：123</span>
+						</view>
+						<view class="tit2 text-xs">
+							<span class="fuwu">服</span>
+							请确认加油后再支付
+						</view>
+				  	</view>
+					<view class="tit-right">
+						<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
+						<text class="tit2 text-xs">{{ item.distance }}Km</text>
 					</view>
-		        </view>
+				  	
+				  </view>
+		        
+		        
 		      </view>
 		    </view>
 		  </view>
