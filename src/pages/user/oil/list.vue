@@ -1,40 +1,39 @@
 <template>
 	<view class="coupon-center">
-    <view class="coupon-list">
-      <!-- 优惠券列表 -->
-      <view class="sub-list valid">
-        <view class="row" v-for="(item,index) in couponList" :key="index" @tap.stop="getCoupon(item)">
-          <view class="carrier">
-            <view class="title">
-	            <view>
-	              <text class="cell-icon">{{ parseInt(item.range_type, 10) === 2 ? '限' : '全' }}</text>
-	              <text class="cell-title">{{item.title}}</text>
-	            </view>
-	            <view>
-								<text class="price" v-if="item.money">{{item.money }}</text>
-								<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
-	            </view>
-            </view>
-            <view class="term">
-              <text>{{ item.start_time | time }} ~ {{ item.end_time | time }}</text>
-							<text class="at_least">满{{ item.at_least }}可用</text>
-            </view>
-            <view class="usage">
-								<text>
-									{{ parseInt(item.range_type, 10) === 2 ? '部分产品使用' : '全场产品使用' }}
-								</text>
-              <view>
-                {{parseInt(item.max_fetch, 10) === 0 ? '不限' : `每人限领${item.max_fetch}` }}
-                已领{{ item.get_count }}
-                <text class="last" v-if="item.percentage">剩余{{ item.percentage }}%</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <rf-load-more :status="loadingType" v-if="couponList.length > 0"></rf-load-more>
-    </view>
-		<rf-empty :info="errorInfo || '暂无优惠券'" v-if="couponList.length === 0 && !loading"></rf-empty>
+	<view class="coupon-list">
+	  <!-- 优惠券列表 -->
+	  <view class="sub-list valid">
+	    <view class="row" v-for="(item,index) in oilList" :key="index" @tap.stop="getCoupon(item)">
+	      <view class="carrier">
+			  <view class="f-header">
+			  	<!-- <i class="iconfont icontuijian"/> -->
+			  	<view class="tit-box">
+			  		<text class="tit">{{item.gasName}}</text>
+			  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
+					<view class="price">
+						{{ item.priceYfq }} 
+						<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降{{ item.priceDiscount }}</span>
+						<span class="guobiao">国标价：{{ item.priceOfficial }}</span>
+					</view>
+					<view class="tit2 text-xs">
+						<span class="fuwu">服</span>
+						请确认加油后再支付
+					</view>
+			  	</view>
+				<view class="tit-right">
+					<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
+					<text class="tit2 text-xs">{{ item.distance }}Km</text>
+				</view>
+			  	
+			  </view>
+	        
+	        
+	      </view>
+	    </view>
+	  </view>
+	  <rf-load-more :status="loadingType" v-if="oilList.length > 0"></rf-load-more>
+	</view>
+		<rf-empty :info="errorInfo || '暂无优惠券'" v-if="oilList.length === 0 && !loading"></rf-empty>
 		<!--页面加载动画-->
 		<rf-loading v-if="loading"></rf-loading>
 	</view>
@@ -48,7 +47,7 @@
      * @date 2020-01-13 11:28
      * @copyright 2019
      */
-    import {couponList, couponReceive} from "@/api/userInfo";
+    import {oilList, couponReceive} from "@/api/userInfo";
     import rfLoadMore from '@/components/rf-load-more/rf-load-more';
     import moment from '@/common/moment';
     export default {
@@ -57,8 +56,10 @@
         },
         data() {
             return {
-                couponList: [],
+                oilList: [],
                 type: null,
+				latitude: '',
+				longitude: '',
                 loadingType: 'more',
                 page: 1,
                 loading: true,
@@ -77,39 +78,63 @@
         //下拉刷新
         onPullDownRefresh() {
             this.page = 1;
-            this.couponList.length = 0;
-            this.getCouponList('refresh');
+            this.oilList.length = 0;
+            this.getOilList('refresh');
         },
         //加载更多
         onReachBottom() {
             this.page++;
-            this.getCouponList();
+            this.getOilList();
         },
         methods: {
             // 数据初始化
             initData() {
-                this.getCouponList();
+                this.getLocation();
             },
-            //获取收货地址列表
-            async getCouponList(type) {
-                await this.$http.get(`${couponList}`, {
-                    page: this.page
-                }).then(r => {
-                    this.loading = false;
-                    if (type === 'refresh') {
-                        uni.stopPullDownRefresh();
-                    }
-                    this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
-                    this.couponList = [...this.couponList, ...r.data];
-                }).catch(err => {
-                    this.couponList.length = 0;
-                    this.errorInfo = err;
-                    this.loading = false;
-                    if (type === 'refresh') {
-                        uni.stopPullDownRefresh();
-                    }
-                })
-            },
+            //读取油站列表
+			async getOilList(type) {
+				if (this.longitude == '' || this.latitude == '') {
+					this.getLocation();	//重新定位
+				} else{
+					await this.$http.get(`${oilList}`, {
+					    page: this.page,
+					    longitude: this.longitude,
+					    latitude: this.latitude
+					}).then(r => {
+					    this.loading = false;
+					    if (type === 'refresh') {
+					        uni.stopPullDownRefresh();
+					    }
+					    this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
+					    this.oilList = [...this.oilList, ...r.data];
+					}).catch(err => {
+					    this.oilList.length = 0;
+					    this.errorInfo = err;
+					    this.loading = false;
+					    if (type === 'refresh') {
+					        uni.stopPullDownRefresh();
+					    }
+					})
+				}
+			},
+			// 初始化定位
+			async getLocation() {
+				const that = this;
+				await uni.getLocation({
+				    type: 'wgs84',
+				    success: function (res) {
+						that.latitude = res.latitude;
+						that.longitude = res.longitude;
+						// console.log('当前位置的经度：' + res.longitude);
+						// console.log('当前位置的纬度：' + res.latitude);
+						that.getOilList();
+				    },
+					fail: (err) => {
+					    console.log(err)
+					    // this.$api.msg('获取定位失败');
+					  }
+				});
+			},
             // 获取优惠券
             async getCoupon(item) {
                 if (this.type) return;
@@ -124,8 +149,8 @@
                     this.$mHelper.toast('领取成功');
                     this.loading = true;
                     this.page = 1;
-                    this.couponList.length = 0;
-                    this.getCouponList();
+                    this.oilList.length = 0;
+                    this.getOilList();
                 })
             }
         }

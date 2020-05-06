@@ -87,44 +87,7 @@
 				@toList="navTo(`/pages/product/list?params=${JSON.stringify({guessYouLike: 1})}`)"
 				@detail="navToDetailPage"
 				:bannerShow="false"/>
-		<view class="coupon-center">
-		<view class="coupon-list">
-		  <!-- 优惠券列表 -->
-		  <view class="sub-list valid">
-		    <view class="row" v-for="(item,index) in oilList" :key="index" @tap.stop="getCoupon(item)">
-		      <view class="carrier">
-				  <view class="f-header">
-				  	<!-- <i class="iconfont icontuijian"/> -->
-				  	<view class="tit-box">
-				  		<text class="tit">{{item.gasName}}</text>
-				  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
-						<view class="price">
-							{{ item.priceYfq }} 
-							<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降低{{ item.priceDiscount }}</span>
-							<span class="guobiao">国标价：{{ item.priceOfficial }}</span>
-						</view>
-						<view class="tit2 text-xs">
-							<span class="fuwu">服</span>
-							请确认加油后再支付
-						</view>
-				  	</view>
-					<view class="tit-right">
-						<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
-						<text class="tit2 text-xs">{{ item.distance }}Km</text>
-					</view>
-				  	
-				  </view>
-		        
-		        
-		      </view>
-		    </view>
-		  </view>
-		  <rf-load-more :status="loadingType" v-if="oilList.length > 0"></rf-load-more>
-		</view>
-			<rf-empty :info="errorInfo || '暂无优惠券'" v-if="oilList.length === 0 && !loading"></rf-empty>
-			<!--页面加载动画-->
-			<rf-loading v-if="loading"></rf-loading>
-		</view>
+		
 		<!--网站备案号-->
 		<!--#ifdef H5-->
 		<view class="copyright" v-if="config.web_site_icp">
