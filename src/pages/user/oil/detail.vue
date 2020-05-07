@@ -75,7 +75,7 @@
  * @date 2019-12-09 10:13
  * @copyright 2019
  */
-import { couponDetail, couponReceive} from "@/api/userInfo";
+import { oilDetail, couponReceive} from "@/api/userInfo";
 import moment from '@/common/moment';
 import uniDrawer from '@/components/uni-drawer/uni-drawer';
 export default {
@@ -92,6 +92,8 @@ export default {
 			state: 1,
 			isStop:false,
 			couponList: [],
+			latitude: '',
+			longitude: '',
 			loadingType: 'more',
 			token: null,
 			page: 1,
@@ -125,7 +127,8 @@ export default {
 		},
 		// 初始化数据
 		initData (options) {
-			this.getMyCouponDetail(options.id);
+			// this.getMyCouponDetail(options.id);
+			this.getMyCouponDetail('JY000011413');
 		},
 		// 获取优惠券
 		async getCoupon(item) {
@@ -151,16 +154,42 @@ export default {
 		navTo(route){
 			this.$mRouter.push({route})
 		},
+		// 初始化定位
+		async getLocation(id) {
+			const that = this;
+			await uni.getLocation({
+			    type: 'wgs84',
+			    success: function (res) {
+					that.latitude = res.latitude;
+					that.longitude = res.longitude;
+					// console.log('当前位置的经度：' + res.longitude);
+					// console.log('当前位置的纬度：' + res.latitude);
+					that.getMyCouponDetail(id);
+			    },
+				fail: (err) => {
+				    console.log(err)
+				    // this.$api.msg('获取定位失败');
+				  }
+			});
+		},
 		// 获取我的收货地址列表
 		async getMyCouponDetail (id) {
-			await this.$http.get(`${couponDetail}`, {
-				id
-			}).then(r=>{
-		    this.loading = false;
-				this.couponList.push(r.data);
-			}).catch(() => {
-		    this.loading = false;
-			})
+			if (this.longitude == '' || this.latitude == '') {
+				this.getLocation(id);	//重新定位
+			} else{
+				// console.log('发送：' + id);
+				await this.$http.get(`${oilDetail}`, {
+					id: id,
+					longitude: this.longitude,
+					latitude: this.latitude
+				}).then(r=>{
+				this.loading = false;
+					this.couponList.push(r.data);
+				}).catch(() => {
+				this.loading = false;
+				})
+			}
+			
 		}
 	}
 }
