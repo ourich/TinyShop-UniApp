@@ -29,6 +29,7 @@ const oilList = '/tiny-shop/v1/marketing/oil/index';
 const myCouponList = '/tiny-shop/v1/member/coupon/index';
 // 优惠券详情
 const couponDetail = '/tiny-shop/v1/marketing/coupon-type/view';
+const oilDetail = '/tiny-shop/v1/marketing/oil/view';
 // 领取优惠券
 const couponReceive = '/tiny-shop/v1/marketing/coupon-type/create';
 const couponClear = '/tiny-shop/v1/member/coupon/clear';

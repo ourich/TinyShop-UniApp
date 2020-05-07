@@ -3,7 +3,7 @@
 	<view class="coupon-list">
 	  <!-- 优惠券列表 -->
 	  <view class="sub-list valid">
-	    <view class="row" v-for="(item,index) in oilList" :key="index" @tap.stop="getCoupon(item)">
+	    <view class="row" v-for="(item,index) in oilList" :key="index" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
 	      <view class="carrier">
 			  <view class="f-header">
 			  	<!-- <i class="iconfont icontuijian"/> -->
@@ -153,6 +153,10 @@
                     this.getOilList();
                 })
             },
+			//跳转详情
+			navTo(route) {
+				this.$mRouter.push({ route });
+			},
 			checkOpenGPSService() {
 			    if (uni.getSystemInfoSync().platform == 'android') {
 			        // 判断平台
