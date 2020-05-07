@@ -618,10 +618,10 @@
         "text": "兑换"
       },
       {
-        "pagePath": "pages/order/order",
+        "pagePath": "pages/cart/cart",
         "iconPath": "static/tab-cart.png",
         "selectedIconPath": "static/tab-cart-current.png",
-        "text": "订单"
+        "text": "购物车"
       },
       {
         "pagePath": "pages/user/user",
