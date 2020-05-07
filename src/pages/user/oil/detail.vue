@@ -37,7 +37,7 @@
 								<view class="tit"
 									v-for="(childItem, childIndex) in item.oilPriceList"
 									:key="childIndex"
-									:class="{selected: childItem.selected}"
+									:class="{selected: type == childIndex}"
 									@tap="switchType(childIndex)"
 								>
 						  			<text>
@@ -50,15 +50,18 @@
 						  <view class="attr-list">
 						  	<text>选择枪号：</text>
 						  	<view class="item-list">
-								<view class="tit"
-									v-for="(gunItem, gunindex) in gunList"
-									:key="gunindex"
-									:class="{selected: gunItem.selected}"
-									@tap="switchGun(gunindex)"
-								>
-									<text>
-										{{gunItem.gunNo }}号
-									</text>
+								<view v-for="(oilItem, oilindex) in gunNos" :key="oilindex">
+									<view class="tit"
+										v-for="(gunItem, gunindex) in oilItem"
+										:key="gunindex"
+										:class="{selected:  gunNo == gunItem.gunNo}"
+										@tap="switchGunindex(gunItem.gunNo)"
+										v-if="type === oilindex"
+									>
+										<text>
+											{{gunItem.gunNo }}号
+										</text>
+									</view>
 								</view>
 						  	</view>
 						  	
@@ -67,6 +70,10 @@
 					</view>
 				</view>
 			</view>
+			<view class="cu-bar tabbar bg-white shadow foot btn-group">
+				<button class="cu-btn bg-red round shadow-blur lg go" @tap="goToH5">完成</button>
+			</view>
+			
 		<uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
 				<view class="rf-drawer-title">可用商品列表</view>
 				<view class="rf-drawer-list">
@@ -115,8 +122,11 @@ export default {
 			isStop:false,
 			couponList: [],
 			oilPriceList: [],
-			gunList: [],
+			gunNos: [],
 			type: 92,
+			gunNo: '',
+			mobile: '',
+			url: '',
 			latitude: '',
 			longitude: '',
 			loadingType: 'more',
@@ -161,14 +171,25 @@ export default {
 				return;
 			}
 			this.type = type;
-			this.gunList = [];
-			this.getMygunList(type);
+			this.gunNo = '';
 		},
-		getMygunList(type){
-			console.log(this.oilPriceList);
-			
-			this.gunList = this.oilPriceList[{type}];
-			// console.log(this.gunList);
+		switchGunindex(gunNo) {
+			if (this.gunNo === gunNo) {
+				return;
+			}
+			this.gunNo = gunNo;
+		},
+		goToH5() {
+			if (!this.gunNo) {
+				this.$mHelper.toast('请选择枪号');
+				return;
+			}
+			if (!this.mobile) {
+				this.$mHelper.toast('请先登录');
+				return;
+			}
+			// console.log(this.url + this.gunNo);
+			plus.runtime.openURL(this.url + this.gunNo);
 		},
 		// 获取优惠券
 		async getCoupon(item) {
@@ -226,8 +247,11 @@ export default {
 				this.loading = false;
 					this.couponList.push(r.data);
 					this.oilPriceList = r.data.oilPriceList;
-					this.gunList = r.data.gunList;
-					// console.log(r.data);
+					this.gunNos = r.data.gunNos;
+					this.mobile = r.data.mobile;
+					this.url = r.data.url;
+					this.type = '92';
+					// console.log(r.data.mobile);
 				}).catch(() => {
 				this.loading = false;
 				})
@@ -242,6 +266,20 @@ export default {
 		display: flex;
 		width: 100%;
 		position: relative;
+	}
+	.btn{
+		height: 66upx;
+		line-height: 66upx;
+		border-radius: 100upx;
+		background: $uni-color-primary;
+		font-size: $font-base + 2upx;
+		color: #fff;
+		margin: 30upx 30upx 20upx;
+	}
+	.cu-bar{
+		.go{
+			max-width: 100%;
+		}
 	}
 	.sub-list{
 		width: 100%;
@@ -299,7 +337,8 @@ export default {
 							}
 						}
 						.selected{
-							background: #f85e52;
+							background: #fbebee;
+							border: 1px solid $uni-color-primary;
 							color: $uni-color-primary;
 						}
 					}

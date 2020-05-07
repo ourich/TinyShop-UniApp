@@ -1152,7 +1152,7 @@
 					  	font-size: $font-sm - 4upx;
 					  	line-height: 1.3;
 						border-radius: 4upx;
-						border: 1px solid #f85e52;
+						border: 1px solid $uni-color-primary;
 						display: inline-block;
 						margin-left: 12upx;
 						margin-right: 12upx;
@@ -1160,7 +1160,7 @@
 						.iconfont {
 							font-size: $font-sm - 4upx;
 							color: #fff;
-							background: #f85e52;
+							background: $uni-color-primary;
 							margin: 0 2upx;
 						}
 					  }
@@ -1185,7 +1185,7 @@
 					.fuwu {
 						font-size: $font-sm - 4upx;
 						color: $base-color;
-						background: #FFF8DC;
+						background: #fbebee;
 						border-radius: 4upx;
 						border: 1px solid $base-color;
 						margin-right: 6upx;
