@@ -1094,6 +1094,11 @@
     color: $font-color-light
   }
 }
+.oil-detail{
+	.oiltop{
+		height: 200upx;
+	}
+}
 
 // 优惠券样式
 .sub-list {
@@ -1112,17 +1117,24 @@
       padding: $spacing-base $spacing-lg;
 	  
 	  .f-header {
-	  			display: flex;
+	  			display: inline-flex;
 	  			align-items: center;
 	  			// height: 120upx;
 	  			padding: 6upx 20upx;
 	  			margin: 0 0 20upx;
 	  			background: #fff;
+				width: 100%;
 	  			// border-bottom: 1upx solid rgba(0, 0, 0, 0.05);
 	  
 	  			.iconfont {
 	  				margin-right: 5upx;
 	  			}
+				.portrait {
+					width: 130upx;
+					height: 130upx;
+					border: 5upx solid #fff;
+					border-radius: 100%;
+				}
 	  
 	  			.tit-box {
 	  				flex: 1;

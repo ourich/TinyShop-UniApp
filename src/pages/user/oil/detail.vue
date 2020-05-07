@@ -1,46 +1,68 @@
 <template>
-	<view class="coupon-detail" :style="{backgroundColor: couponList.length === 0 ? '#fff' : '' }">
+	<view class="coupon-detail oil-detail" :style="{backgroundColor: couponList.length === 0 ? '#fff' : '' }">
+		<view class="bg-gradual-orange padding text-center shadow-blur oiltop">
+		</view>
 		<!-- 优惠券详情 -->
-		<view class="sub-list valid" :style="{marginTop: state === 3 ? '40upx' : 0}">
-				<view class="row" v-for="(row,index) in couponList" :key="index" >
+		<view class="sub-list valid" :style="{marginTop: state === 3 ? '-150upx' : '-150upx'}">
+				<view class="row" v-for="(item,index) in couponList" :key="index" >
 					<!-- content -->
 					<view class="carrier">
 						<view class="left">
-							<view class="in1line title">
-								<text class="cell-icon">{{ parseInt(row.range_type, 10) === 2 ? '限' : '全' }}</text>
-								{{row.title}}
-							</view>
-							<view class="term" v-if="state !== 2">
-								{{ row.start_time | time }} ~ {{ row.end_time | time }}
-							</view>
-							<view class="term" v-else>
-								使用时间：{{ row.use_time | timeFull }}
-							</view>
-							<view class="icon shixiao" v-if="state === 3" />
-							<view class="used" v-if="state === 2">已使用</view>
-							<view class="usage">
-								{{parseInt(row.max_fetch, 10) === 0 ? '不限' : `每人限领 ${row.max_fetch}` }}
-								总领取 {{ row.get_count }}
-								<text v-if="row.percentage">剩余{{ row.percentage }}%</text>
-							</view>
-						</view>
-						<view class="right" :class="{ invalid: state !== 1 }">
-							<view class="ticket">
-								<view class="num">
-									{{ row.money ? '￥' + row.money : row.discount + '折' }}
+						  <view class="f-header">
+						  	<!-- <i class="iconfont icontuijian"/> -->
+						  	<image class="portrait"
+						  	       :src="item.gasLogoSmall || headImg">
+						  	</image>
+						  	<view class="tit-box">
+						  		<text class="tit">{{item.gasName}}</text>
+						  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
+						  		<view class="price">
+						  			{{ item.priceYfq }} 
+						  			<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降{{ item.priceDiscount }}</span>
+						  			<span class="guobiao">国标价：{{ item.priceOfficial }}</span>
+						  		</view>
+						  		<view class="tit2 text-xs">
+						  			<span class="fuwu">服</span>
+						  			请确认加油后再支付
+						  		</view>
+						  	</view>
+						  	<view class="tit-right">
+						  		<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
+						  		<text class="tit2 text-xs">{{ item.distance }}Km</text>
+						  	</view>
+						  </view>
+						  <view class="attr-list">
+						  	<text>选择油号：</text>
+						  	<view class="item-list">
+								<view class="tit"
+									v-for="(childItem, childIndex) in item.oilPriceList"
+									:key="childIndex"
+									:class="{selected: childItem.selected}"
+									@tap="switchType(childIndex)"
+								>
+						  			<text>
+						  				{{childItem.oilName }}
+						  			</text>
+						  		</view>
+						  	</view>
+						  	
+						  </view>
+						  <view class="attr-list">
+						  	<text>选择枪号：</text>
+						  	<view class="item-list">
+								<view class="tit"
+									v-for="(gunItem, gunindex) in gunList"
+									:key="gunindex"
+									:class="{selected: gunItem.selected}"
+									@tap="switchGun(gunindex)"
+								>
+									<text>
+										{{gunItem.gunNo }}号
+									</text>
 								</view>
-							</view>
-							<view class="criteria">
-								满{{row.at_least}}使用
-							</view>
-							<view class="btn-group">
-								<view class="use view" @tap="show(row)" v-if="parseInt(row.range_type, 10) === 2">
-									商品
-								</view>
-								<view class="use" @tap="getCoupon(row)">
-									领取
-								</view>
-							</view>
+						  	</view>
+						  	
+						  </view>
 						</view>
 					</view>
 				</view>
@@ -92,6 +114,9 @@ export default {
 			state: 1,
 			isStop:false,
 			couponList: [],
+			oilPriceList: [],
+			gunList: [],
+			type: 92,
 			latitude: '',
 			longitude: '',
 			loadingType: 'more',
@@ -129,6 +154,21 @@ export default {
 		initData (options) {
 			// this.getMyCouponDetail(options.id);
 			this.getMyCouponDetail('JY000011413');
+		},
+		//切换油号
+		switchType(type) {
+			if (this.type === type) {
+				return;
+			}
+			this.type = type;
+			this.gunList = [];
+			this.getMygunList(type);
+		},
+		getMygunList(type){
+			console.log(this.oilPriceList);
+			
+			this.gunList = this.oilPriceList[{type}];
+			// console.log(this.gunList);
 		},
 		// 获取优惠券
 		async getCoupon(item) {
@@ -185,6 +225,9 @@ export default {
 				}).then(r=>{
 				this.loading = false;
 					this.couponList.push(r.data);
+					this.oilPriceList = r.data.oilPriceList;
+					this.gunList = r.data.gunList;
+					// console.log(r.data);
 				}).catch(() => {
 				this.loading = false;
 				})
@@ -205,7 +248,7 @@ export default {
 		padding-top: 10upx;
 		.row{
 			width: 92%;
-			height: 24vw;
+			height: 100vw;
 			margin: 10upx auto;
 			border-radius: 8upx;
 			align-items: center;
@@ -213,6 +256,7 @@ export default {
 			overflow: hidden;
 			z-index: 4;
 			border: 0;
+			
 			.carrier{
 				background-color: #fff;
 				position: absolute;
@@ -223,6 +267,42 @@ export default {
 				display: flex;
 				.left{
 					flex: 1;
+					.attr-list{
+						display: flex;
+						flex-direction: column;
+						font-size: $font-base + 2upx;
+						color: $font-color-base;
+						padding: 15upx 30upx;
+					}
+					.item-list{
+						padding: 10upx 0 0;
+						display: flex;
+						flex-wrap: wrap;
+						.tit{
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							// background: #eee;
+							border: 1px solid #eee;
+							margin-right: 20upx;
+							margin-bottom: 20upx;
+							border-radius: 20upx;
+							min-width: 60upx;
+							height: 60upx;
+							padding: 0 50upx;
+							font-size: $font-base;
+							color: $font-color-dark;
+							.img {
+								width: 36upx;
+								height: 24upx;
+								margin: 0 4upx;
+							}
+						}
+						.selected{
+							background: #f85e52;
+							color: $uni-color-primary;
+						}
+					}
 					.title{
 						padding-top: 3vw;
 						width: 90%;
