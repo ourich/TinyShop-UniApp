@@ -10,7 +10,7 @@
 					<image class="portrait"
 					       :src="userInfo.head_portrait || headImg"></image>
 					<text class="username">
-						{{ userInfo.realname || userInfo.nickname|| userInfo.username ||'请先登录'}}
+						{{ userInfo.realname || userInfo.nickname|| userInfo.mobile ||'请先登录'}}
 					</text>
 				</view>
 			</view>
