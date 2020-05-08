@@ -3,11 +3,11 @@
 	<view class="coupon-list">
 	  <!-- 优惠券列表 -->
 	  <view class="sub-list valid">
-	    <view class="row" v-for="(item,index) in oilList" :key="index" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
+	    <view class="row" v-for="(item,index) in oilList" :key="index" >
 	      <view class="carrier">
 			  <view class="f-header">
 			  	<!-- <i class="iconfont icontuijian"/> -->
-			  	<view class="tit-box">
+			  	<view class="tit-box" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
 			  		<text class="tit">{{item.gasName}}</text>
 			  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
 					<view class="price">
@@ -23,6 +23,18 @@
 				<view class="tit-right">
 					<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
 					<text class="tit2 text-xs">{{ item.distance }}Km</text>
+					<rf-item-popup title="" @hide="hideService" @show="showPopupService('attributeValueClass', mapList)" :specClass="attributeValueClass" :isEmpty="mapList.length === 0" empty="未安装导航">
+						<view slot="content">
+							<text class="tit2 text-xs">导航</text>
+						</view>
+						<view slot="popup" class="service">
+							<view class="content">
+								<view class="row" v-for="(item,index) in mapList" :key="index">
+								<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(index)">{{ `${item}` }}</button>
+								</view>
+							</view>
+						</view>
+					</rf-item-popup>
 				</view>
 			  	
 			  </view>
@@ -49,14 +61,18 @@
      */
     import {oilList, couponReceive} from "@/api/userInfo";
     import rfLoadMore from '@/components/rf-load-more/rf-load-more';
+	import rfItemPopup from '@/components/rf-item-popup'
     import moment from '@/common/moment';
     export default {
         components: {
+			rfItemPopup,
             rfLoadMore
         },
         data() {
             return {
                 oilList: [],
+                mapList: ['百度地图','高德地图'],
+				attributeValueClass: 'none',//scss类，控制开关动画
                 type: null,
 				latitude: '',
 				longitude: '',
@@ -91,6 +107,45 @@
             initData() {
                 this.getLocation();
             },
+			// 弹窗
+			showPopupService(type, list) {
+				// console.log(list)
+				if(list.length === 0) return;
+				this[type] = 'show';
+			},
+			//关闭服务弹窗
+			hideService(index) {
+				// console.log(index)
+				this.attributeValueClass = 'none';
+			},
+			//高德导航
+			goGd(index) {
+				var packageName = 'com.autonavi.minimap';  
+				var main = plus.android.runtimeMainActivity();    
+				var packageManager = main.getPackageManager();    
+				var PackageManager = plus.android.importClass(packageManager)    
+				var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);    
+				if(packageInfo){    
+					var Uri = plus.android.importClass("android.net.Uri");  
+					var url="androidamap://route?sourceApplication=amap"+  
+					"&sid='A'&slat='36.702558'&slon='116.876678'&sname='开始'"+  
+				"&did='B'&dlat='36.649415'&dlon='117.122497'&dname='结束'&dev='0'&t='1'";    
+					var Intent = plus.android.importClass('android.content.Intent');    
+					var intent = new Intent();  
+					intent.setAction(Intent.ACTION_VIEW);  
+					intent.addCategory(Intent.CATEGORY_DEFAULT);  
+					var uri = Uri.parse(url);  
+					//将功能Scheme以URI的方式传入data  
+					intent.setData(uri);  
+					intent.setPackage("com.autonavi.minimap");  
+					var main = plus.android.runtimeMainActivity();    
+					main.startActivity(intent);    
+				}  
+				else  
+				{  
+					alert('未安装' + packageName + '')    
+				}
+			},
             //读取油站列表
 			async getOilList(type) {
 				if (this.longitude == '' || this.latitude == '') {
@@ -218,5 +273,24 @@
         }
     }
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
+	/deep/ .rf-item-popup {
+		.c-row {
+			padding: 0 30upx;
+			.left{
+				display: none;
+			}
+			.mid{
+				font-size: $font-sm - 4upx;
+				color: $font-color-light;
+			}
+		}
+		.b-b::after{
+			border-bottom:none;
+		}
+		.popup .mask {
+		    background-color: rgba(0, 0, 0, 0.05);
+		}
+		
+	}
 </style>
