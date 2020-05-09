@@ -121,24 +121,31 @@
 				// console.log(gasAddressLongitude);
 				// console.log(gasAddressLatitude);
 				this.attributeValueClass = 'none';
-				if (index === 1) {
-					this.goGd(gasAddressLongitude, gasAddressLatitude);
-				} else{
-					this.$mHelper.toast('百度还没好，请用高德');
-					return;
-				}
+				this.goGd(index, gasAddressLongitude, gasAddressLatitude);
 			},
 			//高德导航
-			goGd(longitude, latitude) {
-				var packageName = 'com.autonavi.minimap';  
+			goGd(index, longitude, latitude) {
+				console.log('经度：' + longitude);
+				console.log('纬度：' + latitude);
+				if (index === 1) {
+					//高德
+					var Name = '高德地图';
+					var packageName = 'com.autonavi.minimap';
+					var url = "androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0"; 
+				} else{
+					//百度
+					var Name = '百度地图';
+					var packageName = 'com.baidu.BaiduMap';
+					var url = "baidumap://map/geocoder?location=" + latitude + "," + longitude + "&coord_type=GCJ02&src=andr.yiqi.openAPI";
+				}
 				var main = plus.android.runtimeMainActivity();    
 				var packageManager = main.getPackageManager();    
 				var PackageManager = plus.android.importClass(packageManager)    
 				var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);    
 				if(packageInfo){
-					console.log('进入高德');
+					console.log(Name);
 					var Uri = plus.android.importClass("android.net.Uri");  
-					var url="androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0";    
+					// var url="androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0";    
 					var Intent = plus.android.importClass('android.content.Intent');    
 					var intent = new Intent();  
 					intent.setAction(Intent.ACTION_VIEW);  
@@ -146,13 +153,13 @@
 					var uri = Uri.parse(url);  
 					//将功能Scheme以URI的方式传入data  
 					intent.setData(uri);  
-					intent.setPackage("com.autonavi.minimap");  
+					intent.setPackage(packageName);  
 					var main = plus.android.runtimeMainActivity();    
 					main.startActivity(intent);    
 				}  
 				else  
 				{  
-					alert('未安装' + packageName + '')    
+					this.$mHelper.toast('您没有安装' + Name);    
 				}
 			},
             //读取油站列表
@@ -162,8 +169,10 @@
 				} else{
 					await this.$http.get(`${oilList}`, {
 					    page: this.page,
-					    longitude: this.longitude,
-					    latitude: this.latitude
+					    // longitude: this.longitude,
+					    // latitude: this.latitude,
+						longitude: '114.371297',
+						latitude: '30.352309'
 					}).then(r => {
 					    this.loading = false;
 					    if (type === 'refresh') {

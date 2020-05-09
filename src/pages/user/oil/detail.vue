@@ -70,7 +70,7 @@
 				</view>
 			</view>
 			<view class="cu-bar tabbar bg-white shadow foot btn-group">
-				<button class="cu-btn bg-red round shadow-blur lg go" @tap="goToH5">完成</button>
+				<button class="cu-btn bg-red round block shadow-blur lg go" @tap="goToH5">完成</button>
 			</view>
 			
 		<uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
@@ -161,6 +161,7 @@ export default {
 		},
 		// 初始化数据
 		initData (options) {
+			console.log(options.id);
 			this.getMyCouponDetail(options.id);
 		},
 		//切换油号
