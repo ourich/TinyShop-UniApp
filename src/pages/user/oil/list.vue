@@ -10,6 +10,7 @@
 			  	<view class="tit-box" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
 			  		<text class="tit">{{item.gasName}}</text>
 			  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
+			  		<text class="tit2 text-xs">{{ item.gasAddressLongitude }}</text>
 					<view class="price">
 						{{ item.priceYfq }} 
 						<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降{{ item.priceDiscount }}</span>
@@ -25,7 +26,7 @@
 					<text class="tit2 text-xs">{{ item.distance }}Km</text>
 					<rf-item-popup title="" @hide="hideService" @show="showPopupService('attributeValueClass', mapList)" :specClass="attributeValueClass" :isEmpty="mapList.length === 0" empty="未安装导航">
 						<view slot="content">
-							<text class="tit2 text-xs">导航</text>
+							<text class="tit2 text-xs">导航{{ item.gasAddressLongitude }}</text>
 						</view>
 						<view slot="popup" class="service">
 							<view class="content">
