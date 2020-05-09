@@ -49,8 +49,8 @@
 						  </view>
 						  <view class="attr-list">
 						  	<text>选择枪号：</text>
-						  	<view class="item-list">
-								<view v-for="(oilItem, oilindex) in gunNos" :key="oilindex">
+						  	<view class="item-list" v-for="(oilItem, oilindex) in gunNos" :key="oilindex">
+								<!-- <view v-for="(oilItem, oilindex) in gunNos" :key="oilindex"> -->
 									<view class="tit"
 										v-for="(gunItem, gunindex) in oilItem"
 										:key="gunindex"
@@ -62,7 +62,6 @@
 											{{gunItem.gunNo }}号
 										</text>
 									</view>
-								</view>
 						  	</view>
 						  	
 						  </view>
@@ -162,8 +161,7 @@ export default {
 		},
 		// 初始化数据
 		initData (options) {
-			// this.getMyCouponDetail(options.id);
-			this.getMyCouponDetail('JY000011413');
+			this.getMyCouponDetail(options.id);
 		},
 		//切换油号
 		switchType(type) {
@@ -286,7 +284,7 @@ export default {
 		padding-top: 10upx;
 		.row{
 			width: 92%;
-			height: 100vw;
+			height: 120vw;
 			margin: 10upx auto;
 			border-radius: 8upx;
 			align-items: center;
