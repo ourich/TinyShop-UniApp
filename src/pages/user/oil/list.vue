@@ -29,8 +29,11 @@
 						</view>
 						<view slot="popup" class="service">
 							<view class="content">
-								<view class="row" v-for="(item,index) in mapList" :key="index">
-								<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(index)">{{ `${item}` }}</button>
+								<view class="row">
+									<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1, item.gasAddressLongitude, item.gasAddressLatitude)">高德地图</button>
+								</view>
+								<view class="row">
+									<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2, item.gasAddressLongitude, item.gasAddressLatitude)">百度地图</button>
 								</view>
 							</view>
 						</view>
@@ -114,12 +117,19 @@
 				this[type] = 'show';
 			},
 			//关闭服务弹窗
-			hideService(index) {
-				// console.log(index)
+			hideService(index, gasAddressLongitude, gasAddressLatitude) {
+				// console.log(gasAddressLongitude);
+				// console.log(gasAddressLatitude);
 				this.attributeValueClass = 'none';
+				if (index === 1) {
+					this.goGd(gasAddressLongitude, gasAddressLatitude);
+				} else{
+					this.$mHelper.toast('百度还没好，请用高德');
+					return;
+				}
 			},
 			//高德导航
-			goGd(latitude, longitude) {
+			goGd(longitude, latitude) {
 				var packageName = 'com.autonavi.minimap';  
 				var main = plus.android.runtimeMainActivity();    
 				var packageManager = main.getPackageManager();    
