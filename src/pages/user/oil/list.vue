@@ -119,17 +119,16 @@
 				this.attributeValueClass = 'none';
 			},
 			//高德导航
-			goGd(index) {
+			goGd(latitude, longitude) {
 				var packageName = 'com.autonavi.minimap';  
 				var main = plus.android.runtimeMainActivity();    
 				var packageManager = main.getPackageManager();    
 				var PackageManager = plus.android.importClass(packageManager)    
 				var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);    
-				if(packageInfo){    
+				if(packageInfo){
+					console.log('进入高德');
 					var Uri = plus.android.importClass("android.net.Uri");  
-					var url="androidamap://route?sourceApplication=amap"+  
-					"&sid='A'&slat='36.702558'&slon='116.876678'&sname='开始'"+  
-				"&did='B'&dlat='36.649415'&dlon='117.122497'&dname='结束'&dev='0'&t='1'";    
+					var url="androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0";    
 					var Intent = plus.android.importClass('android.content.Intent');    
 					var intent = new Intent();  
 					intent.setAction(Intent.ACTION_VIEW);  
