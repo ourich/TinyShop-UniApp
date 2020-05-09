@@ -21,32 +21,29 @@
 						请确认加油后再支付
 					</view>
 			  	</view>
-				<view class="tit-right">
+				<view class="tit-right" @tap="showPopupService('attributeValueClass', item.gasAddressLongitude, item.gasAddressLatitude)">
 					<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
 					<text class="tit2 text-xs">{{ item.distance }}Km</text>
-					<rf-item-popup title="" @hide="hideService" @show="showPopupService('attributeValueClass', mapList)" :specClass="attributeValueClass" :isEmpty="mapList.length === 0" empty="未安装导航">
-						<view slot="content">
-							<text class="tit2 text-xs">导航{{ item.gasAddressLongitude }}</text>
-						</view>
-						<view slot="popup" class="service">
-							<view class="content">
-								<view class="row">
-									<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1, item.gasAddressLongitude, item.gasAddressLatitude)">高德地图</button>
-								</view>
-								<view class="row">
-									<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2, item.gasAddressLongitude, item.gasAddressLatitude)">百度地图</button>
-								</view>
-							</view>
-						</view>
-					</rf-item-popup>
+					<view slot="content">
+						<text class="tit2 text-xs">导航{{ item.gasAddressLongitude }}</text>
+					</view>
 				</view>
-			  	
 			  </view>
-	        
-	        
 	      </view>
 	    </view>
 	  </view>
+	  <rf-item-popup title="" @hide="hideService" :specClass="attributeValueClass" >
+	  	<view slot="popup" class="service">
+	  		<view class="content">
+	  			<view class="row">
+	  				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1)">高德地图</button>
+	  			</view>
+	  			<view class="row">
+	  				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2)">百度地图</button>
+	  			</view>
+	  		</view>
+	  	</view>
+	  </rf-item-popup>
 	  <rf-load-more :status="loadingType" v-if="oilList.length > 0"></rf-load-more>
 	</view>
 		<rf-empty :info="errorInfo || '暂无数据'" v-if="oilList.length === 0 && !loading"></rf-empty>
@@ -80,6 +77,8 @@
                 type: null,
 				latitude: '',
 				longitude: '',
+				gasAddressLongitude: '',
+				gasAddressLatitude: '',
                 loadingType: 'more',
                 page: 1,
                 loading: true,
@@ -112,17 +111,19 @@
                 this.getLocation();
             },
 			// 弹窗
-			showPopupService(type, list) {
+			showPopupService(type, gasAddressLongitude, gasAddressLatitude) {
 				// console.log(list)
-				if(list.length === 0) return;
+				this.gasAddressLongitude = gasAddressLongitude;
+				this.gasAddressLatitude = gasAddressLatitude;
 				this[type] = 'show';
 			},
 			//关闭服务弹窗
-			hideService(index, gasAddressLongitude, gasAddressLatitude) {
-				// console.log(gasAddressLongitude);
-				// console.log(gasAddressLatitude);
+			hideService(index) {
+				// console.log(this.gasAddressLongitude);
 				this.attributeValueClass = 'none';
-				this.goGd(index, gasAddressLongitude, gasAddressLatitude);
+				if (this.gasAddressLongitude && this.gasAddressLatitude && index ) {
+					this.goGd(index, this.gasAddressLongitude, this.gasAddressLatitude);
+				} 
 			},
 			//高德导航
 			goGd(index, longitude, latitude) {
@@ -181,6 +182,8 @@
 					    }
 					    this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
 					    this.oilList = [...this.oilList, ...r.data];
+						this.gasAddressLongitude = '';
+						this.gasAddressLatitude = '';
 					}).catch(err => {
 					    this.oilList.length = 0;
 					    this.errorInfo = err;
