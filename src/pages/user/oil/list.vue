@@ -32,10 +32,10 @@
 	  </view>
 	  <rf-item-popup title="" @hide="hideService" :specClass="attributeValueClass" >
 	  	<view slot="popup" class="service">
-	  		<view class="content padding">
-				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1)">高德地图</button>
-				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2)">百度地图</button>
-				<button class="cu-btn block line-black margin-tb-sm lg" @tap="hideService()">取消</button>
+	  		<view class="content">
+				<button class="cu-btn block line-red margin-sm lg" @tap="hideService(1)">高德地图</button>
+				<button class="cu-btn block line-red margin-sm lg" @tap="hideService(2)">百度地图</button>
+				<button class="cu-btn block line-black margin-sm lg" @tap="hideService()">取消</button>
 	  		</view>
 	  	</view>
 	  </rf-item-popup>
@@ -126,7 +126,7 @@
 					//高德
 					var Name = '高德地图';
 					var packageName = 'com.autonavi.minimap';
-					var url = "androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0"; 
+					var url = "androidamap://navi?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0"; 
 				} else{
 					//百度
 					var Name = '百度地图';

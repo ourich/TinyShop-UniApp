@@ -69,8 +69,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="cu-bar tabbar bg-white shadow foot btn-group">
-				<button class="cu-btn bg-red round block shadow-blur lg go" @tap="goToH5">下一步</button>
+			<view class="add-btn-wrapper">
+					<button class="cu-btn bg-red round block shadow-blur lg margin-sm" @tap="goToH5">下一步</button>
 			</view>
 			
 		<uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
