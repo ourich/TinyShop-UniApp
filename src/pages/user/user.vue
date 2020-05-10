@@ -19,9 +19,9 @@
 				<image class="card-bg" :src="vipCardBg"></image>
 				<view class="tit">
 					<i class="iconfont iconiLinkapp-"/>
-					欢迎来到易企加油
+					欢迎来到易企商城
 				</view>
-				<text class="e-m">RageFrame 版权所有</text>
+				<text class="e-m">易企商城 版权所有</text>
 			</view>
 		</view>
 		<!-- 个人中心 内容区-->

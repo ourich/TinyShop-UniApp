@@ -146,7 +146,7 @@
         },
         onShareAppMessage() {
             return {
-                title: '欢迎来到RageFrame商城',
+                title: '欢迎来到易企商城',
                 path: '/pages/index/index'
             }
         },

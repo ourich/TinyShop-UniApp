@@ -290,23 +290,5 @@
     }
 </script>
 <style lang='scss' scoped>
-	/deep/ .rf-item-popup {
-		.c-row {
-			padding: 0 30upx;
-			.left{
-				display: none;
-			}
-			.mid{
-				font-size: $font-sm - 4upx;
-				color: $font-color-light;
-			}
-		}
-		.b-b::after{
-			border-bottom:none;
-		}
-		.popup .mask {
-		    background-color: rgba(0, 0, 0, 0.05);
-		}
-		
-	}
+	
 </style>
