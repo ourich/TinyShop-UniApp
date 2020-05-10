@@ -1,8 +1,8 @@
 {
-    "name" : "Rageframe商城",
-    "appid" : "__UNI__8006C11",
+    "name" : "易企加油",
+    "appid" : "__UNI__3BA7E10",
     // 自行更换uniapp appid 可登录查看uniapp提供的用户统计 https://tongji.dcloud.net.cn/
-    "description" : "Rageframe商城",
+    "description" : "易企加油",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -58,10 +58,6 @@
             "sdkConfigs" : {
                 "ad" : {},
                 "payment" : {
-                    "weixin" : {
-                        "appid" : "",
-                        "UniversalLinks" : ""
-                    },
                     "alipay" : {}
                 }
             },
@@ -99,9 +95,9 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "/Users/stav/Downloads/1577068332615.png",
-                    "xhdpi" : "/Users/stav/Downloads/1577068332615.png",
-                    "xxhdpi" : "/Users/stav/Downloads/1577068332615.png"
+                    "hdpi" : "",
+                    "xhdpi" : "",
+                    "xxhdpi" : "/Users/liujie/Downloads/003.png"
                 }
             }
         }
