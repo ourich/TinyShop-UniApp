@@ -10,7 +10,6 @@
 			  	<view class="tit-box" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
 			  		<text class="tit">{{item.gasName}}</text>
 			  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
-			  		<text class="tit2 text-xs">{{ item.gasAddressLongitude }}</text>
 					<view class="price">
 						{{ item.priceYfq }} 
 						<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降{{ item.priceDiscount }}</span>
@@ -22,10 +21,9 @@
 					</view>
 			  	</view>
 				<view class="tit-right" @tap="showPopupService('attributeValueClass', item.gasAddressLongitude, item.gasAddressLatitude)">
-					<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i></text>
-					<text class="tit2 text-xs">{{ item.distance }}Km</text>
-					<view slot="content">
-						<text class="tit2 text-xs">导航{{ item.gasAddressLongitude }}</text>
+					<view class="tit2 text-xs">{{ item.distance }} Km</view>
+					<view class="content">
+						<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i>导航</text>
 					</view>
 				</view>
 			  </view>
@@ -34,13 +32,10 @@
 	  </view>
 	  <rf-item-popup title="" @hide="hideService" :specClass="attributeValueClass" >
 	  	<view slot="popup" class="service">
-	  		<view class="content">
-	  			<view class="row">
-	  				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1)">高德地图</button>
-	  			</view>
-	  			<view class="row">
-	  				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2)">百度地图</button>
-	  			</view>
+	  		<view class="content padding">
+				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(1)">高德地图</button>
+				<button class="cu-btn block line-red margin-tb-sm lg" @tap="hideService(2)">百度地图</button>
+				<button class="cu-btn block line-black margin-tb-sm lg" @tap="hideService()">取消</button>
 	  		</view>
 	  	</view>
 	  </rf-item-popup>
@@ -127,8 +122,6 @@
 			},
 			//高德导航
 			goGd(index, longitude, latitude) {
-				console.log('经度：' + longitude);
-				console.log('纬度：' + latitude);
 				if (index === 1) {
 					//高德
 					var Name = '高德地图';
@@ -138,7 +131,8 @@
 					//百度
 					var Name = '百度地图';
 					var packageName = 'com.baidu.BaiduMap';
-					var url = "baidumap://map/geocoder?location=" + latitude + "," + longitude + "&coord_type=GCJ02&src=andr.yiqi.openAPI";
+					var url = "baidumap://map/geocoder?location=" + latitude + "," + longitude + "&coord_type=gcj02&src=andr.yiqi.openAPI";
+					console.log(url);
 				}
 				var main = plus.android.runtimeMainActivity();    
 				var packageManager = main.getPackageManager();    
@@ -171,10 +165,10 @@
 				} else{
 					await this.$http.get(`${oilList}`, {
 					    page: this.page,
-					    // longitude: this.longitude,
-					    // latitude: this.latitude,
-						longitude: '114.371297',
-						latitude: '30.352309'
+					    longitude: this.longitude,
+					    latitude: this.latitude,
+						// longitude: '114.371297',
+						// latitude: '30.352309'
 					}).then(r => {
 					    this.loading = false;
 					    if (type === 'refresh') {
@@ -202,8 +196,8 @@
 				    success: function (res) {
 						that.latitude = res.latitude;
 						that.longitude = res.longitude;
-						// console.log('当前位置的经度：' + res.longitude);
-						// console.log('当前位置的纬度：' + res.latitude);
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
 						that.getOilList();
 				    },
 					fail: (err) => {

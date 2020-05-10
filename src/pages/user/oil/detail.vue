@@ -70,7 +70,7 @@
 				</view>
 			</view>
 			<view class="cu-bar tabbar bg-white shadow foot btn-group">
-				<button class="cu-btn bg-red round block shadow-blur lg go" @tap="goToH5">完成</button>
+				<button class="cu-btn bg-red round block shadow-blur lg go" @tap="goToH5">下一步</button>
 			</view>
 			
 		<uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
@@ -161,7 +161,7 @@ export default {
 		},
 		// 初始化数据
 		initData (options) {
-			console.log(options.id);
+			// console.log(options.id);
 			this.getMyCouponDetail(options.id);
 		},
 		//切换油号
@@ -187,8 +187,12 @@ export default {
 				this.$mHelper.toast('请先登录');
 				return;
 			}
-			// console.log(this.url + this.gunNo);
-			plus.runtime.openURL(this.url + this.gunNo);
+			let url = this.url + this.gunNo;
+			// 链接拼接编码网址（同时用模板字符串放置所需要的数据）
+			url = encodeURIComponent(url);
+			uni.navigateTo({
+				url: '/pages/public/pubview?url=' + url
+			});
 		},
 		// 获取优惠券
 		async getCoupon(item) {
@@ -212,7 +216,7 @@ export default {
 		},
 		// 统一跳转接口
 		navTo(route){
-			this.$mRouter.push({route})
+			this.$mRouter.push({route});
 		},
 		// 初始化定位
 		async getLocation(id) {

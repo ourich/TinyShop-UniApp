@@ -577,6 +577,13 @@
             "navigationBarTitleText": "登录"
           }
         },
+		// 登录类型
+		{
+		  "path": "pubview",
+		  "style": {
+		    "navigationBarTitleText": "一键加油"
+		  }
+		},
         // 修改密码
         {
           "path": "password",
