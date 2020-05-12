@@ -26,10 +26,10 @@
 		
 		<view class="my-account">
 				<!--账户信息面板-->
-		  <view class="header">
+		  <view class="header radius shadow bg-gradual-orange">
 		    <view class="account">
 		      <view class="assets">
-		        <view>总资产(元)</view>
+		        <view>我的余额(元)</view>
 		        <view class="money">
 					{{ userInfo && userInfo.account && userInfo.account.user_money || '0.00' }}
 		        </view>
@@ -53,7 +53,7 @@
 		    </view>
 		  </view>
 			  <!--广告-->
-		  <view class="advert">
+		  <view class="advert" v-if="footPrintList.length > 0">
 		      <view
 		        class="item on"
 		        @tap="navTo('/pages/user/coupon/list')"
@@ -361,7 +361,7 @@
 			.header {
 			  padding: 30upx;
 			  height: 320upx;
-			  background-color: $base-color;
+			  /* background-color: $base-color; */
 			  /* opacity: 0.9; */
 			  border-radius: 20upx;
 			  color: rgba(255, 255, 255, 0.6);
