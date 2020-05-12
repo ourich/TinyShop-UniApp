@@ -56,7 +56,7 @@
                 maxlength="18"
             />
           </view>
-          <view class="input-item">
+          <!-- <view class="input-item">
             <text class="tit">昵称</text>
             <input
                 type="text"
@@ -64,7 +64,7 @@
                 placeholder="请输入您的昵称"
                 maxlength="12"
             />
-          </view>
+          </view> -->
           <view class="input-item">
             <text class="tit">邀请码</text>
             <input
@@ -160,7 +160,7 @@
 				this.reqBody['mobile'] = this.registerParams['mobile'];
         this.reqBody['password'] = this.registerParams['password'];
         this.reqBody['code'] = this.registerParams['code'];
-        this.reqBody['nickname'] = this.registerParams['nickname'];
+        this.reqBody['nickname'] = this.registerParams['mobile'];
         const cheRes = this.$mGraceChecker.check(this.reqBody, this.$mFormRule.registerRule);
 				if (!cheRes) {
 					this.$mHelper.toast(this.$mGraceChecker.error);
@@ -187,7 +187,7 @@
 				this.btnLoading = true;
 				await this.$http.post(registerByPass, this.reqBody).then(() => {
 					this.btnLoading = false;
-					this.$mHelper.toast('恭喜您注册成功');
+					this.$mHelper.toast('绑定成功，请登录APP使用！');
           this.$mRouter.push({route: '/pages/public/login'});
 				}).catch(() => {
 					this.btnLoading = false;

@@ -31,9 +31,9 @@ export default {
 
     // 个人中心-积分余额
     amountList: [
-        {title: '余额', value: 0, url: '/pages/user/account/account'},
-        {title: '优惠券', value: 0, url: '/pages/user/coupon/coupon?type=1'},
-        {title: '积分', value: 0, url: '/pages/user/account/integral'}
+        // {title: '余额', value: 0, url: '/pages/user/account/account'},
+        {title: '我的优惠券', value: 0, url: '/pages/user/coupon/coupon?type=1'},
+        {title: '我的积分', value: 0, url: '/pages/user/account/integral'}
     ],
 
     // 个人中心-推广中心
