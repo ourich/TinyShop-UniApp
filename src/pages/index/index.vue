@@ -58,12 +58,16 @@
 		</rf-swiper-slide>
 		<view class="category-list">
 			<view class="magic-img">
-				<view class="magic-img-l" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index == 0">
+				<view class="magic-img-l" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index == 0"
+				@tap="indexTopToDetailPage(item.jump_type, item.jump_link)"
+				>
 					<image :src="item.cover || errorImage" mode="scaleToFill" class="radius shadow"></image>
 				</view>
 			</view>
 			<view class="magic-img">
-				<view class="magic-img-r" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index > 0">
+				<view class="magic-img-r" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index > 0"
+				@tap="indexTopToDetailPage(item.jump_type, item.jump_link)"
+				>
 					<image :src="item.cover || errorImage" mode="scaleToFill"></image>
 				</view>
 			</view>
@@ -480,7 +484,7 @@
 					image {
 						height: 480upx;
 						border-radius: 15upx;
-						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.1);
+						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
 					}
 				}
 				.magic-img-r {
@@ -490,7 +494,7 @@
 					image {
 						height: 230upx;
 						border-radius: 15upx;
-						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.1);
+						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
 					}
 					&:last-child{
 						margin-top: 20upx;
