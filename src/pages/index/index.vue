@@ -468,21 +468,21 @@
 			padding: 0 30upx;
 			display: flex;
 			flex-wrap: wrap;
-			min-height: 480upx;
+			min-height: 350upx;
 			.magic-img {
 				width: 50%;
-				height: 480upx;
+				height: 350upx;
 				display: flex;
 				flex-wrap: wrap;
 				flex-direction: column;
 				.magic-img-l {
 					width: 100%;
-					height: 480upx;
+					height: 350upx;
 					display: flex;
 					justify-content: center;
 					padding-right: 20upx;
 					image {
-						height: 480upx;
+						height: 350upx;
 						border-radius: 15upx;
 						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
 					}
@@ -492,7 +492,7 @@
 					display: flex;
 					justify-content: center;
 					image {
-						height: 230upx;
+						height: 165upx;
 						border-radius: 15upx;
 						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
 					}
