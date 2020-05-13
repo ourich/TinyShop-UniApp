@@ -9,6 +9,10 @@ const memberInfo = '/tiny-shop/v1/member/member/index';
 // 个人信息修改
 const memberUpdate = '/tiny-shop/v1/member/member/update';
 
+// 卡片列表
+const cardList = '/tiny-shop/v1/member/card/index';
+const cardChange = '/tiny-shop/v1/member/card/change';
+const cardBegin = '/tiny-shop/v1/member/card/begin';
 // 收货地址列表
 const addressList = '/tiny-shop/v1/member/address/index';
 // 默认收货地址
@@ -111,6 +115,9 @@ const uploadImage = '/tiny-shop/v1/common/file/images';
 export {
     memberInfo,
     memberUpdate,
+    cardList,
+    cardChange,
+    cardBegin,
     addressList,
     addressCreate,
     addressDefault,

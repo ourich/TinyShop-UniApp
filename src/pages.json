@@ -226,6 +226,28 @@
         "navigationBarTitleText": ""
       }
     },
+	// 卡片列表
+	{
+	  "path": "pages/user/card/card",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "我的卡片",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
+	// 卡片管理
+	{
+	  "path": "pages/user/card/manage",
+	  "style": {
+	    "navigationBarTitleText": ""
+	  }
+	},
     // 支付
     {
       "path": "pages/user/money/pay",
