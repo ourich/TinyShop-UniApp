@@ -92,6 +92,7 @@
 			//提交
 			confirm(){
 				let data = this.cardData;
+				data.endNo = this.endNo;
 				if(!data.realname){
 					this.$mHelper.toast('请填写转出数量');
 					return;
@@ -108,10 +109,10 @@
 					realname: data.realname,
 					mobile: data.mobile,
 					cardNo: data.cardNo,
-					endNo: endNo
+					endNo: data.endNo
 				}).then(() =>{
             this.btnLoading = false;
-						this.$mHelper.toast('收货地址修改成功！');
+						this.$mHelper.toast('转出成功！');
 						this.$mRouter.back();
 				}).catch(() => {
 					this.btnLoading = false;
