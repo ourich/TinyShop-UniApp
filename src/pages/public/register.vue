@@ -69,7 +69,7 @@
             <text class="tit">邀请码</text>
             <input
                 type="text"
-                v-model="registerParams.promoCode"
+                v-model="registerParams.promo_code"
                 placeholder="请输入您的邀请码"
             />
           </view>
@@ -94,7 +94,7 @@
         	mobile: '',
           password: '',
           password_repetition: '',
-          promoCode: '',
+          promo_code: '',
           nickname: '',
           code: ''
         },
@@ -114,7 +114,7 @@
 				this.smsCodeBtnDisabled = false;
 				uni.removeStorageSync('registerSmsCodeTime')
 			}
-			this.registerParams.promoCode = options.promo_code;
+			this.registerParams.promo_code = options.promo_code;
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -171,7 +171,7 @@
 					return;
 				}
 				this.reqBody['password_repetition'] = this.registerParams['password_repetition'];
-				this.reqBody['promoCode'] = this.registerParams['promoCode'];
+				this.reqBody['promo_code'] = this.registerParams['promo_code'];
 				/*  #ifdef  APP-PLUS  */
 				this.reqBody.group = 'tinyShopApp'
 				/*  #endif  */
