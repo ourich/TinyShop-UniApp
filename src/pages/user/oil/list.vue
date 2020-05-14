@@ -57,7 +57,7 @@
      */
     import {oilList, couponReceive} from "@/api/userInfo";
     import rfLoadMore from '@/components/rf-load-more/rf-load-more';
-	import rfItemPopup from '@/components/rf-item-popup'
+	import rfItemPopup from '@/components/rf-item-popup';
     import moment from '@/common/moment';
     export default {
         components: {

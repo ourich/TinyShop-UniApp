@@ -1,30 +1,40 @@
 <template>
   <view class="address-list">
     <view class="rf-list" v-if="cardList.length > 0">
-      <view class="rf-list-item" v-for="(item, index) in cardList" :key="index" @tap="checkAddress(item)">
-        <view class="mid" @touchstart="goTouchStart(item.id)" @touchmove="goTouchMove" @touchend="goTouchEnd">
+	<text v-if="cardList.length > 0" class="tips">
+	  卡片总数：{{cardList.length}}
+	</text>
+      <view class="rf-list-item" v-for="(item, index) in cardList" :key="index" >
+        <view class="mid">
           <view class="address-box">
-            <text v-if="parseInt(item.is_default, 10) === 1" class="tag">默认</text>
-            <text class="address in1line">{{item.address_name}} {{item.address_details}}</text>
-          </view>
-          <view class="u-box">
-            <text class="name">{{item.cardNo}}</text>
-            <text class="mobile">{{item.mobile}}</text>
+            <text v-if="parseInt(item.status, 10) === 0" class="tag">已使用</text>
+            <text class="address in1line">{{item.cardNo}}</text>
           </view>
         </view>
         <view class="right">
-          <text class="iconfont iconbianji" @tap.stop="addAddress('edit', item.id)"></text>
+          <text class="iconfont iconbianji" @tap="showPopupService('attributeValueClass', item.cardNo, item.code)"></text>
         </view>
       </view>
-      <text v-if="cardList.length > 0" class="tips">
-        提示：长按可删除当前收货地址。最多只能存在一个默认地址。
-      </text>
+	  
+      
       <rf-load-more v-if="cardList.length > 0" :status="loadingType"/>
     </view>
+	
     <view class="add-btn-wrapper">
-      <button class="add-btn" @tap="addAddress('add')">新增地址</button>
+      <button class="add-btn" @tap="addAddress('add')">卡片转出</button>
     </view>
-    <rf-empty :info="`暂无收货地址，请添加地址`" v-if="cardList.length === 0 && !loading"></rf-empty>
+	<rf-item-popup @hide="hideService" :specClass="attributeValueClass" >
+		<view slot="popup" class="service">
+			<view class="content detail-desc">
+				<view class="d-header">
+					<text class="tips">{{cardNo}}</text>
+				</view>
+				
+				<image class="swiper-slide-image" :src="newsBg"></image>
+			</view>
+		</view>
+	</rf-item-popup>
+    <rf-empty :info="`暂无数据`" v-if="cardList.length === 0 && !loading"></rf-empty>
     <!--加载动画-->
     <rf-loading v-if="loading"></rf-loading>
   </view>
@@ -39,11 +49,13 @@
 	 * @copyright 2019
 	 */
 	import {addressDelete, cardList} from "@/api/userInfo";
+	import rfItemPopup from '@/components/rf-item-popup';
 
 	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
 
 	export default {
 		components: {
+			rfItemPopup,
 			rfLoadMore
 		},
 		data() {
@@ -52,6 +64,8 @@
 				source: 0,
 				page: 1,
 				cardList: [],
+				attributeValueClass: 'none',//scss类，控制开关动画
+				type: null,
 				loadingType: 'more',
 				loading: true
 			}
@@ -105,6 +119,16 @@
 				clearTimeout(this.timeOutEvent);//清除定时器
 				this.timeOutEvent = 0;
 			},
+			// 弹窗
+			showPopupService(type, cardNo, code) {
+				this.cardNo = cardNo;
+				this.code = code;
+				this[type] = 'show';
+			},
+			//关闭服务弹窗
+			hideService() {
+				this.attributeValueClass = 'none';
+			},
 			// 数据初始化
 			initData() {
 				this.page = 1;
@@ -139,7 +163,7 @@
 			},
 			// 跳转添加地址页面
 			addAddress(type, id) {
-				this.$mRouter.push({route: `/pages/user/address/manage?type=${type}&id=${id}`});
+				this.$mRouter.push({route: `/pages/user/card/manage?type=${type}&id=${id}`});
 			}
 		}
 	}
@@ -148,6 +172,36 @@
 <style lang='scss'>
 	page{
     background-color: $page-color-base;
+	}
+	.detail-desc{
+		background: #fff;
+		margin-top: 16upx;
+		padding: 0 10upx;
+		.d-header{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 80upx;
+			font-size: $font-base + 2upx;
+			color: $font-color-dark;
+			position: relative;
+			text{
+				padding: 0 20upx;
+				background: #fff;
+				position: relative;
+				z-index: 1;
+			}
+			&:after{
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translateX(-50%);
+				width: 300upx;
+				height: 0;
+				content: '';
+				border-bottom: 1px solid #ccc;
+			}
+		}
 	}
 	.address-list {
 		position: relative;
