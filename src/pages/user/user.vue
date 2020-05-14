@@ -1,70 +1,28 @@
 <template>
 	<view class="user">
 		<!--头部-->
-		<view class="user-section">
+		<view class="user-section bg-gradual-orange">
 			<!-- <image class="bg" :src="userBg"></image> -->
 			<!--用户信息-->
-			<view class="user-info-box">
+			<view
+					class="user-info-box">
 				<view class="portrait-box" @tap="navTo(userInfo ? '/pages/user/userinfo/userinfo' : 'login')">
 					<image class="portrait"
 					       :src="userInfo.head_portrait || headImg"></image>
 					<text class="username">
-						{{ userInfo.realname || userInfo.nickname|| userInfo.mobile ||'请先登录'}}
+						{{ userInfo.realname || userInfo.nickname|| userInfo.username ||'请先登录'}}
 					</text>
 				</view>
 			</view>
 			<!--vip信息-->
-			<!-- <view class="vip-card-box">
+			<view class="vip-card-box">
 				<image class="card-bg" :src="vipCardBg"></image>
 				<view class="tit">
 					<i class="iconfont iconiLinkapp-"/>
-					欢迎来到易企商城
+					欢迎来到RageFrame微商城
 				</view>
-				<text class="e-m">易企商城 版权所有</text>
-			</view> -->
-		</view>
-		
-		<view class="my-account">
-				<!--账户信息面板-->
-		  <view class="header radius shadow bg-gradual-orange">
-		    <view class="account">
-		      <view class="assets">
-		        <view>我的余额(元)</view>
-		        <view class="money">
-					{{ userInfo && userInfo.account && userInfo.account.user_money || '0.00' }}
-		        </view>
-		      </view>
-		      <text @tap="navTo('/pages/user/account/recharge')" class="recharge" >充值</text>
-		    </view>
-		    <view class="cumulative">
-		      <view class="item" v-for="item in amountList" :key="item.title" @tap="navTo(item.url)">
-		        <view>{{ item.title }}</view>
-		        <view class="money">
-					{{ item.value }}
-		        </view>
-		      </view>
-		    </view>
-		  </view>
-			  <!--余额/积分导航-->
-		  <view class="nav">
-		    <view class="item" v-for="item in navList" :key="item.title" @tap="navTo(item.url)">
-		      <text class="iconfont" :class="item.icon"></text>
-		      <text>{{ item.title }}</text>
-		    </view>
-		  </view>
-			  <!--广告-->
-		  <view class="advert" v-if="footPrintList.length > 0">
-		      <view
-		        class="item on"
-		        @tap="navTo('/pages/user/coupon/list')"
-		      >
-		        <view class="text">
-		          <view class="name">领取优惠券</view>
-		          <text class="desc">满减享优惠</text>
-		        </view>
-		        <text class="iconfont iconwodeyouhuiquan"></text>
-		      </view>
-		    </view>
+				<text class="e-m">RageFrame 版权所有</text>
+			</view>
 		</view>
 		<!-- 个人中心 内容区-->
 		<view
@@ -77,11 +35,68 @@
 				@touchmove="coverTouchmove"
 				@touchend="coverTouchend"
 		>
+			<image class="arc" :src="arc"></image>
+
+			<!--余额 优惠券 积分信息-->
+			<view class="promotion-center">
+				<list-cell icon="iconwallett" iconColor="#e07472" @eventClick="navTo('/pages/user/account/account')"
+				           title="我的账户"></list-cell>
+				<view class="tj-sction">
+					<view class="tj-item" v-for="item in amountList" :key="item.title" @tap="navTo(item.url)">
+						<text class="num" :class="item.value > 0 ? 'red' : ''">
+							{{ item.value }}
+						</text>
+						<text>{{ item.title }}</text>
+					</view>
+				</view>
+			</view>
+
+			<!-- 我的订单 -->
+			<view class="promotion-center">
+				<list-cell icon="iconfapiaoguanli" iconColor="#e07472"
+				           @eventClick="navTo(`/pages/index/search/search?keyword=搜索我的订单&type=order`)" title="搜索订单"></list-cell>
+				<view class="order-section">
+					<view
+							class="order-item"
+							v-for="item in orderSectionList"
+							:key="item.title"
+							@tap="navTo(item.url)"
+							hover-class="common-hover"
+							:hover-stay-time="50">
+						<i class="iconfont" :class="item.icon"/>
+						<text>{{ item.title }}</text>
+						<rf-badge type="error" size="small" class="badge" :text="item.num"></rf-badge>
+					</view>
+				</view>
+			</view>
+
+			<!-- 浏览历史 -->
+			<view class="history-section">
+				<list-cell icon="iconlishijilu" iconColor="#5eba8f" @eventClick="navTo('/pages/user/footprint/footprint')"
+				           title="我的足迹"></list-cell>
+				<view v-if="hasLogin">
+					<scroll-view scroll-x class="h-list" v-if="footPrintList.length > 0">
+						<view class="h-item" v-for="item in footPrintList" :key="item.id">
+							<image class="h-item-img" @tap.stop="navTo(`/pages/product/product?id=${item.product.id}`)"
+							       :src="item.product.picture" mode="aspectFill"></image>
+						<view class="h-item-text in2line">{{ item.product.name }}</view>
+						</view>
+					</scroll-view>
+					<view class="no-foot-print" v-else-if="footPrintList.length === 0" @tap="navTo('/pages/product/list')">
+						<i class="iconfont iconshare no-foot-print-icon"/>
+						先去浏览一些吧~
+					</view>
+				</view>
+				<view class="no-foot-print" v-else @tap="navTo('/pages/user/footprint/footprint')">
+					<i class="iconfont iconmima no-foot-print-icon"/>
+					登陆后查看
+				</view>
+			</view>
 
 			<!--设置中心-->
 			<view class="promotion-center">
 				<list-cell icon="iconshezhi1" iconColor="#e07472" @eventClick="navTo('/pages/set/set')"
-				           title="服务中心"></list-cell>
+				           title="设置中心"></list-cell>
 				<view class="tj-sction">
 
 					<!-- 分类列表 -->
@@ -105,24 +120,6 @@
 								<view class="text">{{ item.title }}</view>
 							</button>
 						</view>
-					</view>
-				</view>
-			</view>
-			<!-- 我的订单 -->
-			<view class="promotion-center">
-				<list-cell icon="iconfapiaoguanli" iconColor="#e07472"
-				           @eventClick="navTo(`/pages/index/search/search?keyword=搜索我的订单&type=order`)" title="搜索订单"></list-cell>
-				<view class="order-section">
-					<view
-							class="order-item"
-							v-for="item in orderSectionList"
-							:key="item.title"
-							@tap="navTo(item.url)"
-							hover-class="common-hover"
-							:hover-stay-time="50">
-						<i class="iconfont" :class="item.icon"/>
-						<text>{{ item.title }}</text>
-						<rf-badge type="error" size="small" class="badge" :text="item.num"></rf-badge>
 					</view>
 				</view>
 			</view>
@@ -166,12 +163,6 @@
                     promoter: null  // 分销商信息
                 },
                 footPrintList: [], // 足迹列表
-				navList: [
-				  {title: '账单记录', icon: 'icondaifukuan', url: '/pages/user/account/bill'},
-				  {title: '充值记录', icon: 'iconchongzhijilu', url: '/pages/user/account/bill?state=2'},
-				  {title: '消费记录', icon: 'iconzuheduozhongxiaofeifangshizuhexiaofei', url: '/pages/user/account/bill?state=3'},
-				  {title: '积分中心', icon: 'iconjifenqia', url: '/pages/user/account/integral'}
-				],
                 loading: true,
 		            hasLogin: false
             }
@@ -179,7 +170,7 @@
         // 小程序分享
         onShareAppMessage() {
             return {
-                title: '欢迎来到易企商城',
+                title: '欢迎来到RageFrame商城',
                 path: '/pages/index/index'
             }
         },
@@ -257,6 +248,7 @@
                 uni.removeTabBarBadge({index: this.$mConstDataConfig.cartIndex});
                 this.amountList[0].value = 0;
                 this.amountList[1].value = 0;
+                this.amountList[2].value = 0;
                 this.promotionList[0].value = 0;
                 this.promotionList[1].value = 0;
                 this.promotionList[2].value = 0;
@@ -275,8 +267,9 @@
                 for (let i = 0; i < this.orderSectionList.length; i++) {
                     this.orderSectionList[i].num = orderSynthesizeNumArr[i].toString();
                 }
-                this.amountList[0].value = data.coupon_num || 0;
-                this.amountList[1].value = data.account.user_integral || 0;
+                this.amountList[0].value = data.account.user_money || 0;
+                this.amountList[1].value = data.coupon_num || 0;
+                this.amountList[2].value = data.account.user_integral || 0;
                 this.promotionList[0].value = data.promoter && data.promoter.accumulate_brokerage || 0;
                 this.promotionList[1].value = data.promoter && data.promoter.user_brokerage || 0;
                 this.promotionList[2].value = data.promoter && data.promoter.amount_drawn_brokerage || 0;
@@ -353,123 +346,9 @@
 	}
 
 	.user {
-		.my-account {
-			padding: 32upx 30upx 0;
-			margin-top: -200upx;
-			width: 100%;
-			background-color: #FFFFFF;
-			.header {
-			  padding: 30upx;
-			  height: 320upx;
-			  /* background-color: $base-color; */
-			  /* opacity: 0.9; */
-			  border-radius: 20upx;
-			  color: rgba(255, 255, 255, 0.6);
-			  font-size: $font-sm;
-			  position: relative;
-			  .account {
-				width: calc(100% - 60upx);
-				display: flex;
-				position: absolute;
-				z-index: 2;
-				justify-content: space-between;
-				.assets {
-				  .money {
-					color: #fff;
-					font-size: $font-lg + 10upx;
-					margin: 0;
-				  }
-				}
-				.recharge {
-				  font-size: $font-base;
-				  width: 150upx;
-				  height: 54upx;
-				  line-height: 54upx;
-				  border-radius: $font-base;
-				  background-color: #fff9f8;
-				  text-align: center;
-				  color: $base-color;
-				  margin-top: 10upx;
-				}
-			  }
-			  .cumulative {
-				width: calc(100% - 240upx);
-				position: absolute;
-				bottom: 20upx;
-				display: flex;
-				justify-content: space-between;
-				.money {
-				  color: #fff;
-				  font-size: $font-lg + 4upx;
-				  margin: 0;
-				}
-			  }
-			  .header-bg {
-				position: absolute;
-				width: 100%;
-				height: 320upx;
-				z-index: 1;
-				top: 0;
-				image {
-				  width: 100%;
-				  height: 320upx
-				}
-			  }
-			}
-			.nav{
-			  border-bottom:1px solid #f5f5f5;
-			  display: flex;
-			  .item{
-				flex:1;
-				margin: 20upx;
-				font-size: $font-base - 4upx;
-				display: inline-block;
-				text-align:center;
-				color:#999;
-				.iconfont {
-				  display: block;
-				  margin: 0 auto;
-				  font-size: $font-lg + 20upx;
-				  color: $base-color;
-				}
-			  }
-			}
-			.advert{
-			  display: flex;
-			  .item{
-				background-color:#fff6d1;
-				flex: 1;
-				border-radius: 24upx;
-				padding: 10upx 0;
-				margin: 20upx 10upx;
-				color: $base-color;
-				display: flex;
-				justify-content: space-between;
-				.iconfont {
-				  font-size: $font-lg + 20upx;
-				  margin-right: 20upx;
-				}
-				.text {
-				  margin-left: 20upx;
-				  .name{
-					font-size: $font-base;
-					font-weight: bold;
-					height: 40upx;
-					color: $base-color;
-				  }
-				  .desc {
-					font-size: $font-sm - 2upx;
-				  }
-				}
-			  }
-			  .on{
-				  background-color:#fff3f3;
-				}
-			}
-		  }
 		.user-section {
-			background-color: #FFFFFF;
-			height: 450upx;
+			background-color: $page-color-base;
+			height: 520upx;
 			padding: 100upx 30upx 0;
 			position: relative;
 
@@ -480,7 +359,7 @@
 				width: 100%;
 				height: 100%;
 				filter: blur(1px);
-				/* opacity: .7; */
+				opacity: .7;
 			}
 
 			.user-info-box {
@@ -555,7 +434,7 @@
 		}
 
 		.cover-container {
-			/* margin-top: -150upx; */
+			margin-top: -150upx;
 			padding: 0 30upx 20upx;
 			position: relative;
 			background-color: $page-color-base;
