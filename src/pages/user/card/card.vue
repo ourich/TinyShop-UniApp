@@ -7,16 +7,19 @@
       <view class="rf-list-item" v-for="(item, index) in cardList" :key="index" >
         <view class="mid">
           <view class="address-box">
-            <text v-if="parseInt(item.status, 10) === 0" class="tag">已使用</text>
-            <text class="address in1line">{{item.cardNo}}</text>
+            
+            <text class="address in1line">卡号：{{item.cardNo}}</text>
           </view>
+		  <view class="u-box">
+			  <text v-if="parseInt(item.status, 10) === 0" class="tag">状态：已使用</text>
+			  <text v-if="parseInt(item.status, 10) === 1" class="tag">状态：未使用</text>
+		    <text class="name" v-if="item.user0">使用人：{{item.user0}}</text>
+		  </view>
         </view>
         <view class="right">
-          <text class="iconfont iconbianji" @tap="showPopupService('attributeValueClass', item.cardNo, item.code)"></text>
+          <text class="iconfont iconbianji" @tap="showPopupService('attributeValueClass', item.cardNo, item.img)"></text>
         </view>
       </view>
-	  
-      
       <rf-load-more v-if="cardList.length > 0" :status="loadingType"/>
     </view>
 	
@@ -29,8 +32,9 @@
 				<view class="d-header">
 					<text class="tips">{{cardNo}}</text>
 				</view>
-				
-				<image class="swiper-slide-image" :src="newsBg"></image>
+				<view class="portrait-box">
+					<image class="portrait" :src="qrImg"></image>
+				</view>
 			</view>
 		</view>
 	</rf-item-popup>
@@ -48,7 +52,7 @@
 	 * @date 2020-03-10 18:00
 	 * @copyright 2019
 	 */
-	import {addressDelete, cardList} from "@/api/userInfo";
+	import {cardQr, cardList} from "@/api/userInfo";
 	import rfItemPopup from '@/components/rf-item-popup';
 
 	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
@@ -62,6 +66,8 @@
 			return {
 				timeOutEvent: 0,
 				source: 0,
+				cardNo: '',
+				qrImg: '',
 				page: 1,
 				cardList: [],
 				attributeValueClass: 'none',//scss类，控制开关动画
@@ -120,9 +126,9 @@
 				this.timeOutEvent = 0;
 			},
 			// 弹窗
-			showPopupService(type, cardNo, code) {
+			showPopupService(type, cardNo, qrImg) {
 				this.cardNo = cardNo;
-				this.code = code;
+				this.qrImg = qrImg;
 				this[type] = 'show';
 			},
 			//关闭服务弹窗
@@ -138,7 +144,8 @@
 			// 获取收货地址列表
 			async getcardList(type) {
 				await this.$http.get(`${cardList}`, {
-					page: this.page
+					page: this.page,
+					pageSize: 20
 				}).then(r => {
 					this.loading = false;
 					if (type === 'refresh') {
@@ -151,6 +158,19 @@
 					if (type === 'refresh') {
 						uni.stopPullDownRefresh();
 					}
+				});
+			},
+			// 获取二维码
+			async getcardQr(cardNo) {
+				await this.$http.get(`${cardQr}`, {
+					cardNo: cardNo
+				}).then(r => {
+					this.loading = false;
+					this.qrImg = r.data.img;
+					this[type] = 'show';
+					console.log('aaaaa'+ r.data);
+				}).catch(() => {
+					this.loading = false;
 				});
 			},
 			// 选择地址
@@ -200,6 +220,17 @@
 				height: 0;
 				content: '';
 				border-bottom: 1px solid #ccc;
+			}
+		}
+		.portrait-box {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 50upx;
+			margin-bottom: 150upx;
+			.portrait {
+				width: 250upx;
+				height: 250upx;
 			}
 		}
 	}
