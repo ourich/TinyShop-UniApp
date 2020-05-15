@@ -20,7 +20,7 @@
 						请确认加油后再支付
 					</view>
 			  	</view>
-				<view class="tit-right" @tap="showPopupService('attributeValueClass', item.gasAddressLongitude, item.gasAddressLatitude)">
+				<view class="tit-right" @tap="openMap(item.gasName, item.gasAddressLongitude, item.gasAddressLatitude)">
 					<view class="tit2 text-xs">{{ item.distance }} Km</view>
 					<view class="content">
 						<text class="tit2 text-xs"><i class="iconfont iconshouhuodizhi"></i>导航</text>
@@ -59,6 +59,7 @@
     import rfLoadMore from '@/components/rf-load-more/rf-load-more';
 	import rfItemPopup from '@/components/rf-item-popup';
     import moment from '@/common/moment';
+	import Map from '@/utils/openMap.js'
     export default {
         components: {
 			rfItemPopup,
@@ -87,6 +88,7 @@
         },
         onLoad(options) {
             this.type = options.type;
+			this.$mHelper.checkOpenGPSService();
             this.initData();
         },
         //下拉刷新
@@ -120,43 +122,8 @@
 					this.goGd(index, this.gasAddressLongitude, this.gasAddressLatitude);
 				} 
 			},
-			//高德导航
-			goGd(index, longitude, latitude) {
-				if (index === 1) {
-					//高德
-					var Name = '高德地图';
-					var packageName = 'com.autonavi.minimap';
-					var url = "androidamap://navi?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0"; 
-				} else{
-					//百度
-					var Name = '百度地图';
-					var packageName = 'com.baidu.BaiduMap';
-					var url = "baidumap://map/geocoder?location=" + latitude + "," + longitude + "&coord_type=gcj02&src=andr.yiqi.openAPI";
-					console.log(url);
-				}
-				var main = plus.android.runtimeMainActivity();    
-				var packageManager = main.getPackageManager();    
-				var PackageManager = plus.android.importClass(packageManager)    
-				var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);    
-				if(packageInfo){
-					console.log(Name);
-					var Uri = plus.android.importClass("android.net.Uri");  
-					// var url="androidamap://route?sourceApplication=yiqi" + "&poiname=&lat=" + latitude + "&lon=" + longitude + "&dev=0";    
-					var Intent = plus.android.importClass('android.content.Intent');    
-					var intent = new Intent();  
-					intent.setAction(Intent.ACTION_VIEW);  
-					intent.addCategory(Intent.CATEGORY_DEFAULT);  
-					var uri = Uri.parse(url);  
-					//将功能Scheme以URI的方式传入data  
-					intent.setData(uri);  
-					intent.setPackage(packageName);  
-					var main = plus.android.runtimeMainActivity();    
-					main.startActivity(intent);    
-				}  
-				else  
-				{  
-					this.$mHelper.toast('您没有安装' + Name);    
-				}
+			openMap(name, gasAddressLongitude, gasAddressLatitude) {
+				Map.openMap(gasAddressLatitude, gasAddressLongitude, name, 'gcj02')
 			},
             //读取油站列表
 			async getOilList(type) {
@@ -228,64 +195,6 @@
 			navTo(route) {
 				this.$mRouter.push({ route });
 			},
-			checkOpenGPSService() {
-			    if (uni.getSystemInfoSync().platform == 'android') {
-			        // 判断平台
-			        var context = plus.android.importClass("android.content.Context");
-			        var locationManager = plus.android.importClass("android.location.LocationManager");
-			        var main = plus.android.runtimeMainActivity();
-			        var mainSvr = main.getSystemService(context.LOCATION_SERVICE);
-			        if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
-			            uni.showModal({
-			                title: '提示',
-			                content: '请打开定位服务功能',
-			                showCancel: false, // 不显示取消按钮
-			                success() {
-			                    if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
-			                        var Intent = plus.android.importClass('android.content.Intent');
-			                        var Settings = plus.android.importClass('android.provider.Settings');
-			                        var intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-			                        main.startActivity(intent); // 打开系统设置GPS服务页面
-			                    } else {
-			                        console.log('GPS功能已开启');
-			                    }
-			                }
-			            });
-			        }
-			    } else {
-			        var cllocationManger = plus.ios.import("CLLocationManager");
-			        var enable = cllocationManger.locationServicesEnabled();
-			        var status = cllocationManger.authorizationStatus();
-			        plus.ios.deleteObject(cllocationManger);
-			        console.log("enable:" + enable);
-			        console.log("status:" + status);
-			        if (enable && status != 2) {
-			            console.log("手机系统的定位已经打开");
-			        } else {
-			            console.log("手机系统的定位没有打开");
-			            uni.showModal({
-			                title: '提示',
-			                content: '请打开定位服务功能',
-			                showCancel: false, // 不显示取消按钮
-			                success() {
-			                    var UIApplication = plus.ios.import("UIApplication");
-			                    var application2 = UIApplication.sharedApplication();
-			                    var NSURL2 = plus.ios.import("NSURL");
-			                    // var setting2 = NSURL2.URLWithString("prefs:root=LOCATION_SERVICES");
-			                    // var setting2 = NSURL2.URLWithString("App-Prefs:root=LOCATION_SERVICES");
-			                    // var setting2 = NSURL2.URLWithString("app-settings");
-			                    var setting2 = NSURL2.URLWithString("App-Prefs:root=Privacy&path=LOCATION");
-			                    // var setting2 = NSURL2.URLWithString("App-Prefs:root=Privacy&path=LOCATION_SERVICES");
-			                    application2.openURL(setting2);
-			                    plus.ios.deleteObject(setting2);
-			                    plus.ios.deleteObject(NSURL2);
-			                    plus.ios.deleteObject(application2);
-			                }
-			            });
-			        }
-			    }
-			}
-
         }
     }
 </script>

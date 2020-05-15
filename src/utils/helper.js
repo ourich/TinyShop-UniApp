@@ -86,6 +86,53 @@ export default {
 			});
 		});
 	},
+	/**检查是否打开GPS功能（android）**/
+	checkOpenGPSService() {
+	    if (uni.getSystemInfoSync().platform == 'android') {
+	        // 判断平台
+	        var context = plus.android.importClass("android.content.Context");
+	        var locationManager = plus.android.importClass("android.location.LocationManager");
+	        var main = plus.android.runtimeMainActivity();
+	        var mainSvr = main.getSystemService(context.LOCATION_SERVICE);
+	        if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+	            uni.showModal({
+	                title: '提示',
+	                content: '请打开定位服务功能',
+	                showCancel: false, // 不显示取消按钮
+	                success() {
+	                    if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+	                        var Intent = plus.android.importClass('android.content.Intent');
+	                        var Settings = plus.android.importClass('android.provider.Settings');
+	                        var intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	                        main.startActivity(intent); // 打开系统设置GPS服务页面
+	                    } else {
+	                        console.log('GPS功能已开启');
+	                    }
+	                }
+	            });
+	        }
+	    } else {
+	        var cllocationManger = plus.ios.import("CLLocationManager");
+	        var enable = cllocationManger.locationServicesEnabled();
+	        var status = cllocationManger.authorizationStatus();
+	        plus.ios.deleteObject(cllocationManger);
+	        console.log("enable:" + enable);
+	        console.log("status:" + status);
+	        if (enable && status != 2) {
+	            console.log("手机系统的定位已经打开");
+	        } else {
+	            console.log("手机系统的定位没有打开");
+	            uni.showModal({
+	                title: '提示',
+	                content: '请打开定位服务，重新进入',
+	                showCancel: false, // 不显示取消按钮
+	                success() {
+						console.log("点击确定");
+	                }
+	            });
+	        }
+	    }
+	},
 
 	/**
 	 * 安卓10不支持IMEI,则获取OAID
