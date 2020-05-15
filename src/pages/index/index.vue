@@ -36,7 +36,7 @@
 		<!--</swiper-item>-->
 		<!--</swiper>-->
 		<!-- 分类列表 -->
-		<!-- <view class="category-list rf-skeleton">
+		<view class="category-list rf-skeleton">
 			<view
 					class="category"
 					v-for="(item, index) in productCateList"
@@ -49,14 +49,14 @@
 				</view>
 				<view class="text">{{ item.title }}</view>
 			</view>
-		</view> -->
+		</view>
 		<!--新闻通知-->
 		<rf-swiper-slide :list="announceList" class="rf-skeleton">
 			<view slot="header" class="swiper-slide-header">
 				<image class="swiper-slide-image" :src="newsBg"></image>
 			</view>
 		</rf-swiper-slide>
-		<view class="category-list">
+		<view class="cate-list">
 			<view class="magic-img">
 				<view class="magic-img-l" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index == 0"
 				@tap="indexTopToDetailPage(item.jump_type, item.jump_link)"
@@ -463,6 +463,68 @@
 
 		/*分类列表*/
 		.category-list {
+			width: 100%;
+			margin-top: 20upx;
+			padding: 0 30upx;
+			display: flex;
+			flex-wrap: wrap;
+			min-height: 350upx;
+			.magic-img {
+				width: 50%;
+				height: 350upx;
+				display: flex;
+				flex-wrap: wrap;
+				flex-direction: column;
+				.magic-img-l {
+					width: 100%;
+					height: 350upx;
+					display: flex;
+					justify-content: center;
+					padding-right: 20upx;
+					image {
+						height: 350upx;
+						border-radius: 15upx;
+						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
+					}
+				}
+				.magic-img-r {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					image {
+						height: 165upx;
+						border-radius: 15upx;
+						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
+					}
+					&:last-child{
+						margin-top: 20upx;
+					}
+				}
+			}
+			.category {
+				width: calc(20% - 20upx);
+				display: flex;
+				flex-wrap: wrap;
+				.img {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					image {
+						width: 9vw;
+						height: 9vw;
+					}
+				}
+				.text {
+					margin-top: 16upx;
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					font-size: 24upx;
+					color: #3c3c3c;
+				}
+			}
+		}
+		.cate-list {
 			width: 100%;
 			margin-top: 20upx;
 			padding: 0 30upx;
