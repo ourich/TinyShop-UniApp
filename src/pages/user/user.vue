@@ -71,7 +71,7 @@
 			</view>
 
 			<!-- 浏览历史 -->
-			<view class="history-section">
+			<!-- <view class="history-section">
 				<list-cell icon="iconlishijilu" iconColor="#5eba8f" @eventClick="navTo('/pages/user/footprint/footprint')"
 				           title="我的足迹"></list-cell>
 				<view v-if="hasLogin">
@@ -91,7 +91,7 @@
 					<i class="iconfont iconmima no-foot-print-icon"/>
 					登陆后查看
 				</view>
-			</view>
+			</view> -->
 
 			<!--设置中心-->
 			<view class="promotion-center">
