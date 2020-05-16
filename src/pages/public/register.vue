@@ -129,6 +129,7 @@
 			},
 			getdown() {
 				this.$http.post(down, {
+					platform: uni.getSystemInfoSync().platform
 				}).then(r => {
 					this.down = r.data;
 				});
