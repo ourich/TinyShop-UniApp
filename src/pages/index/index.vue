@@ -36,7 +36,7 @@
 		<!--</swiper-item>-->
 		<!--</swiper>-->
 		<!-- 分类列表 -->
-		<view class="category-list rf-skeleton">
+		<view class="category-list rf-skeleton" v-if="config.show_cate === 1">
 			<view
 					class="category"
 					v-for="(item, index) in productCateList"
@@ -56,7 +56,7 @@
 				<image class="swiper-slide-image" :src="newsBg"></image>
 			</view>
 		</rf-swiper-slide>
-		<view class="cate-list">
+		<view class="cate-list" v-if="config.show_magic === 1">
 			<view class="magic-img">
 				<view class="magic-img-l" v-for="(item, index) in carouselList.index_thr" :key="index" v-if="index == 0"
 				@tap="indexTopToDetailPage(item.jump_type, item.jump_link)"
