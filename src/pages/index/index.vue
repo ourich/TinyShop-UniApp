@@ -4,7 +4,7 @@
 		<rf-search-bar
 				@link="toCategory"
 				@search="navToSearch"
-				title="兑换"
+				title="分类"
 				icon="iconfenlei1"
 				:placeholder="hotSearchDefault"/>
 		<!-- 轮播图1 -->
@@ -305,7 +305,7 @@
             },
             // 跳转至分类页
             toCategory() {
-                this.$mRouter.switchTab({route: '/pages/product/list'});
+				this.$mRouter.switchTab({route: '/pages/category/category'});
             }
         }
     }

@@ -641,10 +641,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/product/list",
+        "pagePath": "pages/category/category",
         "iconPath": "static/tab-cate.png",
         "selectedIconPath": "static/tab-cate-current.png",
-        "text": "兑换"
+        "text": "分类"
       },
       {
         "pagePath": "pages/cart/cart",
