@@ -7,7 +7,7 @@
     <view class="wrapper">
       <view class="left-top-sign">REGISTER</view>
       <view class="welcome">
-        账号注册！
+        账号绑定
       </view>
       <view class="input-content">
           <view class="input-item">
@@ -65,21 +65,21 @@
                 maxlength="12"
             />
           </view> -->
-          <view class="input-item">
+          <!-- <view class="input-item">
             <text class="tit">邀请码</text>
             <input
                 type="text"
                 v-model="registerParams.promo_code"
                 placeholder="请输入您的邀请码"
             />
-          </view>
+          </view> -->
       </view>
-	    <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">注册</button>
+	    <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">提交</button>
     </view>
-    <view class="register-section">
+    <!-- <view class="register-section">
       已经注册过了?
       <text @tap="navTo('/pages/public/login')">马上登录</text>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -135,6 +135,7 @@
 				}
 				this.$http.post(smsCode, {
 					mobile: this.registerParams.mobile,
+					promo_code: this.registerParams.promo_code,
 					usage: 'register'
 				}).then(r => {
 					this.$mHelper.toast(`验证码发送成功, 验证码是${r.data}`);
