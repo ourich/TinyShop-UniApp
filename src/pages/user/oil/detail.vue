@@ -125,6 +125,7 @@ export default {
 			type: 92,
 			gunNo: '',
 			mobile: '',
+			userInfo: '',
 			url: '',
 			latitude: '',
 			longitude: '',
@@ -185,6 +186,11 @@ export default {
 			}
 			if (!this.mobile) {
 				this.$mHelper.toast('请先登录');
+				return;
+			}
+			this.userInfo = uni.getStorageSync('userInfo');
+			if (this.userInfo.account.user_integral < 1) {
+				this.$mHelper.toast('您的优惠金已用完，请及时充值');
 				return;
 			}
 			let url = this.url + this.gunNo;
