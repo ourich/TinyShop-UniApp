@@ -464,43 +464,11 @@
 		/*分类列表*/
 		.category-list {
 			width: 100%;
-			margin-top: 20upx;
-			padding: 0 30upx;
+			padding: $spacing-base;
 			display: flex;
+			justify-content: space-between;
 			flex-wrap: wrap;
-			min-height: 350upx;
-			.magic-img {
-				width: 50%;
-				height: 350upx;
-				display: flex;
-				flex-wrap: wrap;
-				flex-direction: column;
-				.magic-img-l {
-					width: 100%;
-					height: 350upx;
-					display: flex;
-					justify-content: center;
-					padding-right: 20upx;
-					image {
-						height: 350upx;
-						border-radius: 15upx;
-						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
-					}
-				}
-				.magic-img-r {
-					width: 100%;
-					display: flex;
-					justify-content: center;
-					image {
-						height: 165upx;
-						border-radius: 15upx;
-						box-shadow: 0upx 8upx 25upx rgba(0, 0, 0, 0.05);
-					}
-					&:last-child{
-						margin-top: 20upx;
-					}
-				}
-			}
+			min-height: 80upx;
 			.category {
 				width: calc(20% - 20upx);
 				display: flex;
