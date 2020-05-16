@@ -35,6 +35,7 @@ const smsCode = '/tiny-shop/v1/site/sms-code';
 
 // 退出登录
 const logout = '/tiny-shop/v1/site/logout';
+const down = '/tiny-shop/v1/site/down';
 
 // 刷新token
 const refreshToken = '/tiny-shop/v1/site/refresh';
@@ -50,5 +51,6 @@ export {
     smsCode,
     loginBySmsCode,
     logout,
+    down,
     refreshToken
 };

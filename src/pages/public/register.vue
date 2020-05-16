@@ -85,7 +85,7 @@
 
 <script>
 	import {mapMutations} from 'vuex';
-	import {registerByPass, smsCode} from '@/api/login';
+	import {registerByPass, smsCode, down} from '@/api/login';
 	import moment from '@/common/moment';
 	export default {
 		data() {
@@ -99,6 +99,7 @@
           code: ''
         },
 				btnLoading: false,
+				down: '',
 				reqBody: {},
 				codeSeconds: 0, // 验证码发送时间间隔
 				smsCodeBtnDisabled: true
@@ -115,6 +116,7 @@
 				uni.removeStorageSync('registerSmsCodeTime')
 			}
 			this.registerParams.promo_code = options.promo_code;
+			this.getdown();
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -124,6 +126,12 @@
       // 通用跳转
 			navTo(route) {
         this.$mRouter.push({route})
+			},
+			getdown() {
+				this.$http.post(down, {
+				}).then(r => {
+					this.down = r.data;
+				});
 			},
 			// 获取手机验证码
 			getSmsCode() {
@@ -189,7 +197,10 @@
 				await this.$http.post(registerByPass, this.reqBody).then(() => {
 					this.btnLoading = false;
 					this.$mHelper.toast('绑定成功，请登录APP使用！');
-          this.$mRouter.push({route: '/pages/public/login'});
+					/*  #ifdef H5  */
+					window.location.href = this.down;
+					/*  #endif  */
+					this.$mRouter.push({route: '/pages/public/login'});
 				}).catch(() => {
 					this.btnLoading = false;
 				});
