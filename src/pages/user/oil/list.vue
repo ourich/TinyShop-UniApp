@@ -105,7 +105,7 @@
         methods: {
             // 数据初始化
             initData() {
-                this.getLocation();
+                this.getOilList();
             },
 			// 弹窗
 			showPopupService(type, gasAddressLongitude, gasAddressLatitude) {

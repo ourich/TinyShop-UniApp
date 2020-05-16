@@ -8,15 +8,9 @@ export default {
     // 个人中心-设置中心菜单
     settingList: [
         {icon: 'iconiconfontweixin', url: '/pages/user/coupon/list', title: '去领券中心', color: '#e07472'},
-        {icon: 'icondianzan-ash', url: '/pages/user/oil/list', title: '一键加油', color: '#e07472'},
-        {icon: 'icondizhi', url: '/pages/user/address/address', title: '地址管理', color: '#5fcda2'},
-        {icon: 'icondizhi', url: '/pages/user/card/card', title: '卡片管理', color: '#9789f7'},
-        {
-            icon: 'iconshoucang_xuanzhongzhuangtai',
-            url: '/pages/user/collection/collection',
-            title: '我的收藏',
-            color: '#5fcda2'
-        },
+		{icon: 'iconshoucang_xuanzhongzhuangtai', url: '/pages/user/oil/list', title: '一键加油', color: '#5fcda2'},
+        {icon: 'icondizhi', url: '/pages/user/address/address', title: '地址管理', color: '#9789f7'},
+        {icon: 'iconiLinkapp-', url: '/pages/user/card/card', title: '卡片管理', color: '#5fcda2'},
         {icon: 'iconshare', url: '', title: '分享', color: '#9789f7'},
         {icon: 'iconshezhi1', url: '/pages/set/set', title: '设置', color: '#e07472'}
     ],
