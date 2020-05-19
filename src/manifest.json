@@ -13,7 +13,7 @@
         /* 5+App特有相关 */
         "usingComponents" : true,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
+            "alwaysShowBeforeRender" : false,
             "waiting" : true,
             "autoclose" : true,
             "delay" : 0
@@ -58,7 +58,11 @@
             "sdkConfigs" : {
                 "ad" : {},
                 "payment" : {
-                    "alipay" : {}
+                    "alipay" : {},
+                    "weixin" : {
+                        "appid" : "wx90cf22a5a64fb605",
+                        "UniversalLinks" : ""
+                    }
                 }
             },
             "icons" : {
@@ -95,9 +99,9 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "",
+                    "hdpi" : "/Users/liujie/custom/易企加油/WechatIMG7.png",
                     "xhdpi" : "",
-                    "xxhdpi" : "/Users/liujie/Downloads/003.png"
+                    "xxhdpi" : "/Users/liujie/custom/易企加油/WechatIMG8.png"
                 }
             }
         }
