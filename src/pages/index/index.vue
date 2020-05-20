@@ -37,6 +37,12 @@
 		<!--</swiper>-->
 		<!-- 分类列表 -->
 		<view class="category-list rf-skeleton" v-if="config.show_cate === 1">
+			<view class="category" @tap.prevent="navToo(`/pages/user/oil/list`)" >
+				<view class="img">
+					<image :src="oilBg" mode="aspectFill"></image>
+				</view>
+				<view class="text">一键加油</view>
+			</view>
 			<view
 					class="category"
 					v-for="(item, index) in productCateList"
@@ -146,6 +152,7 @@
                 loading: true,
                 hotSearchDefault: '请输入关键字',
                 newsBg: this.$mAssetsPath.newsBg,
+                oilBg: this.$mAssetsPath.oilBg,
                 errorImage: this.$mAssetsPath.errorImage
             };
         },
@@ -195,6 +202,9 @@
               // 设置购物车数量角标
               this.getIndexList();
               this.initCartItemCount();
+			  // #ifdef  H5
+			      this.$mRouter.push({route: '/pages/public/register'});
+			 // #endif
             },
             // 设置购物车数量角标
             async initCartItemCount() {
@@ -212,6 +222,24 @@
             navTo(route) {
                 this.$mRouter.push({route});
             },
+			// 统一跳转接口,拦截未登录路由
+			navToo(route) {
+			    if (!route) {
+			        return;
+			    }
+			    if (!this.$mStore.getters.hasLogin) {
+			        uni.showModal({
+			            content: '你暂未登陆，是否跳转登录页面？',
+			            success: (confirmRes) => {
+			                if (confirmRes.confirm) {
+			                    this.$mRouter.push({route: '/pages/public/login'});
+			                }
+			            }
+			        });
+			    } else {
+			        this.$mRouter.push({route});
+			    }
+			},
             // 通用跳转
             navToSearch() {
                 this.$mRouter.push({route: `/pages/index/search/search?data=${JSON.stringify(this.search)}`});

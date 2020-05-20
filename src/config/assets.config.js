@@ -23,6 +23,7 @@ export default {
 
 	// 商城新闻
 	newsBg: PATH + '/news.png',
+	oilBg: PATH + '/oil.png',
 
 	// 商城新闻
 	userBg: PATH + '/user-bg.jpg',

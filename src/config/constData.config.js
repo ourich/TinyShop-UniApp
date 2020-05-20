@@ -11,7 +11,7 @@ export default {
 		{icon: 'iconshoucang_xuanzhongzhuangtai', url: '/pages/user/oil/list', title: '一键加油', color: '#5fcda2'},
         {icon: 'icondizhi', url: '/pages/user/address/address', title: '地址管理', color: '#9789f7'},
         {icon: 'iconiLinkapp-', url: '/pages/user/card/card', title: '卡片管理', color: '#5fcda2'},
-        {icon: 'iconiLinkapp-', url: '/pages/user/userinfo/team', title: '我的团队', color: '#5fcda2'},
+        {icon: 'iconqunzu1', url: '/pages/user/userinfo/team', title: '我的团队', color: '#5fcda2'},
         {icon: 'iconshare', url: '', title: '分享', color: '#9789f7'},
         {icon: 'iconshezhi1', url: '/pages/set/set', title: '设置', color: '#e07472'}
     ],

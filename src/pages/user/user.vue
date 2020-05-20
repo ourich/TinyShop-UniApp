@@ -297,7 +297,7 @@
                         content: '你暂未登陆，是否跳转登录页面？',
                         success: (confirmRes) => {
                             if (confirmRes.confirm) {
-                                this.$mRouter.push({route: '/pages/public/logintype'});
+                                this.$mRouter.push({route: '/pages/public/login'});
                             }
                         }
                     });
