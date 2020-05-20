@@ -5,7 +5,7 @@
 			<text class="cell-tip">{{item.content}}</text>
 			<text class="cell-more iconfont iconyou"></text>
 		</view>
-		<view class="history-section icon">
+		<!-- <view class="history-section icon">
 			<view class="sec-header">
 				<i class="iconfont iconshare"></i>
 				<text>分享商城二维码给好友</text>
@@ -16,7 +16,7 @@
 					<text class="info">商城二维码</text>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -33,7 +33,7 @@ export default {
 		return {
 			aboutInfo: {},
 			navList: [
-				{ title: '商城介绍', url: '' },
+				// { title: '商城介绍', url: '' },
 				// { title: '版权信息', url: 'copyright_companyname,copyright_desc,copyright_url' },
 				// { title: '证照信息', url: '' },
 				{ title: '注册协议', url: 'protocol_register' },
@@ -48,7 +48,7 @@ export default {
 	methods: {
 		// 初始化数据
 		initData () {
-			this.getConfigList();
+			// this.getConfigList();
 		},
 		// 获取商城信息
 		async getConfigList() {

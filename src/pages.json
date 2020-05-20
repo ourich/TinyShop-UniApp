@@ -359,14 +359,14 @@
         {
           "path": "about/about",
           "style": {
-            "navigationBarTitleText": "关于RF商城"
+            "navigationBarTitleText": "关于商城"
           }
         },
         // 关于详情
         {
           "path": "about/detail",
           "style": {
-            "navigationBarTitleText": "关于RF商城"
+            "navigationBarTitleText": "关于商城"
           }
         },
         // 开票历史列表

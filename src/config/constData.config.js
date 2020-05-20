@@ -7,7 +7,7 @@ export default {
 
     // 个人中心-设置中心菜单
     settingList: [
-        {icon: 'iconiconfontweixin', url: '/pages/user/coupon/list', title: '去领券中心', color: '#e07472'},
+        // {icon: 'iconiconfontweixin', url: '/pages/user/coupon/list', title: '去领券中心', color: '#e07472'},
 		{icon: 'iconshoucang_xuanzhongzhuangtai', url: '/pages/user/oil/list', title: '一键加油', color: '#5fcda2'},
         {icon: 'icondizhi', url: '/pages/user/address/address', title: '地址管理', color: '#9789f7'},
         {icon: 'iconiLinkapp-', url: '/pages/user/card/card', title: '卡片管理', color: '#5fcda2'},
@@ -28,7 +28,7 @@ export default {
     amountList: [
         {title: '余额', value: 0, url: '/pages/user/account/account'},
         {title: '我的优惠券', value: 0, url: '/pages/user/coupon/coupon?type=1'},
-        {title: '我的积分', value: 0, url: '/pages/user/account/integral'}
+        {title: '我的优惠金', value: 0, url: '/pages/user/account/integral'}
     ],
 
     // 个人中心-推广中心

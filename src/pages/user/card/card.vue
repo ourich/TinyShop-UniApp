@@ -1,8 +1,8 @@
 <template>
   <view class="address-list">
     <view class="rf-list" v-if="cardList.length > 0">
-	<text v-if="cardList.length > 0" class="tips">
-	  卡片总数：{{cardList.length}}
+	<text class="tips">
+	  卡片总数：{{cardNum || '0'}}
 	</text>
       <view class="rf-list-item" v-for="(item, index) in cardList" :key="index" >
         <view class="mid">
@@ -52,7 +52,7 @@
 	 * @date 2020-03-10 18:00
 	 * @copyright 2019
 	 */
-	import {cardQr, cardList} from "@/api/userInfo";
+	import {cardNum, cardQr, cardList} from "@/api/userInfo";
 	import rfItemPopup from '@/components/rf-item-popup';
 
 	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
@@ -68,6 +68,7 @@
 				source: 0,
 				cardNo: '',
 				qrImg: '',
+				cardNum: '',
 				page: 1,
 				cardList: [],
 				attributeValueClass: 'none',//scss类，控制开关动画
@@ -140,6 +141,7 @@
 				this.page = 1;
 				this.cardList.length = 0;
 				this.getcardList();
+				this.getcardNum();
 			},
 			// 获取收货地址列表
 			async getcardList(type) {
@@ -160,6 +162,15 @@
 					}
 				});
 			},
+			async getcardNum() {
+				await this.$http.get(`${cardNum}`, {
+				}).then(r => {
+					this.loading = false;
+					this.cardNum = r.data;
+				}).catch(() => {
+					this.loading = false;
+				});
+			},
 			// 获取二维码
 			async getcardQr(cardNo) {
 				await this.$http.get(`${cardQr}`, {
@@ -168,7 +179,6 @@
 					this.loading = false;
 					this.qrImg = r.data.img;
 					this[type] = 'show';
-					console.log('aaaaa'+ r.data);
 				}).catch(() => {
 					this.loading = false;
 				});

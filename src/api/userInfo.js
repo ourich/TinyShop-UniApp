@@ -14,6 +14,7 @@ const cardList = '/tiny-shop/v1/member/card/index';
 const cardChange = '/tiny-shop/v1/member/card/change';
 const cardBegin = '/tiny-shop/v1/member/card/begin';
 const cardQr = '/tiny-shop/v1/member/card/qr';
+const cardNum = '/tiny-shop/v1/member/card/num';
 // 收货地址列表
 const addressList = '/tiny-shop/v1/member/address/index';
 // 默认收货地址
@@ -120,6 +121,7 @@ export {
     cardChange,
     cardBegin,
     cardQr,
+    cardNum,
     addressList,
     addressCreate,
     addressDefault,
