@@ -1,0 +1,268 @@
+<template>
+  <view class="address-list">
+    <view class="rf-list" v-if="cardList.length > 0">
+	<!-- <text class="tips">
+	  团队总数：{{cardNum || '0'}}
+	</text> -->
+      <view class="rf-list-item" v-for="(item, index) in cardList" :key="index" @tap="addAddress(item.id)">
+        <view class="mid">
+          <view class="address-box">
+            
+            <text class="address in1line">会员：{{item.mobile}}</text>
+          </view>
+		  <view class="u-box">
+		    <text class="name">等级：{{item.level_name}}</text>
+		  </view>
+        </view>
+        <view class="right">
+			<text class="tag">{{item.num}}</text>
+          <text class="iconfont iconyou"></text>
+        </view>
+      </view>
+      <rf-load-more v-if="cardList.length > 0" :status="loadingType"/>
+    </view>
+	
+	
+    <rf-empty :info="`暂无数据`" v-if="cardList.length === 0 && !loading"></rf-empty>
+    <!--加载动画-->
+    <rf-loading v-if="loading"></rf-loading>
+  </view>
+</template>
+
+<script>
+	/**
+	 * @des 收货地址列表
+	 *
+	 * @author stav stavyan@qq.com
+	 * @date 2020-03-10 18:00
+	 * @copyright 2019
+	 */
+	import {memberTeam} from "@/api/userInfo";
+	import rfItemPopup from '@/components/rf-item-popup';
+
+	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
+
+	export default {
+		components: {
+			rfItemPopup,
+			rfLoadMore
+		},
+		data() {
+			return {
+				timeOutEvent: 0,
+				source: 0,
+				cardNo: '',
+				qrImg: '',
+				id: '',
+				cardNum: '',
+				page: 1,
+				cardList: [],
+				attributeValueClass: 'none',//scss类，控制开关动画
+				type: null,
+				loadingType: 'more',
+				loading: true
+			}
+		},
+		//下拉刷新
+		onPullDownRefresh() {
+			this.page = 1;
+			this.cardList = [];
+			this.getcardList('refresh');
+		},
+		//加载更多
+		onReachBottom() {
+			this.page++;
+			this.getcardList();
+		},
+		onLoad(option) {
+			this.source = option.source;
+			this.id = option.id ?? 0;
+		},
+		onShow() {
+			this.initData()
+		},
+		methods: {
+			goTouchStart(id) {
+				clearTimeout(this.timeOutEvent);//清除定时器
+				this.timeOutEvent = 0;
+				this.timeOutEvent = setTimeout(() => {
+					uni.showModal({
+						content: '确定要删除该收货地址吗',
+						success: (e) => {
+							if (e.confirm) {
+								this.handleAddressDelete(id);
+							}
+						}
+					});
+				}, 0.5 * 1000);//这里设置定时
+			},
+      // 删除地址
+      async handleAddressDelete(id) {
+				await this.$http.delete(`${addressDelete}?id=${id}`).then(() => {
+          this.page = 1;
+          this.cardList.length = 0;
+          this.getcardList();
+        })
+      },
+			//手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
+			goTouchEnd() {
+				clearTimeout(this.timeOutEvent);
+			},
+			//如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
+			goTouchMove() {
+				clearTimeout(this.timeOutEvent);//清除定时器
+				this.timeOutEvent = 0;
+			},
+			// 弹窗
+			showPopupService(type, cardNo, qrImg) {
+				this.cardNo = cardNo;
+				this.qrImg = qrImg;
+				this[type] = 'show';
+			},
+			//关闭服务弹窗
+			hideService() {
+				this.attributeValueClass = 'none';
+			},
+			// 数据初始化
+			initData() {
+				this.page = 1;
+				this.cardList.length = 0;
+				this.getcardList();
+			},
+			// 获取收货地址列表
+			async getcardList(type) {
+				await this.$http.get(`${memberTeam}`, {
+					id: this.id,
+					page: this.page,
+					pageSize: 20
+				}).then(r => {
+					this.loading = false;
+					if (type === 'refresh') {
+						uni.stopPullDownRefresh();
+					}
+					this.loadingType = r.data.length === 10 ? 'more' : 'nomore';
+					this.cardList = [...this.cardList, ...r.data];
+				}).catch(() => {
+					this.loading = false;
+					if (type === 'refresh') {
+						uni.stopPullDownRefresh();
+					}
+				});
+			},
+			async getcardNum() {
+				await this.$http.get(`${cardNum}`, {
+				}).then(r => {
+					this.loading = false;
+					this.cardNum = r.data;
+				}).catch(() => {
+					this.loading = false;
+				});
+			},
+			// 获取二维码
+			async getcardQr(cardNo) {
+				await this.$http.get(`${cardQr}`, {
+					cardNo: cardNo
+				}).then(r => {
+					this.loading = false;
+					this.qrImg = r.data.img;
+					this[type] = 'show';
+				}).catch(() => {
+					this.loading = false;
+				});
+			},
+			// 选择地址
+			checkAddress(item) {
+				if (parseInt(this.source, 10) === 1) {
+					//this.$mHelper.prePage()获取上一页实例，在App.vue定义
+					this.$mHelper.prePage().addressData = item;
+				  this.$mRouter.back();
+				}
+			},
+			// 跳转添加地址页面
+			addAddress(id) {
+				this.$mRouter.push({route: `/pages/user/userinfo/team?id=${id}`});
+			}
+		}
+	}
+</script>
+
+<style lang='scss'>
+	page{
+    background-color: $page-color-base;
+	}
+	.tag {
+	  /* font-size: 30upx; */
+	  color: $base-color;
+	  background: #fffafb;
+	  border: 1px solid #ffb4c7;
+	  /* border-radius: 4upx; */
+	  padding: 4upx 10upx;
+	  line-height: 1;
+	  border-radius: 50%;
+	}
+	.detail-desc{
+		background: #fff;
+		margin-top: 16upx;
+		padding: 0 10upx;
+		.d-header{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 80upx;
+			font-size: $font-base + 2upx;
+			color: $font-color-dark;
+			position: relative;
+			text{
+				padding: 0 20upx;
+				background: #fff;
+				position: relative;
+				z-index: 1;
+			}
+			&:after{
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translateX(-50%);
+				width: 300upx;
+				height: 0;
+				content: '';
+				border-bottom: 1px solid #ccc;
+			}
+		}
+		.portrait-box {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 50upx;
+			margin-bottom: 150upx;
+			.portrait {
+				width: 250upx;
+				height: 250upx;
+			}
+		}
+	}
+	.address-list {
+		position: relative;
+    .address-box {
+      display: flex;
+      align-items: center;
+
+
+
+      .address {
+        font-size: 30upx;
+        color: $font-color-dark;
+      }
+    }
+
+    .u-box {
+      font-size: 28upx;
+      color: $font-color-light;
+      margin-top: 16upx;
+
+      .name {
+        margin-right: 30upx;
+      }
+    }
+  }
+</style>

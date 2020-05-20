@@ -123,6 +123,12 @@
         "navigationBarTitleText": "修改资料"
       }
     },
+	{
+	  "path": "pages/user/userinfo/team",
+	  "style": {
+	    "navigationBarTitleText": "我的团队"
+	  }
+	},
     // 我的收藏
     {
       "path": "pages/user/collection/collection",

@@ -8,6 +8,7 @@
 const memberInfo = '/tiny-shop/v1/member/member/index';
 // 个人信息修改
 const memberUpdate = '/tiny-shop/v1/member/member/update';
+const memberTeam = '/tiny-shop/v1/member/member/team';
 
 // 卡片列表
 const cardList = '/tiny-shop/v1/member/card/index';
@@ -117,6 +118,7 @@ const uploadImage = '/tiny-shop/v1/common/file/images';
 export {
     memberInfo,
     memberUpdate,
+    memberTeam,
     cardList,
     cardChange,
     cardBegin,
