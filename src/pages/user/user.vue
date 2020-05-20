@@ -9,9 +9,13 @@
 				<view class="portrait-box" @tap="navTo(userInfo ? '/pages/user/userinfo/userinfo' : 'login')">
 					<image class="portrait"
 					       :src="userInfo.head_portrait || headImg"></image>
-					<text class="username">
+					<view class="username">
 						{{ userInfo.realname || userInfo.nickname|| userInfo.username ||'请先登录'}}
-					</text>
+						<view class="tit">
+							会员等级：{{ userInfo.level_name ||'普通会员'}}
+						</view>
+					</view>
+					
 				</view>
 			</view>
 			<!--vip信息-->
@@ -232,6 +236,7 @@
                 await this.$http.get(memberInfo).then(async r => {
                     this.loading = false;
                     this.userInfo = r.data;
+					// console.log(r.data)
                     await uni.setStorageSync('cartNum', r.data.cart_num);
                     // 获取足迹列表
                     await this.getFootPrintList();
@@ -380,11 +385,46 @@
 						border: 5upx solid #fff;
 						border-radius: 50%;
 					}
+					.share-icon{
+						display:flex;
+						align-items:center;
+						margin-left: 20upx;
+						width: 70upx;
+						height: 30upx;
+						line-height: 1;
+						border: 1px solid #303133;
+						border-radius: 4upx;
+						position:relative;
+						overflow: hidden;
+						font-size: 22upx;
+						color: #303133;
+						&:after{
+							content: '';
+							width: 50upx;
+							height: 50upx;
+							border-radius: 50%;
+							left: -20upx;
+							top: -12upx;
+							position:absolute;
+							background: #303133;
+						}
+						.iconfont{
+							position:relative;
+							z-index: 1;
+							font-size: 24upx;
+							margin-left: 2upx;
+							margin-right: 10upx;
+							color: #f7d680;
+							line-height: 1;
+						}
+					}
 
 					.username {
 						font-size: $font-lg + 6upx;
 						color: $font-color-dark;
 						margin-left: 20upx;
+						display:flex;
+						flex-direction: column;
 					}
 
 					button {

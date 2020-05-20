@@ -7,12 +7,12 @@
 			<button class="confirm-btn" open-type="getUserInfo" v-if="isAuthLoginShow" formType="submit" @tap="toAuthLogin">
 				授权登录
 			</button>
-			<button class="confirm-btn plain" plain @tap="navTo('/pages/public/login')">已有RF账号登录</button>
+			<button class="confirm-btn plain" plain @tap="navTo('/pages/public/login')">已有账号登录</button>
 			<button class="confirm-btn plain" plain @tap="navTo(`/pages/public/register`)">立即注册</button>
 		</view>
 		<view class="footer">
 			登录表示同意
-			<text class="protocol" @tap="handleRfProtocolPopupShow">RangeFrame 协议</text>
+			<text class="protocol" @tap="handleRfProtocolPopupShow">隐私保护 协议</text>
 		</view>
 		<!--协议popup-->
 		<rf-protocol-popup ref="mapState" @popupState="popupState" protocolPath='/pages/set/about/detail?field=protocol_register&title=注册协议' policyPath='/pages/set/about/detail?field=protocol_privacy&title=隐私协议' v-if="isRfProtocolPopupShow"></rf-protocol-popup>
