@@ -12,7 +12,7 @@
 					<view class="username">
 						{{ userInfo.realname || userInfo.nickname|| userInfo.username ||'请先登录'}}
 						<view class="tit">
-							会员等级：{{ userInfo.level_name ||'普通会员'}}
+							代理等级：{{ userInfo.level_name ||'普通会员'}}
 						</view>
 					</view>
 					
@@ -23,9 +23,9 @@
 				<image class="card-bg" :src="vipCardBg"></image>
 				<view class="tit">
 					<i class="iconfont iconiLinkapp-"/>
-					欢迎来到易企微商城
+					欢迎来到易企加油
 				</view>
-				<text class="e-m">易企商城 版权所有</text>
+				<text class="e-m">易企加油 版权所有</text>
 			</view>
 		</view>
 		<!-- 个人中心 内容区-->
@@ -174,7 +174,7 @@
         // 小程序分享
         onShareAppMessage() {
             return {
-                title: '欢迎来到易企商城',
+                title: '欢迎来到易企加油',
                 path: '/pages/index/index'
             }
         },

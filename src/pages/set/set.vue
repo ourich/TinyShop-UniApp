@@ -46,7 +46,7 @@
 			initData () {
         this.user = uni.getStorageSync('user');
         // 缓存大小
-				this.setList[5].content = `${uni.getStorageInfoSync().currentSize} kb`;
+				this.setList[2].content = `${uni.getStorageInfoSync().currentSize} kb`;
 			},
 			// 通用跳转
 			navTo(route){

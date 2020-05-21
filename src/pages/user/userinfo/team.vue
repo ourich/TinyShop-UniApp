@@ -12,6 +12,7 @@
           </view>
 		  <view class="u-box">
 		    <text class="name">等级：{{item.level_name}}</text>
+		    <text class="name">注册时间：{{item.created_at}}</text>
 		  </view>
         </view>
         <view class="right">
