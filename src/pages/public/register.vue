@@ -147,7 +147,7 @@
 					promo_code: this.registerParams.promo_code,
 					usage: 'register'
 				}).then(r => {
-					this.$mHelper.toast(`验证码发送成功, 验证码是${r.data}`);
+					this.$mHelper.toast(`验证码发送成功`);
 					this.smsCodeBtnDisabled = true;
 					uni.setStorageSync('registerSmsCodeTime', moment().valueOf() / 1000);
 					this.handleSmsCodeTime(59);
