@@ -96,6 +96,13 @@ const opinionCreate = '/tiny-shop/v1/member/opinion/create';
 // 意见反馈详情
 const opinionDetail = '/tiny-shop/v1/member/opinion/view';
 
+// 意见反馈列表
+const deliveryList = '/tiny-shop/v1/member/delivery/index';
+// 意见反馈创建
+const deliveryCreate = '/tiny-shop/v1/member/delivery/create';
+// 意见反馈详情
+const deliveryDetail = '/tiny-shop/v1/member/delivery/view';
+
 // 第三方授权列表
 const thirdPartyAuthList = '/tiny-shop/v1/member/auth/index';
 // 解除第三方授权列表
@@ -161,6 +168,9 @@ export {
     opinionList,
     opinionCreate,
     opinionDetail,
+	deliveryList,
+	deliveryCreate,
+	deliveryDetail,
     thirdPartyAuthList,
     thirdPartyAuthDelete,
     rechargeConfigIndex,

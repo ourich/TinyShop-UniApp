@@ -254,6 +254,35 @@
 	    "navigationBarTitleText": ""
 	  }
 	},
+	// 反馈详情
+	{
+	  "path": "pages/user/delivery/detail",
+	  "style": {
+	    "navigationBarTitleText": "卡片提货详情"
+	  }
+	},
+	// 反馈列表
+	{
+	  "path": "pages/user/delivery/list",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "卡片提货",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
+	// 反馈
+	{
+	  "path": "pages/user/delivery/delivery",
+	  "style": {
+	    "navigationBarTitleText": "卡片提货"
+	  }
+	},
     // 支付
     {
       "path": "pages/user/money/pay",

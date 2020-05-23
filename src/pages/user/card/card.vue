@@ -24,7 +24,8 @@
     </view>
 	
     <view class="add-btn-wrapper">
-      <button class="add-btn" @tap="addAddress('add')">卡片转出</button>
+      <!-- <button class="add-btn" @tap="addAddress('add')">卡片转出</button> -->
+      <button class="add-btn" @tap="navTo(`/pages/user/delivery/list`)">提货申请</button>
     </view>
 	<rf-item-popup @hide="hideService" :specClass="attributeValueClass" >
 		<view slot="popup" class="service">
@@ -190,6 +191,9 @@
 					this.$mHelper.prePage().addressData = item;
 				  this.$mRouter.back();
 				}
+			},
+			navTo(route) {
+			    this.$mRouter.push({route});
 			},
 			// 跳转添加地址页面
 			addAddress(type, id) {

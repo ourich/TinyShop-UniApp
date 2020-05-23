@@ -203,7 +203,7 @@
               this.getIndexList();
               this.initCartItemCount();
 			  // #ifdef  H5
-			      this.$mRouter.push({route: '/pages/public/register'});
+			      // this.$mRouter.push({route: '/pages/public/register'});
 			 // #endif
             },
             // 设置购物车数量角标
