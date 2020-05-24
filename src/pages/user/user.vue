@@ -14,6 +14,9 @@
 						<view class="tit">
 							代理等级：{{ userInfo.level_name ||'普通会员'}}
 						</view>
+						<view class="tit" v-if="userInfo.area_name">
+							代理地区：{{ userInfo.area_name }}
+						</view>
 					</view>
 					
 				</view>
