@@ -120,7 +120,7 @@
                 }
                 this.getIntegralListList();
             },
-            // 获取积分
+            // 获取优惠金
             async getIntegralListList(type) {
                 const params = {};
                 params.credit_type = 1

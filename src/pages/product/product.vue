@@ -36,7 +36,7 @@
 				</view>
 				<text class="sketch">{{ productDetail.sketch }}</text>
 				<view class="price-box point-box" v-if="productDetail.point_exchange_type == 4">
-					该商品仅需 <text class="price">{{ productDetail.point_exchange }} 积分</text>
+					该商品仅需 <text class="price">{{ productDetail.point_exchange }} 优惠金</text>
 				</view>
 				<view class="price-box" v-else>
 					<text class="price" v-if="productDetail.price">¥ {{ currentSkuPrice || productDetail.price }}</text>
@@ -186,15 +186,15 @@
 						<text>{{ parseInt(productDetail.max_buy, 10) === 0 ? '不限购' : `${productDetail.max_buy} 件` }}</text>
 					</view>
 				</rf-item-popup>
-				<!--积分活动-->
-				<rf-item-popup title="积分活动">
+				<!--优惠金活动-->
+				<rf-item-popup title="优惠金活动">
 					<view slot="content" class="con-list">
 						<text v-if="productDetail.point_exchange_type">兑换类型: {{ productDetail.point_exchange_type | pointExchangeTypeFilter }} </text>
 						<text v-if="parseInt(productDetail.give_point, 10) > 0">赠送类型: {{ productDetail.integral_give_type | integralGiveTypeFilter }} </text>
 						<text v-if="parseInt(productDetail.give_point, 10) > 0">下单可获得: {{ productDetail | givePointFilter }}</text>
-						<text v-if="productDetail.point_exchange != 0">兑换所需积分: {{ productDetail.point_exchange }} </text>
-						<text v-if="productDetail.max_use_point != 0">可使用抵扣积分: {{ productDetail.max_use_point }}</text>
-						<text class="buy-now" @tap="addCart('buy', true)" v-if="productDetail.point_exchange_type == 3">积分兑换 >>  </text>
+						<text v-if="productDetail.point_exchange != 0">兑换所需优惠金: {{ productDetail.point_exchange }} </text>
+						<text v-if="productDetail.max_use_point != 0">可使用抵扣优惠金: {{ productDetail.max_use_point }}</text>
+						<text class="buy-now" @tap="addCart('buy', true)" v-if="productDetail.point_exchange_type == 3">优惠金兑换 >>  </text>
 					</view>
 				</rf-item-popup>
 				<!--服务-->
@@ -408,11 +408,11 @@
 		    return (val * 10).toFixed(1);
 			},
 			pointExchangeTypeFilter(val) {
-				const type = ['', '非积分兑换', '积分加现金', '积分兑换或直接购买', '只支持积分兑换'];
+				const type = ['', '非优惠金兑换', '优惠金加现金', '优惠金兑换或直接购买', '只支持优惠金兑换'];
 				return type[parseInt(val, 10)];
 			},
 			integralGiveTypeFilter(val) {
-				const type = ['固定积分', '百分比'];
+				const type = ['固定优惠金', '百分比'];
 				return type[parseInt(val, 10)];
 			},
 			givePointFilter(val) {

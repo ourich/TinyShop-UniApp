@@ -26,7 +26,7 @@
         </view>
       </view>
     </view>
-	  <!--余额/积分导航-->
+	  <!--余额/优惠金导航-->
     <view class="nav">
       <view class="item" v-for="item in navList" :key="item.title" @tap="navTo(item.url)">
         <text class="iconfont" :class="item.icon"></text>
@@ -69,7 +69,7 @@ export default {
           {title: '账单记录', icon: 'icondaifukuan', url: '/pages/user/account/bill'},
           {title: '充值记录', icon: 'iconchongzhijilu', url: '/pages/user/account/bill?state=2'},
           {title: '消费记录', icon: 'iconzuheduozhongxiaofeifangshizuhexiaofei', url: '/pages/user/account/bill?state=3'},
-          {title: '积分中心', icon: 'iconjifenqia', url: '/pages/user/account/integral'}
+          {title: '优惠金中心', icon: 'iconjifenqia', url: '/pages/user/account/integral'}
         ]
       }
     },

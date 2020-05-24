@@ -55,10 +55,10 @@
 								<text class="title in2line">{{goodsItem.product_name}}</text>
 								<text class="attr-box">{{goodsItem.sku_name || '基础版'}} * {{goodsItem.num}}</text>
 								<text v-if="goodsItem.point_exchange_type == 2 ||goodsItem.point_exchange_type == 4">
-									<text class="point">{{item.point}}积分 </text>
+									<text class="point">{{item.point}}优惠金 </text>
 								</text>
 								<text class="price" v-else>
-									<text class="red">{{goodsItem.product_money}} <text v-if="goodsItem.gift_flag === 0"> + {{ (item.point + '积分') || '' }}</text></text>
+									<text class="red">{{goodsItem.product_money}} <text v-if="goodsItem.gift_flag === 0"> + {{ (item.point + '优惠金') || '' }}</text></text>
 								</text>
 							</view>
 						</view>

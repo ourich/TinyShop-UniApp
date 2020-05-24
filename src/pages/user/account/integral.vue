@@ -1,7 +1,7 @@
 <template>
   <view class="integral">
     <view class="header">
-      <view class="title">当前积分</view>
+      <view class="title">当前优惠金</view>
       <text class="num">
         {{ userInfo && userInfo.account && userInfo.account.user_integral || '0' }}
       </text>
@@ -11,7 +11,7 @@
           <text class="num">
             {{ userInfo && userInfo.account && userInfo.account.accumulate_integral || '0' }}
           </text>
-          <text class="title">累计积分</text>
+          <text class="title">累计优惠金</text>
         </view>
         <view class="item">
           <text class="num">
@@ -23,7 +23,7 @@
           <text class="num">
             {{ userInfo && userInfo.frozen_integral && userInfo.account.frozen_integral || '0' }}
           </text>
-          <text class="title">冻结积分</text>
+          <text class="title">冻结优惠金</text>
         </view>
       </view>
       <view class="tab">
@@ -42,7 +42,7 @@
       <view class="list1" :hidden="current !== 0">
         <view class="tip acea-row row-middle">
           <span class="iconfont icon-shuoming"></span
-          >提示：积分可用来兑换指定商品
+          >提示：优惠金可用来兑换指定商品
         </view>
          <view class="list b-b" v-for="(item, index) in integralList" :key="index">
           <view class="wrapper">
@@ -59,8 +59,8 @@
       </view>
       <view class="list2" :hidden="current !== 1">
         <view class="item">
-          <text class="name">购买商品可获得积分奖励</text>
-          <view class="earn" @tap="toCategory">赚积分</view>
+          <text class="name">购买商品可获得优惠金奖励</text>
+          <view class="earn" @tap="toCategory">赚优惠金</view>
         </view>
       </view>
     </view>
@@ -70,7 +70,7 @@
 </template>
 <script>
 /**
- * @des 积分中心
+ * @des 优惠金中心
  *
  * @author stav stavyan@qq.com
  * @date 2020-01-10 15:24

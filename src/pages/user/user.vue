@@ -44,7 +44,7 @@
 		>
 			<image class="arc" :src="arc"></image>
 
-			<!--余额 优惠券 积分信息-->
+			<!--余额 优惠券 优惠金信息-->
 			<view class="promotion-center">
 				<list-cell icon="iconwallett" iconColor="#e07472" @eventClick="navTo('/pages/user/account/account')"
 				           title="我的账户"></list-cell>

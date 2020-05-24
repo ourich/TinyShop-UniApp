@@ -99,8 +99,8 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "/Users/liujie/custom/易企加油/WechatIMG7.png",
-                    "xhdpi" : "",
+                    "hdpi" : "",
+                    "xhdpi" : "/Users/liujie/custom/易企加油/750.png",
                     "xxhdpi" : "/Users/liujie/custom/易企加油/WechatIMG8.png"
                 }
             }

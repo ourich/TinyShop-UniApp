@@ -84,7 +84,7 @@
 					<view class="cell-icon hb">
 						分
 					</view>
-					<text class="cell-tit clamp">需要使用 {{ orderDetail.preview && orderDetail.preview.point || 0 }} 积分</text>
+					<text class="cell-tit clamp">需要使用 {{ orderDetail.preview && orderDetail.preview.point || 0 }} 优惠金</text>
 					<text class="cell-tip disabled"></text>
 					<view class="cell-tip red">
 							<label class="radio">
@@ -96,7 +96,7 @@
 					<view class="cell-icon hb">
 						减
 					</view>
-					<text class="cell-tit clamp">可用{{ maxUsePoint }}积分抵用{{ maxUsePointFee }}元</text>
+					<text class="cell-tit clamp">可用{{ maxUsePoint }}优惠金抵用{{ maxUsePointFee }}元</text>
 					<text class="cell-tip disabled"></text>
 					<view class="cell-tip red">
 							<label class="radio">
@@ -128,9 +128,9 @@
 					</text>
 				</view>
 				<view class="yt-list-cell b-b">
-					<text class="cell-tit clamp">赠送积分</text>
+					<text class="cell-tit clamp">赠送优惠金</text>
 					<text class="cell-tip">
-						<text>{{ orderDetail.preview && orderDetail.preview.give_point }} 积分</text>
+						<text>{{ orderDetail.preview && orderDetail.preview.give_point }} 优惠金</text>
 					</text>
 				</view>
 				<navigator url="/pages/set/invoice/invoice?source=1">
@@ -163,14 +163,14 @@
 				<view class="price-content in1line">
 					<text>实付款</text>
 					<text class="price-tip">￥</text>
-					<text class="price">{{ `${realAmount} ${ maxUsePoint > 0 && (isUsePoint ? ` + ${maxUsePoint} 积分` : '') || (orderDetail.preview && orderDetail.preview.point ? ` + ${orderDetail.preview && orderDetail.preview.point} 积分` : '') }` }}</text>
+					<text class="price">{{ `${realAmount} ${ maxUsePoint > 0 && (isUsePoint ? ` + ${maxUsePoint} 优惠金` : '') || (orderDetail.preview && orderDetail.preview.point ? ` + ${orderDetail.preview && orderDetail.preview.point} 优惠金` : '') }` }}</text>
 				</view>
 	<!--			orderDetail.preview.point-->
 				<button class="submit" @tap="submit" :disabled="btnLoading" :loading="btnLoading" v-if="orderDetail.preview && (userInfo.account.user_integral >= orderDetail.preview.point)">
 					提交订单
 				</button>
 				<text class="submit disabled" v-else>
-					积分不足
+					优惠金不足
 				</text>
 			</view>
 		</view>
@@ -310,12 +310,12 @@
 			  const realAmount = this.amountGoods - this.discountAmount - (this.isUsePoint ? this.maxUsePointFee : 0);
 			  return this.invoiceItem.type ? this.floor(this.orderDetail.invoice.order_invoice_tax / 100 * realAmount) : 0;
 		  },
-	    // 计算可用积分
+	    // 计算可用优惠金
 			maxUsePoint() {
 				return this.orderDetail.max_use_point > uni.getStorageSync('userInfo').account.user_integral
 						? uni.getStorageSync('userInfo').account.user_integral : this.orderDetail.max_use_point;
 			},
-	    // 计算最大积分可抵扣金额
+	    // 计算最大优惠金可抵扣金额
 			maxUsePointFee() {
 				return this.maxUsePoint * this.pointConfig.convert_rate;
 			}
@@ -348,7 +348,7 @@
 			floor(val) {
 				return Math.floor(val * 100) / 100;
 			},
-			// 是否使用积分抵扣
+			// 是否使用优惠金抵扣
 			handleIsUsePoint () {
 				if (this.isUsePoint) {
 			    this.isUsePoint = false;
