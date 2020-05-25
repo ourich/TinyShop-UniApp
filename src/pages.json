@@ -330,7 +330,7 @@
     {
       "path": "pages/user/account/integral",
       "style": {
-        "navigationBarTitleText": "积分详情"
+        "navigationBarTitleText": "优惠金详情"
       }
     }
   ],

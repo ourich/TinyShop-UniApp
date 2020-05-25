@@ -26,9 +26,7 @@
 		</view>
 		
 		<button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="send">提交</button>
-		<view class='feedback-title'>
-			<text>反馈结果可在设置 -> 意见反馈 -> 点击列表后查看！</text>
-		</view>
+		
 	</view>
 </template>
 

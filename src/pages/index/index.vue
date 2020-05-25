@@ -246,11 +246,6 @@
             },
             // 跳至广告图指定页面
             indexTopToDetailPage(data, link) {
-                if (isNaN(parseInt(data.id, 10))) {
-                    // #ifdef  APP-PLUS
-		                window.location.href = data.id;
-										// #endif
-                }
                 let url;
                 let type;
                 let id;

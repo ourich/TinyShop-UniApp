@@ -115,7 +115,7 @@
 					mobile: this.resetPasswordParams.mobile,
 					usage: 'up-pwd'
 				}).then(r => {
-					this.$mHelper.toast(`验证码发送成功, 验证码是${r.data}`);
+					this.$mHelper.toast(`验证码发送成功`);
 					this.smsCodeBtnDisabled = true;
 					uni.setStorageSync('pwdSmsCodeTime', moment().valueOf() / 1000);
 					this.handleSmsCodeTime(59);
