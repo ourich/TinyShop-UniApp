@@ -100,8 +100,8 @@
             "splashscreen" : {
                 "android" : {
                     "hdpi" : "",
-                    "xhdpi" : "/Users/liujie/custom/易企加油/750.png",
-                    "xxhdpi" : "/Users/liujie/custom/易企加油/new.png"
+                    "xhdpi" : "/Users/liujie/custom/oil_yiqi/new.png",
+                    "xxhdpi" : "/Users/liujie/custom/oil_yiqi/new.png"
                 }
             }
         }
