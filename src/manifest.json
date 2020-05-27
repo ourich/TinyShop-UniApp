@@ -60,7 +60,7 @@
                 "payment" : {
                     "alipay" : {},
                     "weixin" : {
-                        "appid" : "wxa915491a94966e07",
+                        "appid" : "wx90cf22a5a64fb605",
                         "UniversalLinks" : ""
                     }
                 }
