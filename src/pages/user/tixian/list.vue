@@ -4,14 +4,20 @@
 			<view class="rf-list-item" v-for="(item, index) in feedbackList" :key="index" >
 				<view class="wrapper">
 					<view class="address-box">
-						<text class="tag">{{ item.cardNum }}张</text>
-						<text class="address in1line">{{item.name}} - {{item.mobile || '暂无'}}</text>
+						<text class="address in1line">收款人：{{item.name}}</text>
 					</view>
 					<view class="u-box">
-						<text class="mobile">收货地址：{{item.address || '暂无'}}</text>
+						<text class="mobile">收款平台：{{item.type | feedbackFilter}}</text>
+						<text class="mobile">联系电话：{{item.mobile || '暂无'}}</text>
 						<text class="mobile">申请时间：{{item.created_at | time}}</text>
-						<text class="name">快递单号：{{item.reply || '暂未发货'}}</text>
+						<text class="name">备注：{{item.remark || '无'}}</text>
 					</view>
+				</view>
+				<view class="right">
+					<text class="address in1line">{{item.money}}</text>
+					<text class="cu-tag line-gray" v-if="item.status === 0">待审核</text>
+					<text class="cu-tag bg-green" v-if="item.status === 1">已打款</text>
+					<text class="cu-tag bg-red" v-if="item.status === 2">已驳回</text>
 				</view>
 			</view>
 			<rf-load-more v-if="feedbackList.length > 0 && !loading" :status="loadingType"/>
@@ -44,7 +50,7 @@
         },
         filters: {
             feedbackFilter(type) {
-                const feedbackType = ['', '功能建议', 'BUG反馈', '业务咨询']
+                const feedbackType = ['', '微信', '支付宝', '银行卡']
                 return feedbackType[parseInt(type, 10)]
             },
 			// 时间格式化
@@ -121,6 +127,16 @@
 				margin-right: 10upx;
 				background: #fffafb;
 				border: 1px solid #ffb4c7;
+				border-radius: 4upx;
+				padding: 4upx 10upx;
+				line-height: 1;
+			}
+			.tag.not {
+				font-size: 24upx;
+				color: $base-color;
+				margin-right: 10upx;
+				background: #fffafb;
+				border: 1px solid #fffafb;
 				border-radius: 4upx;
 				padding: 4upx 10upx;
 				line-height: 1;
