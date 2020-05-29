@@ -103,6 +103,13 @@ const deliveryCreate = '/tiny-shop/v1/member/delivery/create';
 // 意见反馈详情
 const deliveryDetail = '/tiny-shop/v1/member/delivery/view';
 
+// 意见反馈列表
+const tixianList = '/tiny-shop/v1/member/tixian/index';
+// 意见反馈创建
+const tixianCreate = '/tiny-shop/v1/member/tixian/create';
+// 意见反馈详情
+const tixianDetail = '/tiny-shop/v1/member/tixian/view';
+
 // 第三方授权列表
 const thirdPartyAuthList = '/tiny-shop/v1/member/auth/index';
 // 解除第三方授权列表
@@ -171,6 +178,9 @@ export {
 	deliveryList,
 	deliveryCreate,
 	deliveryDetail,
+	tixianList,
+	tixianCreate,
+	tixianDetail,
     thirdPartyAuthList,
     thirdPartyAuthDelete,
     rechargeConfigIndex,

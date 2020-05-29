@@ -276,6 +276,35 @@
 	    }
 	  }
 	},
+	// 提现
+	{
+	  "path": "pages/user/tixian/tixian",
+	  "style": {
+	    "navigationBarTitleText": "提现申请"
+	  }
+	},
+	// 提现详情
+	{
+	  "path": "pages/user/tixian/detail",
+	  "style": {
+	    "navigationBarTitleText": "提现申请详情"
+	  }
+	},
+	// 提现列表
+	{
+	  "path": "pages/user/tixian/list",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "提现申请",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
 	// 反馈
 	{
 	  "path": "pages/user/delivery/delivery",
