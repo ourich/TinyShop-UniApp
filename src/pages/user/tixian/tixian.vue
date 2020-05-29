@@ -190,6 +190,15 @@
             },
 			// 更新用户信息
 			async toUpdateInfo(){
+				let data = this.profileInfo;
+				if(!data.name){
+					this.$mHelper.toast('请填写收款人姓名');
+					return;
+				}
+				if(!/(^1[3|4|5|6|7|8|9][0-9]{9}$)/.test(data.mobile)){
+					this.$mHelper.toast('请输入正确的手机号码');
+					return;
+				}
 				this.handleUpdateInfo();
 			},
 			// 更新用户信息
