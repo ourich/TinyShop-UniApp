@@ -179,7 +179,7 @@
                 pageLoading: true
             };
         },
-        onLoad(options) {
+        onShow(options) {
             this.initData(options);
         },
         methods: {
@@ -221,6 +221,7 @@
 				    clearInterval(timer);
 						this.loadProgress = 0;
 				    this.$mHelper.toast('提交成功，请等待审核打款!');
+					this.getMemberInfo();
 				    setTimeout(() => {
 					    this.$mRouter.back();
 				    }, 1 * 1000);
@@ -269,7 +270,7 @@
             },
             // 初始化数据
             async initData(options) {
-                this.code = options.code;
+                // this.code = options.code;
                 this.userInfo = uni.getStorageSync('userInfo') || undefined;
 				this.inputAmount = this.amountList[0] && this.amountList[0].price || 0.01;
 				this.inputAmountGive = this.amountList[0] && this.amountList[0].give_price || 0;
