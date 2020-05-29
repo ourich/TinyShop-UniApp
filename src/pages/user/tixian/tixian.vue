@@ -194,7 +194,6 @@
 			},
 			// 更新用户信息
 			async handleUpdateInfo () {
-				this.profileInfo.account_img = JSON.stringify(this.imageList[0]);
 				this.btnLoading = true;
 				this.loadProgress = this.loadProgress + 6;
 			const timer = setInterval(() => {
@@ -233,7 +232,8 @@
 			    const _this = this;
 			    data.forEach(item => {
 			        _this.$http.upload(uploadImage, {filePath: item, name: 'file'}).then(r => {
-			            _this.imageList.push(r.data.url)
+			            _this.imageList.push(r.data.url);
+			            _this.profileInfo.account_img = r.data.url;
 			        });
 			    })
 			},
