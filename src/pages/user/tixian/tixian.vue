@@ -73,7 +73,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="block">
+		<view class="block margin-bottom-xxl">
 			<view class="title">
 				收款账户
 			</view>
@@ -94,7 +94,6 @@
 						placeholder="请输入联系电话"
 					/>
 				</view>
-				
 			</view>
 			<view class="input-content" v-if="payType=='3'">
 				<view class="input-item">
@@ -111,6 +110,16 @@
 						type="text"
 						v-model="profileInfo.account"
 						placeholder="请输入银行账号"
+					/>
+				</view>
+			</view>
+			<view class="input-content" v-else-if="payType=='2'">
+				<view class="input-item">
+					<text class="tit">支付宝账号</text>
+					<input
+						type="text"
+						v-model="profileInfo.account"
+						placeholder="请输入支付宝账号"
 					/>
 				</view>
 			</view>
@@ -311,7 +320,7 @@
 					margin-bottom: 0;
 				}
 				.tit{
-					width: 120upx;
+					width: 150upx;
 					font-size: $font-sm+2upx;
 					color: $font-color-base;
 				}

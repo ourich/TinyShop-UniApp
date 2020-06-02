@@ -3082,6 +3082,9 @@ scroll-view.cu-steps .cu-item {
 .margin-bottom-xl {
 	margin-bottom: 50upx;
 }
+.margin-bottom-xxl {
+	margin-bottom: 100upx;
+}
 
 .margin-left-xs {
 	margin-left: 10upx;
