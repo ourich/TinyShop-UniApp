@@ -25,10 +25,10 @@ export default {
 	newsBg: PATH + '/news.png',
 
 	// 商城新闻
-	userBg: PATH + '/user-bg.jpg',
+	userBg: PATH + '/user_bg.png',
 
 	// vip北京
-	vipCardBg: PATH + '/vip-card-bg.png',
+	vipCardBg: PATH + '/vip-card.png',
 
 	// 弧形背景
 	arc: PATH + '/arc.png',

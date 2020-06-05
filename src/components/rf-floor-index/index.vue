@@ -1,5 +1,5 @@
 <template>
-	<view class="rf-floor-index">
+	<view class="rf-floor-index" v-if="list.length > 0">
 		<!--广告图-->
 		<view class="banner" v-if="bannerShow" @tap="toBanner(banner.jump_type, banner.jump_link)">
 			<image :src="banner.cover" mode="aspectFill"/>

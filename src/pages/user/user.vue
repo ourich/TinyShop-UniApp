@@ -1,8 +1,8 @@
 <template>
 	<view class="user">
 		<!--头部-->
-		<view class="user-section">
-			<image class="bg" :src="userBg"></image>
+		<view class="user-section bg-gradual-orange">
+			<!-- <image class="bg" :src="userBg"></image> -->
 			<!--用户信息-->
 			<view class="user-info-box">
 				<view
@@ -17,6 +17,7 @@
 						{{
 							userInfo.nickname ||
 							userInfo.realname ||
+							userInfo.mobile ||
 							'暂无昵称'
 						}}
 					</text>
@@ -25,7 +26,7 @@
 			</view>
 			<!--vip信息-->
 			<view class="vip-card-box">
-				<image class="card-bg" :src="vipCardBg"></image>
+				<view class="b-btn">普通用户</view>
 				<view class="tit">
 					<i class="iconfont iconiLinkapp-"/>
 					欢迎来到RageFrame微商城
@@ -48,8 +49,8 @@
 
 			<!--余额 优惠券 积分信息-->
 			<view class="promotion-center">
-				<list-cell icon="iconwallett" iconColor="#e07472" @eventClick="navTo('/pages/user/account/account')"
-				           title="我的账户"></list-cell>
+				<!-- <list-cell icon="iconwallett" iconColor="#e07472" @eventClick="navTo('/pages/user/account/account')"
+				           title="我的账户"></list-cell> -->
 				<view class="tj-sction">
 					<view class="tj-item" v-for="item in amountList" :key="item.title" @tap="navTo(item.url)">
 						<text class="num" :class="item.value > 0 ? 'red' : ''">
@@ -62,8 +63,8 @@
 
 			<!-- 我的订单 -->
 			<view class="promotion-center">
-				<list-cell icon="iconfapiaoguanli" iconColor="#e07472"
-				           @eventClick="navTo(`/pages/index/search/search?keyword=搜索我的订单&type=order`)" title="搜索订单"></list-cell>
+				<list-cell 
+				           @eventClick="navTo(`/pages/order/order?state=0`)" title="我的订单"></list-cell>
 				<view class="order-section">
 					<view
 							class="order-item"
@@ -74,13 +75,13 @@
 							:hover-stay-time="50">
 						<i class="iconfont" :class="item.icon"/>
 						<text>{{ item.title }}</text>
-						<rf-badge type="error" size="small" class="badge" :text="item.num"></rf-badge>
+						<rf-badge type="error" size="small" class="badge" :text="item.num" v-if="item.num > 0"></rf-badge>
 					</view>
 				</view>
 			</view>
 
 			<!-- 浏览历史 -->
-			<view class="history-section">
+			<!-- <view class="history-section">
 				<list-cell icon="iconlishijilu" iconColor="#5eba8f" @eventClick="navTo('/pages/user/footprint/footprint')"
 				           title="我的足迹"></list-cell>
 				<view v-if="hasLogin">
@@ -100,7 +101,7 @@
 					<i class="iconfont iconmima no-foot-print-icon"/>
 					登陆后查看
 				</view>
-			</view>
+			</view> -->
 
 			<!--设置中心-->
 			<view class="promotion-center">
@@ -358,10 +359,10 @@
 				position: absolute;
 				left: 0;
 				top: 0;
-				width: 100%;
-				height: 100%;
+				width: 100vw;
+				height: 110vw;
 				filter: blur(1px);
-				opacity: .7;
+				opacity: .85;
 			}
 
 			.user-info-box {
@@ -407,7 +408,8 @@
 				flex-direction: column;
 				color: #f7d680;
 				height: 240upx;
-				background: linear-gradient(to left, rgba(0, 0, 0, .7), rgba(0, 0, 0, .8));
+				background: url(/static/vip-card.png);
+				background-size: 100% 100%;
 				border-radius: 16upx 16upx 0 0;
 				overflow: hidden;
 				position: relative;
@@ -419,6 +421,22 @@
 					right: 0;
 					width: 380upx;
 					height: 260upx;
+				}
+				
+				.b-btn{
+					position: absolute;
+					right: 11px;
+					top: 11px;
+					width: 63px;
+					height: 19px;
+					text-align: center;
+					line-height: 21px;
+					font-size: 10px;
+					color: #36343c;
+					border-radius: 20px;
+					background: -webkit-linear-gradient(right,#f9e6af,#ffd465);
+					background: linear-gradient(270deg,#f9e6af,#ffd465);
+					z-index: 1;
 				}
 
 				.tit {
@@ -511,7 +529,7 @@
 					flex-direction: column;
 					margin: 30upx 0;
 					font-size: $font-sm;
-					color: #75787d;
+					color: $font-color-light;
 					/*border-right: 2upx solid rgba(0, 0, 0, 0.2);*/
 				}
 
@@ -519,7 +537,7 @@
 				/*border-right: none;*/
 				/*}*/
 				.num {
-					font-size: $font-base;
+					font-size: $font-lg + 10upx;
 					color: $font-color-dark;
 				}
 
