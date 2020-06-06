@@ -40,6 +40,22 @@
         "navigationBarTitleText": "公告详情"
       }
     },
+	// 新版会员中心
+	{
+	  "path": "pages/my/my",
+	  "style": {
+	  	"navigationBarTitleText": "我的",
+	  	"navigationBarBackgroundColor": "#fff",
+	  	"navigationBarTextStyle": "black",
+	  	"enablePullDownRefresh": true,
+	  	"onReachBottomDistance": 50,
+	  	"navigationStyle": "custom",
+	  	"app-plus": {
+	  		"titleNView": false,
+	  		"bounce": "vertical"
+	  	}
+	  }
+	},
     // 商品搜索
     {
       "path": "pages/index/search/search",
