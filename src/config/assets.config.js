@@ -13,7 +13,7 @@ const PATH = indexConfig.assetsPath;
 
 export default {
 	// 默认头像
-	headImg: PATH + '/missing-face.png',
+	headImg: PATH + '/mine_def_touxiang_3x.png',
 
 	// 出错填充图片
 	errorImage: PATH + '/errorImage.jpg',

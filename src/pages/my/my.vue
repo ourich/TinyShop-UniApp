@@ -21,23 +21,25 @@
 		</tui-navigation-bar>
 		<!--header-->
 		<view class="tui-mybg-box">
-			<image :src="webURL+'/static/images/mall/my/img_bg_3x.png'" class="tui-my-bg" mode="widthFix"></image>
+			<image :src="'/static/images/mall/my/img_bg_3x.png'" class="tui-my-bg" mode="widthFix"></image>
 			<view class="tui-header-center" @tap="navTo(userInfo ? '/pages/user/userinfo/userinfo' : 'login')">
-				<image src="/static/images/mall/my/mine_def_touxiang_3x.png" class="tui-avatar" @tap="href(3)"></image>
+				<image :src="userInfo.head_portrait || headImg" class="tui-avatar" ></image>
 				<view class="tui-info">
 					<view class="tui-nickname">
 						<text class="username" v-if="hasLogin">
 							{{
 								userInfo.nickname ||
 								userInfo.realname ||
-								userInfo.mobile ||
-								'暂无昵称'
+								'设置昵称'
 							}}
 						</text>
 						<text class="username" v-else>登录/注册</text>
 						<image src="/static/images/mall/my/icon_vip_3x.png" class="tui-img-vip"></image>
 					</view>
-					<view class="tui-explain">这家伙很懒…</view>
+					<view class="tui-explain">
+						<tui-icon name="mobile" color="#fff" :size="10"></tui-icon>
+						{{ userInfo.mobile }}
+					</view>
 				</view>
 				<!-- #ifndef MP -->
 				<view class="tui-btn-edit">
@@ -224,47 +226,8 @@
 			</view>
 
 			<!--为你推荐-->
-			<tui-divider :size="28" :bold="true" color="#333" width="50%">为你推荐</tui-divider>
-			<view class="tui-product-list">
-				<view class="tui-product-container">
-					<block v-for="(item,index) in productList" :key="index" v-if="(index+1)%2!=0">
-						<!--商品列表-->
-						<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'/static/images/mall/product/'+item.img+'.jpg'" class="tui-pro-img" mode="widthFix" />
-							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{item.name}}</view>
-								<view>
-									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{item.sale}}</text>
-										<text class="tui-factory-price">￥{{item.factory}}</text>
-									</view>
-									<view class="tui-pro-pay">{{item.payNum}}人付款</view>
-								</view>
-							</view>
-						</view>
-						<!--商品列表-->
-						<!-- <template is="productItem" data="{{item,index:index}}" /> -->
-					</block>
-				</view>
-				<view class="tui-product-container">
-					<block v-for="(item,index) in productList" :key="index" v-if="(index+1)%2==0">
-						<!--商品列表-->
-						<view class="tui-pro-item" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'/static/images/mall/product/'+item.img+'.jpg'" class="tui-pro-img" mode="widthFix" />
-							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{item.name}}</view>
-								<view>
-									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{item.sale}}</text>
-										<text class="tui-factory-price">￥{{item.factory}}</text>
-									</view>
-									<view class="tui-pro-pay">{{item.payNum}}人付款</view>
-								</view>
-							</view>
-						</view>
-					</block>
-				</view>
-			</view>
+			<!-- <tui-divider :size="28" :bold="true" color="#333" width="50%">为你推荐</tui-divider> -->
+			
 			<view class="tui-btn-back" @tap="back">返回</view>
 			<!--加载loadding-->
 			<tui-loadmore v-if="loadding" :index="3" type="red"></tui-loadmore>
@@ -273,6 +236,8 @@
 </template>
 
 <script>
+	import {footPrintList, memberInfo} from '@/api/userInfo';
+	import {mapMutations} from 'vuex';
 	export default {
 		onLoad: function(options) {
 			let obj = {};
@@ -303,10 +268,121 @@
 				scrollTop: 0.5,
 				pageIndex: 1,
 				loadding: false,
-				pullUpOn: true
+				pullUpOn: true,
+				settingList: this.$mConstDataConfig.settingList,
+				orderSectionList: this.$mConstDataConfig.orderSectionList,
+				amountList: this.$mConstDataConfig.amountList,
+				headImg: this.$mAssetsPath.headImg,
+				vipCardBg: this.$mAssetsPath.vipCardBg,
+				arc: this.$mAssetsPath.arc,
+				userBg: this.$mAssetsPath.userBg,
+				coverTransform: 'translateY(0px)',
+				coverTransition: '0s',
+				moving: false,
+				userInfo: { // 用户信息
+				    promoter: null  // 分销商信息
+				},
+				footPrintList: [], // 足迹列表
+				loading: true,
+				hasLogin: false
 			}
 		},
+		async onShow() {
+		    // 初始化数据
+		    this.initData();
+		},
 		methods: {
+			...mapMutations(['login']),
+			// 数据初始化
+			async initData() {
+				this.hasLogin = this.$mStore.getters.hasLogin;
+			    if (this.hasLogin) {
+			        await this.getMemberInfo();
+			    } else {
+			        this.loading = false;
+			        this.resetSectionData();
+			    }
+			},
+			// 设置购物车数量角标
+			async initCartItemCount() {
+							if (parseInt(uni.getStorageSync('cartNum'), 10) > 0) {
+			    await uni.setTabBarBadge({
+			      index: this.$mConstDataConfig.cartIndex,
+			      text: uni.getStorageSync('cartNum')
+			    });
+							} else {
+			    uni.removeStorageSync('cartNum');
+			    uni.removeTabBarBadge({index: this.$mConstDataConfig.cartIndex});
+							}
+			},
+			// 获取用户信息
+			async getMemberInfo() {
+			    await this.$http.get(memberInfo).then(async r => {
+			        this.loading = false;
+			        this.userInfo = r.data;
+			        await uni.setStorageSync('cartNum', r.data.cart_num);
+			        // 获取足迹列表
+			        await this.getFootPrintList();
+			        await this.setSectionData(r.data);
+			        await this.initCartItemCount();
+			    }).catch(() => {
+			    	  this.hasLogin = false;
+			    	  this.userInfo = {};
+			        this.resetSectionData();
+			        this.loading = false;
+			    });
+			},
+			// 清空个人中心的各模块状态
+			resetSectionData() {
+			    uni.removeTabBarBadge({index: this.$mConstDataConfig.cartIndex});
+			    this.amountList[0].value = 0;
+			    this.amountList[1].value = 0;
+			    this.amountList[2].value = 0;
+			    this.orderSectionList[0].num = 0;
+			    this.orderSectionList[1].num = 0;
+			    this.orderSectionList[2].num = 0;
+			    this.orderSectionList[3].num = 0;
+			    this.orderSectionList[4].num = 0;
+			},
+			// 给个人中心的各模块赋值
+			setSectionData(data) {
+			    const orderSynthesizeNumArr = [];
+			    for (let item in data.order_synthesize_num) {
+			        orderSynthesizeNumArr.push(data.order_synthesize_num[item])
+			    }
+			    for (let i = 0; i < this.orderSectionList.length; i++) {
+			        this.orderSectionList[i].num = orderSynthesizeNumArr[i].toString();
+			    }
+			    this.amountList[0].value = data.account.user_money || 0;
+			    this.amountList[1].value = data.coupon_num || 0;
+			    this.amountList[2].value = data.account.user_integral || 0;
+			    // 更新userInfo缓存
+			    uni.setStorageSync('userInfo', data);
+			},
+			// 获取足迹列表
+			async getFootPrintList() {
+			    await this.$http.get(`${footPrintList}`).then(r => {
+			        this.footPrintList = r.data
+			    });
+			},
+			// 统一跳转接口,拦截未登录路由
+			navTo(route) {
+			    if (!route) {
+			        return;
+			    }
+			    if (!this.hasLogin) {
+			        uni.showModal({
+			            content: '你暂未登陆，是否跳转登录页面？',
+			            success: (confirmRes) => {
+			                if (confirmRes.confirm) {
+			                    this.$mRouter.push({route: '/pages/public/logintype'});
+			                }
+			            }
+			        });
+			    } else {
+			        this.$mRouter.push({route});
+			    }
+			},
 			href(page) {
 				let url = "";
 				switch (page) {
