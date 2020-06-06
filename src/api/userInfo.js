@@ -12,7 +12,7 @@ const memberUpdate = '/tiny-shop/v1/member/member/update';
 // 获取油站列表
 const stationList = '/tiny-shop/v1/gas/station/index';
 // 油站详情
-const stationDetail = '/tiny-shop/v1/gas/station/view';
+const stationDetail = '/tiny-shop/v1/gas/station/detail';
 
 // 收货地址列表
 const addressList = '/tiny-shop/v1/member/address/index';

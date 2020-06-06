@@ -3,38 +3,40 @@
     <view class="coupon-list">
       <!-- 优惠券列表 -->
       <view class="sub-list valid">
-        <view class="row" v-for="(item,index) in stationList" :key="index" @tap.stop="getCoupon(item)">
+        <view class="row" v-for="(item,index) in stationList" :key="index" >
           <view class="carrier">
-            <view class="title">
-	            <view>
-	              <text class="cell-icon">{{ parseInt(item.range_type, 10) === 2 ? '限' : '全' }}</text>
-	              <text class="cell-title">{{item.gasName}}</text>
-	            </view>
-	            <view>
-								<text class="price" v-if="item.money">{{item.money }}</text>
-								<text class="price-discount" v-else>{{ `${item.discount}折` }}</text>
-	            </view>
-            </view>
-            <view class="term">
-              <text>{{ item.gasAddress }}</text>
-							<text class="at_least">满{{ item.at_least }}可用</text>
-            </view>
-            <view class="usage">
-								<text>
-									{{ parseInt(item.range_type, 10) === 2 ? '部分产品使用' : '全场产品使用' }}
-								</text>
-              <view>
-                {{parseInt(item.max_fetch, 10) === 0 ? '不限' : `每人限领${item.max_fetch}` }}
-                已领{{ item.get_count }}
-                <text class="last" v-if="item.percentage">剩余{{ item.percentage }}%</text>
-              </view>
+            <view class="f-header">
+            	<!-- <i class="iconfont icontuijian"/> -->
+            	<view class="tit-box" @tap="navTo(`/pages/gas/detail?id=${item.gasId}`)">
+            		<text class="tit">{{item.gasName}}</text>
+            		<view class="tit2 text-xs">
+						<tui-icon :name="'gps'" :size="12" :color="'#999'"></tui-icon>
+						{{ item.gasAddress }}
+					</view>
+					<view class="price">
+						{{ item.priceYfq }} 
+						<span class="jiang"><i class="iconfont iconjiantour-copy"></i>已降{{ item.priceDiscount }}</span>
+						<span class="guobiao">国标价：{{ item.priceOfficial }}</span>
+					</view>
+					<view class="tit2 text-xs">
+						<span class="fuwu">服</span>
+						请确认加油后再支付
+					</view>
+            	</view>
+				<view class="tit-right" @tap="openMap(item.gasName, item.gasAddressLongitude, item.gasAddressLatitude)">
+					<view class="tit2 text-xs">{{ item.juli }} Km</view>
+					<text class="tit2 text-xs"><i class="iconfont iconzuoshang"></i>导航</text>
+					<view class="content">
+						
+					</view>
+				</view>
             </view>
           </view>
         </view>
       </view>
       <rf-load-more :status="loadingType" v-if="stationList.length > 0"></rf-load-more>
     </view>
-		<rf-empty :info="errorInfo || '暂无优惠券'" v-if="stationList.length === 0 && !loading"></rf-empty>
+		<rf-empty :info="errorInfo || '暂无数据'" v-if="stationList.length === 0 && !loading"></rf-empty>
 		<!--页面加载动画-->
 		<rf-loading v-if="loading"></rf-loading>
 	</view>
@@ -98,6 +100,10 @@
             },
 			openMap(name, gasAddressLongitude, gasAddressLatitude) {
 				Map.openMap(gasAddressLatitude, gasAddressLongitude, name, 'gcj02')
+			},
+			//跳转详情
+			navTo(route) {
+				this.$mRouter.push({ route });
 			},
 			// 初始化定位
 			async getLocation() {
@@ -168,4 +174,5 @@
     }
 </script>
 <style lang='scss'>
+	
 </style>

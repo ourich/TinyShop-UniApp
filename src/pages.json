@@ -55,6 +55,20 @@
 	    }
 	  }
 	},
+	{
+	  "path": "pages/gas/detail",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "加油站详情",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
 	// 新版会员中心
 	{
 	  "path": "pages/my/my",
