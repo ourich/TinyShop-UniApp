@@ -40,6 +40,21 @@
         "navigationBarTitleText": "公告详情"
       }
     },
+	//油站列表
+	{
+	  "path": "pages/gas/list",
+	  "style": {
+	    "enablePullDownRefresh": true,
+	    "navigationBarTitleText": "加油站列表",
+	    "app-plus": {
+	      "pullToRefresh": {
+	        "support": true,
+	        "color": "#fa436a",
+	        "style": "default"
+	      }
+	    }
+	  }
+	},
 	// 新版会员中心
 	{
 	  "path": "pages/my/my",
