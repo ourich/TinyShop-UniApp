@@ -113,8 +113,8 @@
 				    success: function (res) {
 						that.latitude = res.latitude;
 						that.longitude = res.longitude;
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
+						// console.log('当前位置的经度：' + res.longitude);
+						// console.log('当前位置的纬度：' + res.latitude);
 						that.getstationList();
 				    },
 					fail: (err) => {
@@ -132,8 +132,8 @@
 					    page: this.page,
 						longitude: this.longitude,
 						latitude: this.latitude,
-						longitude: '114.371297',
-						latitude: '30.352309'
+						// longitude: '114.371297',
+						// latitude: '30.352309'
 					}).then(r => {
 					    this.loading = false;
 					    if (type === 'refresh') {

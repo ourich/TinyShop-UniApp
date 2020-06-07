@@ -73,21 +73,7 @@
 					<button class="cu-btn bg-red round block shadow-blur lg margin-sm" @tap="goToH5">下一步</button>
 			</view>
 			
-		<uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
-				<view class="rf-drawer-title">可用商品列表</view>
-				<view class="rf-drawer-list">
-	        <view class="rf-drawer-item" @tap="navTo(`/pages/product/product?id=${item.id}`)" v-for="item in currentCoupon.usableProduct" :key="item.id">
-		        <view class="left">
-		          <view class="title">{{ item.name.split('】')[0].split('【').join('') }}</view>
-		          <text class="desc in2line">{{item.name.split('】')[1]}}</text>
-		        </view>
-		        <text class="iconfont iconyou"></text>
-	        </view>
-	      </view>
-				<view class="close">
-					<button class="btn" plain="true" size="small" type="primary" @tap="hide">关闭</button>
-				</view>
-		</uni-drawer>
+		
 
 		<rf-empty :info="'没有数据'" v-if="couponList.length === 0 && !loading"></rf-empty>
 		<!--加载动画-->
@@ -184,10 +170,6 @@ export default {
 				this.$mHelper.toast('请选择枪号');
 				return;
 			}
-			if (!this.mobile) {
-				this.$mHelper.toast('请先登录');
-				return;
-			}
 			this.userInfo = uni.getStorageSync('userInfo');
 			if (this.userInfo.account.user_integral < 1) {
 				this.$mHelper.toast('您的优惠金已用完，请及时充值');
@@ -250,9 +232,11 @@ export default {
 				// console.log('发送：' + id);
 				await this.$http.get(`${stationDetail}`, {
 					id: id,
-					id: 'ZG000003987',
 					longitude: this.longitude,
-					latitude: this.latitude
+					latitude: this.latitude,
+					// id: 'ZG000003987',
+					// longitude: '114.371297',
+					// latitude: '30.352309'
 				}).then(r=>{
 				this.loading = false;
 					this.couponList.push(r.data);
@@ -261,7 +245,7 @@ export default {
 					this.mobile = r.data.mobile;
 					this.url = r.data.url;
 					this.type = '92';
-					// console.log(r.data.mobile);
+					console.log(r.data);
 				}).catch(() => {
 				this.loading = false;
 				})
