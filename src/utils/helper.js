@@ -44,7 +44,7 @@ export default {
 			content: '会话已过期，是否跳转登录页面？',
 			success: (confirmRes) => {
 				if (confirmRes.confirm) {
-					mRouter.push({ route: '/pages/public/logintype' });
+					mRouter.push({ route: '/pages/public/login' });
 				}
 			}
 		});
