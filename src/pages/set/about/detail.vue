@@ -14,7 +14,7 @@
 			</view>
 			<rf-empty :info="`暂无${title}`" v-if="!detail.protocol_register"></rf-empty>
 		</view>
-		<view class="shop-info" v-if="title === '隐私协议'">
+		<view class="shop-info" v-if="title === '隐私政策'">
 			<view v-if="detail.protocol_privacy">
 				<rich-text :nodes="detail.protocol_privacy | formatRichText"></rich-text>
 			</view>

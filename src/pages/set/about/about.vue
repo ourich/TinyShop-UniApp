@@ -37,8 +37,8 @@ export default {
 				// { title: '版权信息', url: 'copyright_companyname,copyright_desc,copyright_url' },
 				// { title: '证照信息', url: '' },
 				{ title: '注册协议', url: 'protocol_register' },
-				{ title: '充值协议', url: 'protocol_recharge' },
-				{ title: '隐私协议', url: 'protocol_privacy' }
+				// { title: '充值协议', url: 'protocol_recharge' },
+				{ title: '隐私政策', url: 'protocol_privacy' }
 			]
 		}
 	},

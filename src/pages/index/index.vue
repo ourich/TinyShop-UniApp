@@ -118,6 +118,8 @@
 		<!-- #endif -->
 		<!--页面加载动画-->
 		<rf-loading v-if="loading"></rf-loading>
+		<!--协议popup-->
+		<rf-protocol-popup ref="mapState" @popupState="popupState" protocolPath='/pages/set/about/detail?field=protocol_register&title=注册协议' policyPath='/pages/set/about/detail?field=protocol_privacy&title=隐私政策' v-if="isRfProtocolPopupShow"></rf-protocol-popup>
 	</view>
 </template>
 <script>
@@ -135,9 +137,10 @@
     import rfSwiperSlide from '@/components/rf-swiper-slide';
     import {notifyAnnounceIndex} from '@/api/basic';
     import rfCountDown from '@/components/rf-count-down';
+	import rfProtocolPopup from '@/components/rf-protocol-popup';
 
     export default {
-        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown},
+        components: {rfFloorIndex, rfSwipeDot, rfSearchBar, rfSwiperSlide, rfCountDown, rfProtocolPopup},
         data() {
             return {
                 current: 0, // 轮播图index
@@ -153,6 +156,7 @@
                 hotSearchDefault: '请输入关键字',
                 newsBg: this.$mAssetsPath.newsBg,
                 oilBg: this.$mAssetsPath.oilBg,
+				isRfProtocolPopupShow: false, // 控制协议popup显示
                 errorImage: this.$mAssetsPath.errorImage
             };
         },
@@ -199,6 +203,7 @@
             },
             // 数据初始化
             initData() {
+				this.handleRfProtocolPopupShow();
               // 设置购物车数量角标
               this.getIndexList();
               this.initCartItemCount();
@@ -206,6 +211,24 @@
 			      // this.$mRouter.push({route: '/pages/public/register'});
 			 // #endif
             },
+			// 显示协议popup
+			handleRfProtocolPopupShow() {
+				if (!uni.getStorageSync('notFirstTimeLogin')) this.isRfProtocolPopupShow = true;
+			},
+			// 监听是否同意协议
+			  popupState (e) {
+				if (e) {
+					this.isLoginDisabled = false;
+					uni.setStorageSync('notFirstTimeLogin', true);
+				  this.isRfProtocolPopupShow = false;
+			  } else {
+				this.isLoginDisabled = true;
+			  this.isRfProtocolPopupShow = false;
+			  // #ifdef APP-PLUS  
+			  plus.runtime.quit();  
+			  // #endif
+			  }
+			  },
             // 设置购物车数量角标
             async initCartItemCount() {
 							if (this.$mStore.getters.hasLogin && parseInt(uni.getStorageSync('cartNum'), 10) > 0) {

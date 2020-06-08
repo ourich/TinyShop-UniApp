@@ -7,7 +7,7 @@
 				请你务必认真阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了向你提供数据、分享等服务所要获取的权限信息。
 				<view class="line">
 					你可以阅读
-					<navigator :url="protocolPath" class="path" hover-class="navigator-hover">《注册协议》</navigator>和<navigator :url="policyPath" class="path" hover-class="navigator-hover">《隐私协议》</navigator>了解详细信息。如您同意，请点击"同意"开始接受我们的服务。
+					<navigator :url="protocolPath" class="path" hover-class="navigator-hover">《注册协议》</navigator>和<navigator :url="policyPath" class="path" hover-class="navigator-hover">《隐私政策》</navigator>了解详细信息。如您同意，请点击"同意"开始接受我们的服务。
 				</view>
 			</view>
 
