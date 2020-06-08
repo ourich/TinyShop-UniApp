@@ -49,7 +49,7 @@
 				</view>
 			</view>
 			<!--  分享 -->
-			<view class="share-section" v-if="productDetail.name">
+			<!-- <view class="share-section" v-if="productDetail.name">
 				<view class="share-icon">
 					<text class="iconfont iconxingxing"></text>
 					 返
@@ -61,7 +61,7 @@
 					<i class="iconfont iconyou"></i>
 				</button>
 				<!--#endif-->
-			</view>
+			</view> -->
 			<!--商品参数-->
 			<view class="c-list">
 				<!--商品库存-->

@@ -127,6 +127,14 @@
 								<view class="text">{{ item.title }}</view>
 							</button>
 						</view>
+						<view class="category" @tap.stop="go(config.kefu)">
+							<view>
+								<view class="img">
+									<text class="iconfont" :style="{color: '#9789f7'}" :class="'icondanseshixintubiao-'"></text>
+								</view>
+								<view class="text">客服</view>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -146,6 +154,7 @@
     import {footPrintList, memberInfo} from '@/api/userInfo';
     import listCell from '@/components/rf-list-cell';
     import {mapMutations} from 'vuex';
+	import {configList} from "@/api/basic";
     import rfBadge from '@/components/rf-badge/rf-badge'
     let startY = 0, moveY = 0, pageAtTop = true;
     export default {
@@ -170,6 +179,7 @@
                     promoter: null  // 分销商信息
                 },
                 footPrintList: [], // 足迹列表
+				config: {}, // 商户配置
                 loading: true,
 		            hasLogin: false
             }
@@ -221,6 +231,7 @@
                     this.loading = false;
                     this.resetSectionData();
                 }
+				this.getConfigList();
             },
             // 设置购物车数量角标
             async initCartItemCount() {
@@ -290,6 +301,15 @@
                     this.footPrintList = r.data
                 });
             },
+			// 获取支付类型列表
+			async getConfigList() {
+			    await this.$http.get(`${configList}`, {
+			        field: 'kefu'
+			    }).then(r => {
+					console.log(r.data.kefu);
+			        this.config = r.data
+			    });
+			},
             // 统一跳转接口,拦截未登录路由
             navTo(route) {
                 if (!route) {
@@ -308,6 +328,25 @@
                     this.$mRouter.push({route});
                 }
             },
+			go(phoneNumber){
+			 	uni.makePhoneCall({
+			 	
+			 	// 手机号
+			    phoneNumber: phoneNumber, 
+			
+				// 成功回调
+				success: (res) => {
+					console.log('调用成功!')	
+				},
+			
+				// 失败回调
+				fail: (res) => {
+					console.log('调用失败!')
+				}
+				
+			  });
+			},
+
             /**
              *  会员卡下拉和回弹
              *  1.关闭bounce避免ios端下拉冲突

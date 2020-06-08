@@ -5,6 +5,11 @@
 			<text class="cell-tip">{{item.content}}</text>
 			<text class="cell-more iconfont iconyou"></text>
 		</view>
+		<view class="list-cell" @tap="goToH5">
+			<text class="cell-tit">注销账号</text>
+			<text class="cell-tip">永久删除账号</text>
+			<text class="cell-more iconfont iconyou"></text>
+		</view>
 		<view class="list-cell m-t">
 			<text class="cell-tit">消息推送</text>
 			<switch checked color="#fa436a" @change="switchChange" />
@@ -65,6 +70,14 @@
 					return;
 				}
 				this.$mRouter.push({route});
+			},
+			goToH5() {
+				let url = 'http://ruishi888.mikecrm.com/vu1oZXe';
+				// 链接拼接编码网址（同时用模板字符串放置所需要的数据）
+				url = encodeURIComponent(url);
+				uni.navigateTo({
+					url: '/pages/public/pubview?url=' + url
+				});
 			},
 			// 加载进度条
 			handleLoadProgress() {
