@@ -38,7 +38,7 @@
 					// {title: '开票历史', url: '/pages/set/invoice/list', content: ''},
 					{title: '清除缓存', url: 'clearCache', content: ''},
 					{title: '关于商城', url: '/pages/set/about/about', content: '', class: 'mT'},
-					{title: '当前版本', url: '', content: '当前版本 2.2.0'},
+					{title: '当前版本', url: '', content: '当前版本 2.2.1'},
 					{title: '意见反馈', url: '/pages/set/feedback/list', content: ''}
 				]
 			};
