@@ -40,6 +40,20 @@
         "navigationBarTitleText": "公告详情"
       }
     },
+	// 我的油卡
+	{
+	  "path": "pages/commission/card/card",
+	  "style": {
+	    "navigationBarTitleText": "我的油卡"
+	  }
+	},
+	// 我的油卡
+	{
+	  "path": "pages/commission/card/detail",
+	  "style": {
+	    "navigationBarTitleText": "油卡详情"
+	  }
+	},
 	//油站列表
 	{
 	  "path": "pages/gas/list",
@@ -55,6 +69,7 @@
 	    }
 	  }
 	},
+	//加油站详情
 	{
 	  "path": "pages/gas/detail",
 	  "style": {

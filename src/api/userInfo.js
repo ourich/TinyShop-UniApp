@@ -9,6 +9,10 @@ const memberInfo = '/tiny-shop/v1/member/member/index';
 // 个人信息修改
 const memberUpdate = '/tiny-shop/v1/member/member/update';
 
+// 获取油卡列表
+const cardList = '/tiny-shop/v1/gas/card/index';
+// 油卡详情
+const cardDetail = '/tiny-shop/v1/gas/card/view';
 // 获取油站列表
 const stationList = '/tiny-shop/v1/gas/station/index';
 // 油站详情
@@ -114,6 +118,8 @@ const uploadImage = '/tiny-shop/v1/common/file/images';
 export {
     memberInfo,
     memberUpdate,
+	cardList,
+	cardDetail,
 	stationList,
 	stationDetail,
     addressList,
