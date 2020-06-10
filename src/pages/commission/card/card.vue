@@ -2,15 +2,15 @@
   <view class="my-coupon">
     <!--顶部导航栏-->
     <view class="tabr" :style="{top:headerTop}">
-      <view :class="{on:typeClass=='valid'}" @tap="switchType('valid', 1)">可用
+      <view :class="{on:typeClass=='valid'}" @tap="switchType('valid', 1)">未使用
         <text v-if="state === 1">({{couponList.length}})</text>
       </view>
-      <view :class="{on:typeClass=='used'}" @tap="switchType('used', 2)">已使用
+      <view :class="{on:typeClass=='used'}" @tap="switchType('used', 2)">已激活
         <text v-if="state === 2">({{couponList.length}})</text>
       </view>
-      <view :class="{on:typeClass=='invalid'}" @tap="switchType('invalid', 3)">已失效
+      <!-- <view :class="{on:typeClass=='invalid'}" @tap="switchType('invalid', 3)">已失效
         <text v-if="state === 3">({{couponList.length}})</text>
-      </view>
+      </view> -->
       <view class="border" :class="typeClass"></view>
     </view>
     <!--占位符-->
@@ -83,7 +83,7 @@
 			<!-- <tui-button height="72rpx" :size="28" type="danger" shape="circle" @click="handleClick8">确定</tui-button> -->
 		</view>
 	</tui-modal>
-    <rf-empty :info="'暂无优惠券'" v-if="couponList.length === 0 && !loading"></rf-empty>
+    <rf-empty :info="'暂无数据'" v-if="couponList.length === 0 && !loading"></rf-empty>
     <!--显示部分商品的抽屉-->
     
   </view>
@@ -518,7 +518,7 @@
       z-index: 10;
 
       view {
-        width: 33.3%;
+        width: 50%;
         height: 90upx;
         justify-content: center;
         align-items: center;
