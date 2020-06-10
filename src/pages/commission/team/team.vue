@@ -7,19 +7,24 @@
 		
 		<!--searchbox-->
 
-		<block v-for="(item,index) in msgList" :key="index">
+		<block v-for="(item,index) in couponList" :key="index">
 			<tui-list-cell @click="detail" >
 				<view class="tui-chat-item">
 					<view class="tui-msg-box">
 						<image :src="headImg" class="tui-msg-pic" mode="widthFix"></image>
 						<view class="tui-msg-item">
-							<view class="tui-msg-name">{{item.nickname}}</view>
-							<view class="tui-msg-content">{{item.msg}}</view>
+							<view class="tui-msg-name">
+								{{
+									item.nickname ||
+									item.realname ||
+									'暂无昵称'
+								}}
+							</view>
+							<view class="tui-msg-content">注册时间：{{item.created_at | timeFull}}</view>
 						</view>
 					</view>
-					<view class="tui-msg-right" :class="[item.level==3?'tui-right-dot':'']">
-						<view class="tui-msg-time">{{item.time}}</view>
-						<tui-badge :type="item.level==2?'gray':'danger'" :dot="item.level==3?true:false" v-if="item.msgNum>0">{{item.level!=3?item.msgNum:""}}</tui-badge>
+					<view class="tui-msg-right" >
+						<tui-badge :type="'gray'" v-if="item.childs>0">{{item.childs}}</tui-badge>
 					</view>
 				</view>
 			</tui-list-cell>
@@ -30,6 +35,7 @@
 
 <script>
 	import {teamList} from "@/api/userInfo";
+	import moment from '@/common/moment';
 	export default {
 		data() {
 			return {
@@ -80,6 +86,16 @@
 					time: "10:27",
 					level: 2
 				}]
+			}
+		},
+		filters: {
+			// 格式化时间
+			time(val) {
+				return moment(val * 1000).format('YYYY-MM-DD')
+			},
+			// 格式化时间
+			timeFull(val) {
+				return moment(val * 1000).format('YYYY-MM-DD HH:mm:ss')
 			}
 		},
 		onLoad() {
