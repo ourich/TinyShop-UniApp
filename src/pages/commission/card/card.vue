@@ -64,6 +64,7 @@
         <!--  -->
       </view>
       <rf-load-more :status="loadingType" v-if="couponList.length > 0"></rf-load-more>
+	  <tui-no-data class="tui-top20" :fixed="false" imgUrl="/static/images/toast/img_nodata.png" v-if="couponList.length === 0 && !loading">暂无数据</tui-no-data>
     </view>
 	<tui-modal :show="modal8" @cancel="hide8" :custom="true">
 		<view class="tui-modal-custom">
@@ -83,7 +84,8 @@
 			<!-- <tui-button height="72rpx" :size="28" type="danger" shape="circle" @click="handleClick8">确定</tui-button> -->
 		</view>
 	</tui-modal>
-    <rf-empty :info="'暂无数据'" v-if="couponList.length === 0 && !loading"></rf-empty>
+	
+	
     <!--显示部分商品的抽屉-->
     
   </view>
