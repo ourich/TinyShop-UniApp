@@ -92,6 +92,7 @@
 <script>
 	const util = require('@/utils/util.js');
 	const qrCode = require('@/libs/weapp-qrcode.js');
+	import $mConfig from '@/config/index.config';
 	/**
 	 * @des 优惠券管理
 	 *
@@ -198,7 +199,8 @@
 				this.showRight = false
 			},
 			show8(code, cardNo) {
-				this.couponQrCode(code, 'couponQrcode');
+				let url = $mConfig.hostUrl + '/pages/public/register?promo_code=' + code;
+				this.couponQrCode(url, 'couponQrcode');
 				this.cardNo = cardNo;
 				this.modal8 = true;
 			},
