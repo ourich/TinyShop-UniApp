@@ -20,7 +20,8 @@
 				<view :style="{background:color}"></view>
 			</view>
 		</view>
-		<view class="cu-load" :class="status === 'more'?'loading':'over'"></view>
+		<view class="cu-load" :class="status === 'more'?'loading':'over'" v-if="status === 'loading'"></view>
+		<tui-nomore v-else></tui-nomore>
 		<!--<text class="rf-load-more__text" :style="{color:color}">{{status === 'more' ? contentText.contentdown : (status === 'loading' ? contentText.contentrefresh : contentText.contentnomore)}}</text>-->
 	</view>
 </template>

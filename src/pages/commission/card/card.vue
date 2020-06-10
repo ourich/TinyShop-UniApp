@@ -38,52 +38,60 @@
 		  	<view class="tui-coupon-item-right">
 		  		<view class="tui-coupon-content">
 		  			<view class="tui-coupon-title-box">
-		  				<view class="tui-coupon-btn" :class="{'tui-bg-grey':state>1}">抵扣金</view>
+		  				<view class="tui-coupon-btn" :class="{'tui-bg-grey':state>1}">加油津贴</view>
 		  				<view class="tui-coupon-title">限加油使用</view>
 		  			</view>
 		  			<view class="tui-coupon-rule">
 		  				<view class="tui-rule-box tui-padding-btm">
 		  					<view class="tui-coupon-circle"></view>
-		  					<view class="tui-coupon-text">加油时抵扣部分现金</view>
+		  					<view class="tui-coupon-text">加油时抵扣现金</view>
 		  				</view>
 		  				<view class="tui-rule-box">
 		  					<view class="tui-coupon-circle"></view>
-		  					<view class="tui-coupon-text">No:{{row.title}}</view>
+		  					<view class="tui-coupon-text">可分次累加使用</view>
 		  				</view>
+						<view class="tui-rule-box">
+							<view class="tui-coupon-circle"></view>
+							<view class="tui-coupon-text">No:{{row.cardNo}}</view>
+						</view>
 		  			</view>
 		  		</view>
 		  	</view>
 		  	<view class="tui-btn-box" v-if="state===1">
-		  		<tui-button type="danger" width="152rpx" height="52rpx" :size="24" shape="circle" plain>立即使用</tui-button>
+		  		<tui-button type="danger" width="152rpx" height="52rpx" :size="24" shape="circle" @click="show8(row.code, row.cardNo)" plain>查看详情</tui-button>
 		  	</view>
 		  </view>
         <!--  -->
       </view>
       <rf-load-more :status="loadingType" v-if="couponList.length > 0"></rf-load-more>
-	  <tui-nomore ></tui-nomore>
     </view>
+	<tui-modal :show="modal8" @cancel="hide8" :custom="true">
+		<view class="tui-modal-custom">
+			<tui-divider width="60%" :gradual="true">{{cardNo}}</tui-divider>
+			<view class="qrcode-box">
+				<view class="qrcode">
+					<canvas
+						:style="{ width: qrcode_w + 'px', height: qrcode_w + 'px' }"
+						:canvas-id="'couponQrcode'"
+						:id="'couponQrcode'"
+					></canvas>
+				</view>
+			</view>
+			<view class="tui-top">
+				<tui-steps :items="items" :type="2" spacing="125rpx" :activeSteps="activeSteps" deactiveColor="#c0c0c0" activeColor="#EB0909"></tui-steps>
+			</view>
+			<!-- <tui-button height="72rpx" :size="28" type="danger" shape="circle" @click="handleClick8">确定</tui-button> -->
+		</view>
+	</tui-modal>
     <rf-empty :info="'暂无优惠券'" v-if="couponList.length === 0 && !loading"></rf-empty>
     <!--显示部分商品的抽屉-->
-    <uni-drawer class="rf-drawer" :visible="showRight" mode="right" @close="closeDrawer()">
-      <view class="rf-drawer-title">可用商品列表</view>
-      <view class="rf-drawer-list">
-        <view class="rf-drawer-item" @tap="navTo(`/pages/product/product?id=${item.id}`)" v-for="item in currentCoupon.usableProduct" :key="item.id">
-          <view class="left">
-            <view class="title">{{ item.name.split('】')[0].split('【').join('') }}</view>
-            <view class="desc in2line">{{item.name.split('】')[1]}}</view>
-          </view>
-          <text class="iconfont iconyou"></text>
-        </view>
-      </view>
-      <view class="close">
-        <button class="btn" plain="true" size="small" type="primary" @tap="hide">关闭</button>
-      </view>
-    </uni-drawer>
-    <rf-loading v-if="loading"></rf-loading>
+    
   </view>
 </template>
 
 <script>
+	const util = require('@/utils/util.js');
+	const qrCode = require('@/libs/weapp-qrcode.js');
 	/**
 	 * @des 优惠券管理
 	 *
@@ -91,7 +99,7 @@
 	 * @date 2019-12-09 10:13
 	 * @copyright 2019
 	 */
-	import {couponClear, myCouponList} from "@/api/userInfo";
+	import {cardList} from "@/api/userInfo";
 	import rfLoadMore from '@/components/rf-load-more/rf-load-more';
 
 	import moment from '@/common/moment';
@@ -118,7 +126,24 @@
 				showRight: false,
 				currentCoupon: {},
 				loading: true,
-				webURL: "https://www.thorui.cn/wx"
+				modal8: false,
+				qrcode_w: uni.upx2px(380),
+				webURL: "https://www.thorui.cn/wx",
+				cardNo:'',
+				items: [{
+					title: "扫码",
+					desc: ""
+				}, {
+					title: "绑定",
+					desc: ""
+				}, {
+					title: "登陆",
+					desc: ""
+				}, {
+					title: "使用",
+					desc: ""
+				}],
+				activeSteps: 1
 			}
 		},
 		filters: {
@@ -172,6 +197,32 @@
 			closeDrawer() {
 				this.showRight = false
 			},
+			show8(code, cardNo) {
+				this.couponQrCode(code, 'couponQrcode');
+				this.cardNo = cardNo;
+				this.modal8 = true;
+			},
+			hide8() {
+				this.modal8 = false;
+			},
+			// 二维码生成工具
+			couponQrCode(text, canvasId) {
+				new qrCode(canvasId, {
+					text: text,
+					width: this.qrcode_w,
+					height: this.qrcode_w,
+					colorDark: '#333333',
+					colorLight: '#FFFFFF',
+					correctLevel: qrCode.CorrectLevel.H
+				});
+				if (canvasId == 'couponQrcode0') {
+					setTimeout(() => {
+						if (!this.show) {
+							this.show = true;
+						}
+					}, 0);
+				}
+			},
 			getSignUrl: function(index) {
 				let url = "";
 				if (index == 1) {
@@ -223,7 +274,7 @@
 			},
 			// 获取我的优惠券列表
 			async getMyCouponList(type) {
-				await this.$http.get(`${myCouponList}`, {
+				await this.$http.get(`${cardList}`, {
 					page: this.page,
 					state: this.state
 				}).then(r => {
@@ -252,6 +303,19 @@
   page {
     position: relative;
     background-color: $page-color-base
+  }
+  .tui-top {
+  	margin: 40rpx auto;
+  }
+  .qrcode-box {
+  	width: 100%;
+  	border-bottom: 1rpx dashed #eaeef1;
+  	margin-bottom: 6rpx;
+  }
+  .qrcode {
+  	width: 380rpx;
+  	height: 380rpx;
+  	margin: 45rpx auto 43rpx auto;
   }
   .tui-coupon-item {
   	height: 210rpx;
