@@ -40,6 +40,13 @@
         "navigationBarTitleText": "公告详情"
       }
     },
+	// 我的团队
+	{
+	  "path": "pages/commission/team/team",
+	  "style": {
+	    "navigationBarTitleText": "我的团队"
+	  }
+	},
 	// 我的油卡
 	{
 	  "path": "pages/commission/card/card",

@@ -9,6 +9,8 @@ const memberInfo = '/tiny-shop/v1/member/member/index';
 // 个人信息修改
 const memberUpdate = '/tiny-shop/v1/member/member/update';
 
+// 获取我的团队
+const teamList = '/tiny-shop/v1/commission/team/index';
 // 获取油卡列表
 const cardList = '/tiny-shop/v1/gas/card/index';
 // 油卡详情
@@ -118,6 +120,7 @@ const uploadImage = '/tiny-shop/v1/common/file/images';
 export {
     memberInfo,
     memberUpdate,
+	teamList,
 	cardList,
 	cardDetail,
 	stationList,

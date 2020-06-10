@@ -11,6 +11,7 @@ export default {
         {icon: 'icondizhi', url: '/pages/user/address/address', title: '地址管理', color: '#5fcda2'},
         {icon: 'icondizhi', url: '/pages/gas/list', title: '油站列表', color: '#5fcda2'},
         {icon: 'icondizhi', url: '/pages/commission/card/card', title: '油卡列表', color: '#5fcda2'},
+        {icon: 'icondizhi', url: '/pages/commission/team/team', title: '我的团队', color: '#5fcda2'},
         {
             icon: 'iconshoucang_xuanzhongzhuangtai',
             url: '/pages/user/collection/collection',
