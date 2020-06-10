@@ -94,7 +94,6 @@
 <script>
 	const util = require('@/utils/util.js');
 	const qrCode = require('@/libs/weapp-qrcode.js');
-	import $mConfig from '@/config/index.config';
 	/**
 	 * @des 优惠券管理
 	 *
@@ -131,7 +130,7 @@
 				loading: true,
 				modal8: false,
 				qrcode_w: uni.upx2px(380),
-				webURL: "https://www.thorui.cn/wx",
+				webURL: this.$mConfig.assetsWeb,
 				cardNo:'',
 				items: [{
 					title: "扫码",
@@ -201,7 +200,7 @@
 				this.showRight = false
 			},
 			show8(code, cardNo) {
-				let url = $mConfig.hostUrl + '/pages/public/register?promo_code=' + code;
+				let url = this.$mConfig.hostUrl + '/pages/public/register?promo_code=' + code;
 				this.couponQrCode(url, 'couponQrcode');
 				this.cardNo = cardNo;
 				this.modal8 = true;

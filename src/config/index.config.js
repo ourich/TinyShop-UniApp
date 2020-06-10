@@ -2,6 +2,7 @@ const CONFIG = {
     //开发环境配置
     development: {
         assetsPath: '/static', // 静态资源路径
+        assetsWeb: 'http://ra.com/', // 静态资源路径
         baseUrl: 'http://ra.com/api',  // 后台接口请求地址
         hostUrl: 'http://localhost:8080',        // H5地址(前端运行地址)
         websocketUrl: '',        // websocket服务端地址
@@ -10,6 +11,7 @@ const CONFIG = {
     //生产环境配置
     production: {
         assetsPath: '/static', // 静态资源路径
+		assetsWeb: 'http://ra.com/', // 静态资源路径
         baseUrl: 'http://demo.rageframe.com/api',  // 后台接口请求地址
         hostUrl: 'http://h5.tinyshop.rageframe.com',        // H5地址(前端运行地址)
         websocketUrl: '',        // websocket服务端地址
