@@ -9,6 +9,12 @@ const memberInfo = '/tiny-shop/v1/member/member/index';
 // 个人信息修改
 const memberUpdate = '/tiny-shop/v1/member/member/update';
 
+// 提现列表
+const tixianList = '/tiny-shop/v1/commission/tixian/index';
+// 提现创建
+const tixianCreate = '/tiny-shop/v1/commission/tixian/create';
+// 提现详情
+const tixianDetail = '/tiny-shop/v1/commission/tixian/view';
 // 获取我的团队
 const teamList = '/tiny-shop/v1/commission/team/index';
 // 获取油卡列表
@@ -120,6 +126,9 @@ const uploadImage = '/tiny-shop/v1/common/file/images';
 export {
     memberInfo,
     memberUpdate,
+	tixianList,
+	tixianCreate,
+	tixianDetail,
 	teamList,
 	cardList,
 	cardDetail,

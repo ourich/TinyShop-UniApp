@@ -40,6 +40,20 @@
         "navigationBarTitleText": "公告详情"
       }
     },
+	// 提现管理
+	{
+	  "path": "pages/commission/tixian/list",
+	  "style": {
+	    "navigationBarTitleText": "提现管理"
+	  }
+	},
+	// 提现申请
+	{
+	  "path": "pages/commission/tixian/tixian",
+	  "style": {
+	    "navigationBarTitleText": "申请提现"
+	  }
+	},
 	// 我的团队
 	{
 	  "path": "pages/commission/team/team",
