@@ -7,10 +7,6 @@
 				<!--个人中心页为主页面，不应有返回键-->
 				<!-- #ifndef MP -->
 				<view class="tui-header-icon">
-					<view class="tui-icon-box tui-icon-message" @tap="href(7)">
-						<tui-icon name="message" :color="opcity > 0.85 ? '#333' : '#fff'" :size="26"></tui-icon>
-						<view class="tui-badge" :class="[opcity>0.85?'tui-badge-red':'tui-badge-white']">1</view>
-					</view>
 					<view class="tui-icon-box tui-icon-setup" @tap="href(2)">
 						<tui-icon name="setup" :color="opcity > 0.85 ? '#333' : '#fff'" :size="26"></tui-icon>
 					</view>
@@ -78,55 +74,12 @@
 			</view>
 		</view>
 		<view class="tui-content-box">
-			<view class="tui-box tui-order-box">
-				<tui-list-cell :arrow="true" padding="0" :lineLeft="false" @click="href(4)">
-					<view class="tui-cell-header">
-						<view class="tui-cell-title">我的订单</view>
-						<view class="tui-cell-sub">查看全部订单</view>
-					</view>
-				</tui-list-cell>
-				<view class="tui-order-list">
-					<view class="tui-order-item" @tap="href(4)">
-						<view class="tui-icon-box">
-							<image src="/static/images/mall/my/icon_daifukuan_3x.png" class="tui-order-icon"></image>
-							<view class="tui-badge tui-badge-red">1</view>
-						</view>
-						<view class="tui-order-text">待付款</view>
-					</view>
-					<view class="tui-order-item" @tap="href(4)">
-						<view class="tui-icon-box">
-							<image src="/static/images/mall/my/icon_daifahuo_3x.png" class="tui-order-icon"></image>
-							<view class="tui-badge tui-badge-red">1</view>
-						</view>
-						<view class="tui-order-text">待发货</view>
-					</view>
-					<view class="tui-order-item" @tap="href(4)">
-						<view class="tui-icon-box">
-							<image src="/static/images/mall/my/icon_daishouhuo_3x.png" class="tui-order-icon"></image>
-						</view>
-						<view class="tui-order-text">待收货</view>
-					</view>
-					<view class="tui-order-item" @tap="href(4)">
-						<view class="tui-icon-box">
-							<image src="/static/images/mall/my/icon_pingjia_3x.png" class="tui-order-icon"></image>
-							<view class="tui-badge tui-badge-red" v-if="false">12</view>
-						</view>
-						<view class="tui-order-text">评价</view>
-					</view>
-					<view class="tui-order-item" @tap="href(4)">
-						<view class="tui-icon-box">
-							<image src="/static/images/mall/my/icon_tuikuan_3x.png" class="tui-order-icon"></image>
-							<view class="tui-badge tui-badge-red">2</view>
-						</view>
-						<view class="tui-order-text">退款/售后</view>
-					</view>
-				</view>
-			</view>
+			
 
 			<view class="tui-box tui-assets-box">
 				<tui-list-cell padding="0" unlined :hover="false">
 					<view class="tui-cell-header">
-						<view class="tui-cell-title">我的资产</view>
+						<view class="tui-cell-title">我的收益</view>
 					</view>
 				</tui-list-cell>
 				<view class="tui-order-list tui-assets-list">
@@ -166,10 +119,10 @@
 			</view>
 
 			<view class="tui-box tui-tool-box">
-				<tui-list-cell :arrow="true" padding="0" :lineLeft="false">
+				<tui-list-cell padding="0" :lineLeft="false">
 					<view class="tui-cell-header">
-						<view class="tui-cell-title">常用工具</view>
-						<view class="tui-cell-sub">查看更多</view>
+						<view class="tui-cell-title">会员专享</view>
+						<!-- <view class="tui-cell-sub">查看更多</view> -->
 					</view>
 				</tui-list-cell>
 				<view class="tui-order-list tui-flex-wrap">
@@ -721,7 +674,6 @@
 
 	.tui-assets-box {
 		height: 178rpx;
-		margin-top: 20rpx;
 	}
 
 	.tui-assets-list {

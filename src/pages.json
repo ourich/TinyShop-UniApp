@@ -61,6 +61,22 @@
 	    "navigationBarTitleText": "我的团队"
 	  }
 	},
+	// 新版会员中心
+	{
+	  "path": "pages/commission/my",
+	  "style": {
+	  	"navigationBarTitleText": "分销中心",
+	  	"navigationBarBackgroundColor": "#fff",
+	  	"navigationBarTextStyle": "black",
+	  	"enablePullDownRefresh": true,
+	  	"onReachBottomDistance": 50,
+	  	"navigationStyle": "custom",
+	  	"app-plus": {
+	  		"titleNView": false,
+	  		"bounce": "vertical"
+	  	}
+	  }
+	},
 	// 我的油卡
 	{
 	  "path": "pages/commission/card/card",
@@ -103,22 +119,6 @@
 	        "style": "default"
 	      }
 	    }
-	  }
-	},
-	// 新版会员中心
-	{
-	  "path": "pages/my/my",
-	  "style": {
-	  	"navigationBarTitleText": "我的",
-	  	"navigationBarBackgroundColor": "#fff",
-	  	"navigationBarTextStyle": "black",
-	  	"enablePullDownRefresh": true,
-	  	"onReachBottomDistance": 50,
-	  	"navigationStyle": "custom",
-	  	"app-plus": {
-	  		"titleNView": false,
-	  		"bounce": "vertical"
-	  	}
 	  }
 	},
     // 商品搜索
