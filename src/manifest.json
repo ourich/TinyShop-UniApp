@@ -3,8 +3,8 @@
     "appid" : "__UNI__3BA7E10",
     // 自行更换uniapp appid 可登录查看uniapp提供的用户统计 https://tongji.dcloud.net.cn/
     "description" : "易企加油",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "2.2.1",
+    "versionCode" : 221,
     "transformPx" : false,
     "app-plus" : {
         "compatible" : {
@@ -61,7 +61,7 @@
                     "alipay" : {},
                     "weixin" : {
                         "appid" : "wx90cf22a5a64fb605",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://open.jiangsuwxw.com/"
                     }
                 }
             },
