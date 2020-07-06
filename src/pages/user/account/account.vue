@@ -9,7 +9,7 @@
 							{{ userInfo && userInfo.account && userInfo.account.user_money || '0.00' }}
           </view>
         </view>
-        <text @tap="navTo('/pages/user/account/recharge')" class="recharge" >充值</text>
+        <!-- <text @tap="navTo('/pages/user/account/recharge')" class="recharge" >充值</text> -->
       </view>
       <view class="cumulative">
         <view class="item">

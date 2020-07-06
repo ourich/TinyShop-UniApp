@@ -7,9 +7,14 @@
     <view class="wrapper">
       <view class="left-top-sign">REGISTER</view>
       <view class="welcome">
-        账号绑定
+        <scroll-view scroll-x class="bg-white nav text-center">
+        	<view class="cu-item" :class="index==TabCur?'text-blue cur':''" v-for="(item,index) in actable" :key="index" @tap="tabSelect" :data-id="index">
+        		{{item}}
+        	</view>
+        </scroll-view>
       </view>
-      <view class="input-content">
+	  
+      <view class="input-content" v-if="parseInt(TabCur, 10) === 0">
           <view class="input-item">
             <text class="tit">手机号码</text>
             <input
@@ -65,16 +70,28 @@
                 maxlength="12"
             />
           </view> -->
-          <!-- <view class="input-item">
+          <view class="input-item">
             <text class="tit">邀请码</text>
             <input
                 type="text"
                 v-model="registerParams.promo_code"
                 placeholder="请输入您的邀请码"
             />
-          </view> -->
+          </view>
+	    <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">注册</button>
       </view>
-	    <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">提交</button>
+	  <view class="input-content" v-if="parseInt(TabCur, 10) === 1">
+		  <view class="input-item">
+            <text class="tit">手机号码</text>
+            <input
+                type="number"
+                v-model="registerParams.mobile"
+                placeholder="请输入要充值的手机号码"
+                maxlength="11"
+            />
+          </view>
+		  <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRecharge">充值</button>
+      </view>
     </view>
     <!-- <view class="register-section">
       已经注册过了?
@@ -85,7 +102,7 @@
 
 <script>
 	import {mapMutations} from 'vuex';
-	import {registerByPass, smsCode, down} from '@/api/login';
+	import {registerByPass, smsCode, down, recharge} from '@/api/login';
 	import moment from '@/common/moment';
 	export default {
 		data() {
@@ -99,6 +116,8 @@
           code: ''
         },
 				btnLoading: false,
+				TabCur: 0,
+				actable: ['注册', '充值'],
 				down: '',
 				reqBody: {},
 				codeSeconds: 0, // 验证码发送时间间隔
@@ -122,6 +141,11 @@
 			...mapMutations(['login']),
 			navBack() {
         this.$mRouter.back();
+			},
+			tabSelect(e) {
+				this.TabCur = e.currentTarget.dataset.id;
+				// console.log(this.TabCur);
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 			},
       // 通用跳转
 			navTo(route) {
@@ -165,6 +189,39 @@
 						}
 					}, 1000);
 			},
+			async toRecharge() {
+					this.reqBody['mobile'] = this.registerParams['mobile'];
+					// this.reqBody['password_repetition'] = this.registerParams['password_repetition'];
+					this.reqBody['promo_code'] = this.registerParams['promo_code'];
+					/*  #ifdef  APP-PLUS  */
+					this.reqBody.group = 'tinyShopApp'
+					/*  #endif  */
+					/*  #ifdef H5  */
+					this.reqBody.group = 'tinyShopH5'
+					/*  #endif  */
+					/*  #ifdef  MP-WEIXIN  */
+					this.reqBody.group = 'tinyShopWechatMq'
+					/*  #endif  */
+					/*  #ifdef  MP-QQ  */
+					this.reqBody.group = 'tinyShopQqMq'
+					/*  #endif  */
+					this.btnLoading = true;
+					await this.$http.post(recharge, this.reqBody).then(() => {
+						this.btnLoading = false;
+						this.$mHelper.toast('充值成功，请登录APP使用！');
+						// setTimeout(function() {
+						// 	uni.navigateBack({
+						// 		delta: 1
+						// 	});
+						// }, 3000);
+						/*  #ifdef H5  */
+						window.location.href = this.down;
+						/*  #endif  */
+						this.$mRouter.push({route: '/pages/public/login'});
+					}).catch(() => {
+						this.btnLoading = false;
+					});
+				},
       // 注册账号
 			async toRegister() {
 				this.reqBody['mobile'] = this.registerParams['mobile'];

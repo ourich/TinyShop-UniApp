@@ -61,12 +61,12 @@
         忘记密码?
       </view>
     </view>
-    <view class="register-section">
+    <!-- <view class="register-section">
       还没有账号?
       <text @tap="navTo('/pages/public/register')">马上注册</text>
       或者
       <text @tap="toHome">返回主页</text>
-    </view>
+    </view> -->
   </view>
 </template>
 

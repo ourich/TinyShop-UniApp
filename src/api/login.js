@@ -8,6 +8,7 @@
 
 // 密码注册
 const registerByPass = '/tiny-shop/v1/site/register';
+const recharge = '/tiny-shop/v1/site/recharge';
 
 // 密码登录
 const loginByPass = '/tiny-shop/v1/site/login';
@@ -42,6 +43,7 @@ const refreshToken = '/tiny-shop/v1/site/refresh';
 
 export {
     registerByPass,
+    recharge,
     loginByPass,
     isBindingCheck,
     wechatH5Login,
