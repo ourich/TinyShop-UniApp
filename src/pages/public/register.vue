@@ -78,7 +78,13 @@
                 placeholder="请输入您的邀请码"
             />
           </view>
-	    <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">注册</button>
+		  <view class="flex padding justify-around">
+			<button class="cu-btn round line-blue lg" @tap="todown">App下载</button>
+			<button class="cu-btn round bg-blue lg" @tap="toRegister">提交注册</button>
+		  </view>
+		  
+		  
+	    <!-- <button class="confirm-btn" :disabled="btnLoading" :loading="btnLoading" @tap="toRegister">注册</button> -->
       </view>
 	  <view class="input-content" v-if="parseInt(TabCur, 10) === 1">
 		  <view class="input-item">
@@ -150,6 +156,9 @@
       // 通用跳转
 			navTo(route) {
         this.$mRouter.push({route})
+			},
+			todown() {
+				window.location.href = this.down;
 			},
 			getdown() {
 				this.$http.post(down, {
