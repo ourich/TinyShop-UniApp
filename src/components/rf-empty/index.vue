@@ -21,7 +21,7 @@
 			},
 			isRecommendShow: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			info: {
 				type: String,
