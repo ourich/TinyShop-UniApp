@@ -239,6 +239,19 @@
 	    "enablePullDownRefresh": true,
 	    "navigationBarTitleText": "我的卡片",
 	    "app-plus": {
+			"titleNView": {
+			  // "type": "transparent",
+			  "buttons": [
+			    {
+			      "fontSrc": "/static/yticon.ttf",
+			      "text": "\ue60f",
+			      "fontSize": "24",
+			      "color": "#fa436a",
+			      "width": "46px",
+			      "background": "rgba(0,0,0,0)"
+			    }
+			  ]
+			},
 	      "pullToRefresh": {
 	        "support": true,
 	        "color": "#fa436a",

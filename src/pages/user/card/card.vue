@@ -24,8 +24,12 @@
     </view>
 	
     <view class="add-btn-wrapper">
-      <!-- <button class="add-btn" @tap="addAddress('add')">卡片转出</button> -->
-      <button class="add-btn" @tap="navTo(`/pages/user/delivery/list`)">提货申请</button>
+      <button class="add-btn" @tap="addAddress('add')">卡片转出</button>
+      <!-- <button class="add-btn" @tap="navTo(`/pages/user/delivery/list`)">提货申请</button> -->
+	  <!-- <view class="flex padding justify-around">
+	  			<button class="cu-btn round line-blue lg" @tap="todown">App下载</button>
+	  			<button class="cu-btn round bg-blue lg" @tap="toRegister">提交注册</button>
+	  </view> -->
     </view>
 	<rf-item-popup @hide="hideService" :specClass="attributeValueClass" >
 		<view slot="popup" class="service">
@@ -95,6 +99,24 @@
 		onShow() {
 			this.initData()
 		},
+		// #ifndef MP
+		onNavigationBarButtonTap(e) {
+		    const index = e.index;
+		    if (index === 0) {
+		        this.navTo('/pages/user/delivery/list');
+		    } else if (index === 1) {
+		        // #ifdef APP-PLUS
+		        const pages = getCurrentPages();
+		        const page = pages[pages.length - 1];
+		        const currentWebview = page.$getAppWebview();
+		        currentWebview.hideTitleNViewButtonRedDot({
+		            index
+		        });
+		        // #endif
+		        this.$mRouter.push({route: '/pages/index/notice/notice'});
+		    }
+		},
+		// #endif
 		methods: {
 			goTouchStart(id) {
 				clearTimeout(this.timeOutEvent);//清除定时器
