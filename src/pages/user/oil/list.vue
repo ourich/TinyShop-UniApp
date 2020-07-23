@@ -7,8 +7,8 @@
 	      <view class="carrier">
 			  <view class="f-header">
 			  	<!-- <i class="iconfont icontuijian"/> -->
-			  	<view class="tit-box" @tap="navTo(`/pages/user/oil/detail?id=${item.gasId}`)">
-			  		<text class="tit">{{item.gasName}}</text>
+			  	<view class="tit-box" @tap="goToH5(item)">
+			  		<text class="tit">{{item.gasName}}-{{item.channelId}}</text>
 			  		<text class="tit2 text-xs">{{ item.gasAddress }}</text>
 					<view class="price">
 						{{ item.priceYfq }} 
@@ -88,7 +88,7 @@
         },
         onLoad(options) {
             this.type = options.type;
-			this.$mHelper.checkOpenGPSService();
+			// this.$mHelper.checkOpenGPSService();
             this.initData();
         },
         //下拉刷新
@@ -127,9 +127,12 @@
 			},
             //读取油站列表
 			async getOilList(type) {
+				this.longitude = '116.242040';	//测试定位
+				this.latitude = '40.071457';	//测试定位
 				if (this.longitude == '' || this.latitude == '') {
 					this.getLocation();	//重新定位
 				} else{
+					// console.log('请求之前：'+this.longitude);
 					await this.$http.get(`${oilList}`, {
 					    page: this.page,
 					    longitude: this.longitude,
@@ -194,6 +197,21 @@
 			//跳转详情
 			navTo(route) {
 				this.$mRouter.push({ route });
+			},
+			goToH5(item) {
+				console.log('ID是：'+item.channelId);
+				if (item.channelId == 0) {
+					// this.$mRouter.push({ route });
+					let turl = '/pages/user/oil/detail?id=' + item.gasId;
+					this.navTo(turl);
+					return;
+				}
+				let url = item.url;
+				// 链接拼接编码网址（同时用模板字符串放置所需要的数据）
+				url = encodeURIComponent(url);
+				uni.navigateTo({
+					url: '/pages/public/pubview?url=' + url
+				});
 			},
         }
     }
